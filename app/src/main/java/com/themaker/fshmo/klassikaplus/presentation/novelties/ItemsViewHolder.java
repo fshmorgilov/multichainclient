@@ -18,11 +18,11 @@ class ItemsViewHolder extends RecyclerView.ViewHolder {
     @BindView(R.id.novelty_item_name)
     TextView name;
     @BindView(R.id.novelty_item_price)
-    private TextView price;
+    TextView price;
     @BindView(R.id.novelty_item_gotoshop)
-    private TextView goToShop;
+    TextView goToShop;
     @BindView(R.id.novelty_item_novelty)
-    private TextView noverlty;
+    TextView noverlty;
 
     private View baseView;
 
@@ -35,27 +35,18 @@ class ItemsViewHolder extends RecyclerView.ViewHolder {
     public void bind(@NonNull final Item item,
                      @NonNull RequestManager glide,
                      @NonNull ItemAdapter.OnItemClickListener onItemClickListener) {
-//        if (item.getCategory() != null)
-//            categoryTextView.setText(item.getCategory().getName());
-//        else
-//            categoryTextView.setVisibility(View.GONE);
-//        if (item.getTitle() != null && !"".equals(item.getTitle()))
-//            headerTextView.setText(item.getTitle());
-//        else
-//            headerTextView.setVisibility(View.GONE);
-//
-//        if (item.getPreviewText() != null && !"".equals(item.getPreviewText()))
-//            textTextView.setText(item.getPreviewText());
-//        else
-//            textTextView.setVisibility(View.GONE);
-//        SimpleDateFormat sdf = new SimpleDateFormat(DATE_FORMAT, Locale.ENGLISH);
-//        if (item.getPublishDate() != null)
-//            dateTextView.setText(sdf.format(item.getPublishDate()));
-//        else
-//            dateTextView.setVisibility(View.GONE);
-//        String url = item.getImageUrl();
-//        glide.load(url)
-//                .into(photo);
-//        view.setOnClickListener(v -> onItemClickListener.onItemClick(item));
+        price.setText(String.valueOf(item.getPrice()));
+        if (item.getName() != null)
+            name.setText(item.getName());
+        else
+            name.setVisibility(View.GONE);
+        if (item.getPageAlias() != null)
+            goToShop.setVisibility(View.VISIBLE);
+        if (item.getNovelty() == true)
+            noverlty.setVisibility(View.VISIBLE);
+        String url = item.getIcon();
+        glide.load(url)
+                .into(icon);
+        baseView.setOnClickListener(v -> onItemClickListener.onItemClick(item));
     }
 }

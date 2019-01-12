@@ -48,10 +48,12 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 tools:src="@tools:sample/cities"
+                android:visibility="gone"
                 android:layout_below="@id/novelty_item_price"
                 />
         <TextView
                 android:id="@+id/novelty_item_novelty"
+                android:visibility="gone"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 />
