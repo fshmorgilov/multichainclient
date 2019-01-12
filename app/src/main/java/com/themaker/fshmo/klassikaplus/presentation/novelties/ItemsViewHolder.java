@@ -42,7 +42,7 @@ class ItemsViewHolder extends RecyclerView.ViewHolder {
             name.setVisibility(View.GONE);
         if (item.getPageAlias() != null)
             goToShop.setVisibility(View.VISIBLE);
-        if (item.getNovelty() == true)
+        if (item.getNovelty())
             noverlty.setVisibility(View.VISIBLE);
         String url = item.getIcon();
         glide.load(url)
