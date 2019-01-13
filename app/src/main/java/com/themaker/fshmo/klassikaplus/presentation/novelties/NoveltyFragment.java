@@ -1,5 +1,6 @@
 package com.themaker.fshmo.klassikaplus.presentation.novelties;
 
+import android.util.Log;
 import androidx.recyclerview.widget.RecyclerView;
 import butterknife.BindView;
 import com.arellomobile.mvp.presenter.InjectPresenter;
@@ -28,12 +29,13 @@ public class NoveltyFragment extends MvpBaseFragment implements NoverltyView {
                 dataset,
                 glide,
                 item -> {
+                    Log.i(TAG, "onPostCreateView: item pressed: " + item.getName());
             // TODO: 1/13/2019
         }));
     }
 
     @InjectPresenter
-    private NoveltyPresenter presenter;
+    NoveltyPresenter presenter;
 
     @Override
     protected int setLayoutRes() {
@@ -41,8 +43,7 @@ public class NoveltyFragment extends MvpBaseFragment implements NoverltyView {
     }
 
     @Override
-    public boolean onBackPressed() {
-        return false;
+    public void onBackPressed() {
     }
 
     @Override

@@ -1,5 +1,6 @@
 package com.themaker.fshmo.klassikaplus.data.repositories;
 
+import android.util.Log;
 import com.themaker.fshmo.klassikaplus.data.domain.Item;
 import com.themaker.fshmo.klassikaplus.data.mappers.DbToDomainMapper;
 import com.themaker.fshmo.klassikaplus.data.mappers.ListMapping;
@@ -10,11 +11,13 @@ import io.reactivex.Flowable;
 import io.reactivex.schedulers.Schedulers;
 
 import javax.inject.Inject;
-import javax.inject.Singleton;
+import java.util.ArrayList;
 import java.util.List;
+import java.util.concurrent.TimeUnit;
 
-@Singleton
 public class CatalogRepository extends BaseRepository {
+
+    private static final String TAG = CatalogRepository.class.getName();
 
     private AppDatabase db;
     private ListMapping<DbItem, Item> listMapper = new ListMapping<>(new DbToDomainMapper());
@@ -25,11 +28,32 @@ public class CatalogRepository extends BaseRepository {
         this.db = db;
     }
 
-    public Flowable<List<Item>> provideNoveltyData(){
+    public Flowable<List<Item>> provideNoveltyData() {
+        return Flowable.concatArray(
+                getItemFromDb(),
+                getItemsFromApi()
+                // TODO: 1/13/2019 concat array
+        ).debounce(400, TimeUnit.MILLISECONDS);
+    }
+
+    private Flowable<ArrayList<Item>> getItemsFromApi() {
+        return Flowable.just(new ArrayList<Item>())
+                .doOnNext(items -> {
+                    Log.i(TAG, "getItemsFromApi: storing users in DB");
+                    storeItemsInDb(items);
+                });
+    }
+
+    private void storeItemsInDb(List<Item> items) {
+        // TODO: 1/13/2019 <apper amd download
+    }
+
+    private Flowable<List<Item>> getItemFromDb() {
         return db.itemDao()
                 .getAll()
                 .map(listMapper::map)
                 .map(noveltinessFilter::filter)
                 .subscribeOn(Schedulers.io());
     }
+
 }

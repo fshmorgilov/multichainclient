@@ -1,5 +1,6 @@
 package com.themaker.fshmo.klassikaplus.data.persistence.model;
 
+import androidx.annotation.NonNull;
 import androidx.room.ColumnInfo;
 import androidx.room.Entity;
 import androidx.room.Ignore;
@@ -12,6 +13,7 @@ public class DbItem {
 
     @PrimaryKey
     @ColumnInfo(name = "id")
+    @NonNull
     private String id;
 
     @ColumnInfo(name = "name")
@@ -168,5 +170,125 @@ public class DbItem {
 
     public double getPrice() {
         return price;
+    }
+
+    public String getPageAlias() {
+        return pageAlias;
+    }
+
+    public void setPageAlias(String pageAlias) {
+        this.pageAlias = pageAlias;
+    }
+
+    public String getTemplate() {
+        return template;
+    }
+
+    public void setTemplate(String template) {
+        this.template = template;
+    }
+
+    public String getMenuItemName() {
+        return menuItemName;
+    }
+
+    public void setMenuItemName(String menuItemName) {
+        this.menuItemName = menuItemName;
+    }
+
+    public String getRelatedLink() {
+        return relatedLink;
+    }
+
+    public void setRelatedLink(String relatedLink) {
+        this.relatedLink = relatedLink;
+    }
+
+    public Boolean getDontShowInMenu() {
+        return dontShowInMenu;
+    }
+
+    public void setDontShowInMenu(Boolean dontShowInMenu) {
+        this.dontShowInMenu = dontShowInMenu;
+    }
+
+    public Boolean getPublished() {
+        return published;
+    }
+
+    public void setPublished(Boolean published) {
+        this.published = published;
+    }
+
+    public String getKeywords() {
+        return keywords;
+    }
+
+    public void setKeywords(String keywords) {
+        this.keywords = keywords;
+    }
+
+    public void setIcon(String icon) {
+        this.icon = icon;
+    }
+
+    public String getPhoto() {
+        return photo;
+    }
+
+    public void setPhoto(String photo) {
+        this.photo = photo;
+    }
+
+    public String getCountryManufacturer() {
+        return countryManufacturer;
+    }
+
+    public void setCountryManufacturer(String countryManufacturer) {
+        this.countryManufacturer = countryManufacturer;
+    }
+
+    public String getComposition() {
+        return composition;
+    }
+
+    public void setComposition(String composition) {
+        this.composition = composition;
+    }
+
+    public String getManufacturer() {
+        return manufacturer;
+    }
+
+    public void setManufacturer(String manufacturer) {
+        this.manufacturer = manufacturer;
+    }
+
+    public List<String> getStyleCollection() {
+        return styleCollection;
+    }
+
+    public void setStyleCollection(List<String> styleCollection) {
+        this.styleCollection = styleCollection;
+    }
+
+    public double getBasePrice() {
+        return basePrice;
+    }
+
+    public void setBasePrice(double basePrice) {
+        this.basePrice = basePrice;
+    }
+
+    public double getDiscount() {
+        return discount;
+    }
+
+    public void setDiscount(double discount) {
+        this.discount = discount;
+    }
+
+    public void setPrice(double price) {
+        this.price = price;
     }
 }
