@@ -161,4 +161,12 @@ public class DbItem {
     public void setDescriptionLong(String descriptionLong) {
         this.descriptionLong = descriptionLong;
     }
+
+    public String getIcon() {
+        return icon;
+    }
+
+    public double getPrice() {
+        return price;
+    }
 }

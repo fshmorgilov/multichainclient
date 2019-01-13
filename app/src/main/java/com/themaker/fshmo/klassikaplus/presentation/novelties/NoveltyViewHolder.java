@@ -11,7 +11,7 @@ import com.bumptech.glide.RequestManager;
 import com.themaker.fshmo.klassikaplus.R;
 import com.themaker.fshmo.klassikaplus.data.domain.Item;
 
-class ItemsViewHolder extends RecyclerView.ViewHolder {
+class NoveltyViewHolder extends RecyclerView.ViewHolder {
 
     @BindView(R.id.novelty_item_icon)
     ImageView icon;
@@ -26,7 +26,7 @@ class ItemsViewHolder extends RecyclerView.ViewHolder {
 
     private View baseView;
 
-    public ItemsViewHolder(View v) {
+    public NoveltyViewHolder(View v) {
         super(v);
         this.baseView = v;
         ButterKnife.bind(v);
@@ -34,7 +34,7 @@ class ItemsViewHolder extends RecyclerView.ViewHolder {
 
     public void bind(@NonNull final Item item,
                      @NonNull RequestManager glide,
-                     @NonNull ItemAdapter.OnItemClickListener onItemClickListener) {
+                     @NonNull NoveltyAdapter.OnItemClickListener onItemClickListener) {
         price.setText(String.valueOf(item.getPrice()));
         if (item.getName() != null)
             name.setText(item.getName());

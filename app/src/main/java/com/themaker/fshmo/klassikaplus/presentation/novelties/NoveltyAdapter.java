@@ -12,18 +12,18 @@ import com.themaker.fshmo.klassikaplus.data.domain.Item;
 
 import java.util.List;
 
-public class ItemAdapter extends RecyclerView.Adapter<ItemsViewHolder> {
+public class NoveltyAdapter extends RecyclerView.Adapter<NoveltyViewHolder> {
     private List<Item> dataset;
     private OnItemClickListener onItemClickListener;
     private RequestManager glide;
-    private static final String LTAG = ItemAdapter.class.getName();
+    private static final String LTAG = NoveltyAdapter.class.getName();
 
     public interface OnItemClickListener {
         void onItemClick(@NonNull Item item);
     }
 
-    public ItemAdapter(@NonNull List<Item> items,
-                       @NonNull RequestManager glide, OnItemClickListener clickListener) {
+    public NoveltyAdapter(@NonNull List<Item> items,
+                          @NonNull RequestManager glide, OnItemClickListener clickListener) {
         this.glide = glide;
         this.dataset = items;
         this.onItemClickListener = clickListener;
@@ -31,15 +31,15 @@ public class ItemAdapter extends RecyclerView.Adapter<ItemsViewHolder> {
 
     @NonNull
     @Override
-    public ItemsViewHolder onCreateViewHolder(@NonNull ViewGroup parent,
-                                              int viewType) {
+    public NoveltyViewHolder onCreateViewHolder(@NonNull ViewGroup parent,
+                                                int viewType) {
         View v = (View) LayoutInflater.from(parent.getContext())
                 .inflate(R.layout.novelties, parent, false);
-        return new ItemsViewHolder(v);
+        return new NoveltyViewHolder(v);
     }
 
     @Override
-    public void onBindViewHolder(@NonNull ItemsViewHolder holder, int position) {
+    public void onBindViewHolder(@NonNull NoveltyViewHolder holder, int position) {
         holder.bind(dataset.get(position), glide, onItemClickListener);
     }
 

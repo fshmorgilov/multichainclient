@@ -7,4 +7,5 @@ import javax.inject.Singleton;
 @Singleton
 @Component
 public interface AppComponent {
+
 }
