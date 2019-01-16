@@ -1,5 +1,6 @@
 package com.themaker.fshmo.klassikaplus.dagger;
 
+import android.app.Application;
 import com.themaker.fshmo.klassikaplus.dagger.module.ApplicationModule;
 import com.themaker.fshmo.klassikaplus.dagger.module.DataModule;
 import com.themaker.fshmo.klassikaplus.data.persistence.AppDatabase;
@@ -11,6 +12,13 @@ import javax.inject.Singleton;
 @Singleton
 @Component(modules = {DataModule.class, ApplicationModule.class})
 public interface AppComponent {
-    AppDatabase getDb();
-    CatalogRepository getCatalogRepository();
+
+    void inject(AppDatabase database);
+    void inject(CatalogRepository repository);
+//    Application providesApplication();
+//
+//    AppDatabase getDb();
+//
+//    CatalogRepository getCatalogRepository();
+
 }

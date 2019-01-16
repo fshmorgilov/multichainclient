@@ -8,11 +8,15 @@ import io.reactivex.android.schedulers.AndroidSchedulers;
 
 import javax.inject.Inject;
 
+
 public class NoveltyPresenter extends MvpBasePresenter<NoverltyView> {
 
     private static final String TAG = NoveltyPresenter.class.getName();
 
     private CatalogRepository repository;
+
+    public NoveltyPresenter() {
+    }
 
     @Inject
     public NoveltyPresenter(CatalogRepository repository) {
@@ -21,11 +25,11 @@ public class NoveltyPresenter extends MvpBasePresenter<NoverltyView> {
 
     @SuppressLint("CheckResult")
     void provideDataset() {
-        repository.provideNoveltyData()
-                .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(
-                        getViewState()::setDataset,
-                        this::logError);
+//        repository.provideNoveltyData()
+//                .observeOn(AndroidSchedulers.mainThread())
+//                .subscribe(
+//                        getViewState()::setDataset,
+//                        this::logError);
     }
 
     private void logError(Throwable throwable) {

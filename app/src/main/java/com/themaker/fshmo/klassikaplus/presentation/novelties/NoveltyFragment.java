@@ -16,14 +16,17 @@ public class NoveltyFragment extends MvpBaseFragment implements NoverltyView {
 
     private static final String TAG = NoveltyFragment.class.getName();
     private List<Item> dataset;
-    private RequestManager glide = Glide.with(rootView);
+    private RequestManager glide;
 
     @BindView(R.id.novelty_recycler)
     RecyclerView recycler;
+    @InjectPresenter
+    NoveltyPresenter presenter;
 
     @Override
     protected void onPostCreateView() {
         super.onPostCreateView();
+        glide = Glide.with(rootView);
         presenter.provideDataset();
         recycler.setAdapter(new NoveltyAdapter(
                 dataset,
@@ -34,8 +37,6 @@ public class NoveltyFragment extends MvpBaseFragment implements NoverltyView {
         }));
     }
 
-    @InjectPresenter
-    NoveltyPresenter presenter;
 
     @Override
     protected int setLayoutRes() {
