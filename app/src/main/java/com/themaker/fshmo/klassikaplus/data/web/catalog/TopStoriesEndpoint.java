@@ -7,6 +7,7 @@ import retrofit2.http.GET;
 
 public interface TopStoriesEndpoint {
 
-    @GET("{category}.json")
-    Single<ResponseDto> get();
+    @GET("novelties")
+    Single<ResponseDto> getNovelty();
+
 }
