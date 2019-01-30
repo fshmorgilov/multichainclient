@@ -4,6 +4,7 @@ import android.annotation.SuppressLint;
 import android.util.Log;
 import com.themaker.fshmo.klassikaplus.data.repositories.CatalogRepository;
 import com.themaker.fshmo.klassikaplus.presentation.base.MvpBasePresenter;
+import io.reactivex.android.schedulers.AndroidSchedulers;
 
 import javax.inject.Inject;
 
@@ -24,11 +25,11 @@ public class NoveltyPresenter extends MvpBasePresenter<NoverltyView> {
 
     @SuppressLint("CheckResult")
     void provideDataset() {
-//        repository.provideNoveltyData()
-//                .observeOn(AndroidSchedulers.mainThread())
-//                .subscribe(
-//                        getViewState()::setDataset,
-//                        this::logError);
+        repository.provideNoveltyData()
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(
+                        getViewState()::setDataset,
+                        this::logError);
     }
 
     private void logError(Throwable throwable) {

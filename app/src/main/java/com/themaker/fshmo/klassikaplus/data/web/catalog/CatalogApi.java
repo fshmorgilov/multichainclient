@@ -17,7 +17,7 @@ public final class CatalogApi { // TODO: 1/16/2019 refactor to bean
 
     private static final int TIMEOUT_SECONDS = 2;
 
-    private final TopStoriesEndpoint endpoint;
+    private final CatalogEndpoint endpoint;
     private final OkHttpClient client;
 
     private static CatalogApi api;
@@ -34,7 +34,7 @@ public final class CatalogApi { // TODO: 1/16/2019 refactor to bean
         client = buildOkHttpClient();
         retrofit = buildRetrofit();
 
-        endpoint = retrofit.create(TopStoriesEndpoint.class);
+        endpoint = retrofit.create(CatalogEndpoint.class);
     }
 
     @NonNull
@@ -60,7 +60,7 @@ public final class CatalogApi { // TODO: 1/16/2019 refactor to bean
                 .build();
     }
 
-    public TopStoriesEndpoint topStories() {
+    public CatalogEndpoint catalog() {
         return endpoint;
     }
 
