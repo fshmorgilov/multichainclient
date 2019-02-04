@@ -13,15 +13,13 @@ public class NoveltyPresenter extends MvpBasePresenter<NoverltyView> {
 
     private static final String TAG = NoveltyPresenter.class.getName();
 
-    private CatalogRepository repository;
+//    @Inject
+    CatalogRepository repository = CatalogRepository.getInstance();
 
-    public NoveltyPresenter() {
-    }
-
-    @Inject
-    public NoveltyPresenter(CatalogRepository repository) {
-        this.repository = repository;
-    }
+//    @Inject
+//    public NoveltyPresenter(CatalogRepository repository) {
+//        this.repository = repository;
+//    }
 
     @SuppressLint("CheckResult")
     void provideDataset() {

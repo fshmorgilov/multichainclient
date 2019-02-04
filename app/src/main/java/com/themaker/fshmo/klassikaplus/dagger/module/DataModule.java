@@ -15,7 +15,6 @@ import javax.inject.Singleton;
  * Предоставляет зависимость для БД.
  */
 @Module
-@Singleton
 public class DataModule {
 
     private static final String DATABASE_NAME = "klassikaplus.db";
@@ -23,31 +22,31 @@ public class DataModule {
     CatalogRepository catalogRepository;
     CatalogApi catalogApi;
 
-    public DataModule(AppDatabase db, CatalogRepository catalogRepository, CatalogApi api){
-        this.db =db;
-        this.catalogRepository = catalogRepository;
-        this.catalogApi =api;
-    }
+//    public DataModule(AppDatabase db, CatalogRepository catalogRepository, CatalogApi api) {
+//        this.db = db;
+//        this.catalogRepository = catalogRepository;
+//        this.catalogApi = api;
+//    }
 
     @NonNull
     @Provides
     @Singleton
-    AppDatabase provideRoomDatabase(@NonNull final Application application) {
+    static AppDatabase provideRoomDatabase(@NonNull final Application application) {
         return Room.databaseBuilder(application,
                 AppDatabase.class,
                 DATABASE_NAME)
                 .build();
     }
 
-    @Singleton
     @Provides
-    CatalogRepository proviceCatalogRepository(AppDatabase db, CatalogApi api){
-        return new CatalogRepository(db, api);
+    @Singleton
+    static CatalogRepository proviceCatalogRepository(AppDatabase db, CatalogApi api) {
+        return new CatalogRepository();
     }
 
-    @Singleton
     @Provides
-    CatalogApi provideCatalogApi(CatalogApi api){
+    @Singleton
+    static CatalogApi provideCatalogApi() {
         return CatalogApi.getInstance();
     }
 

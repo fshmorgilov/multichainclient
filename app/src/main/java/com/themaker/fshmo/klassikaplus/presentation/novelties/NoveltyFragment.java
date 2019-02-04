@@ -4,6 +4,7 @@ import android.util.Log;
 import androidx.recyclerview.widget.RecyclerView;
 import butterknife.BindView;
 import com.arellomobile.mvp.presenter.InjectPresenter;
+import com.arellomobile.mvp.presenter.ProvidePresenter;
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.RequestManager;
 import com.themaker.fshmo.klassikaplus.R;
@@ -23,6 +24,7 @@ public class NoveltyFragment extends MvpBaseFragment implements NoverltyView {
     @InjectPresenter
     NoveltyPresenter presenter;
 
+
     @Override
     protected void onPostCreateView() {
         super.onPostCreateView();
@@ -33,8 +35,8 @@ public class NoveltyFragment extends MvpBaseFragment implements NoverltyView {
                 glide,
                 item -> {
                     Log.i(TAG, "onPostCreateView: item pressed: " + item.getName());
-            // TODO: 1/13/2019
-        }));
+                    // TODO: 1/13/2019
+                }));
     }
 
 

@@ -22,7 +22,7 @@ public final class CatalogApi { // TODO: 1/16/2019 refactor to bean
 
     private static CatalogApi api;
 
-    public static synchronized CatalogApi getInstance() {
+    public static CatalogApi getInstance() {
         if (api == null) {
             api = new CatalogApi();
         }

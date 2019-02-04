@@ -11,11 +11,15 @@ import dagger.Component;
 import javax.inject.Singleton;
 
 @Singleton
-@Component(modules = {DataModule.class, ApplicationModule.class})
+@Component(modules = {
+        ApplicationModule.class,
+        DataModule.class})
 public interface AppComponent {
 
     void inject(AppDatabase database);
+
     void inject(CatalogRepository repository);
+
     void inject(CatalogApi api);
 //    Application providesApplication();
 //
