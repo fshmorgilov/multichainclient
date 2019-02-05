@@ -64,8 +64,13 @@ public class CatalogRepository extends BaseRepository {
                     storeItemsInDb(itemsFromApi);
                 })
                 // TODO: 1/30/2019 refactor to Flowable
-                .observeOn(Schedulers.io())
-                .subscribe();
+                .subscribeOn(Schedulers.io())
+                .subscribe(
+                        itemDtos -> {
+                            Log.d(TAG, "getItemsFromApi: Qntyty loaded from api: " + itemDtos.size());
+                        },
+                        throwable -> Log.e(TAG, "getItemsFromApi: " + throwable.getMessage())
+                );
     }
 
     private void storeItemsInDb(List<ItemDto> items) {

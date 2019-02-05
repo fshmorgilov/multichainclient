@@ -4,7 +4,6 @@ import android.util.Log;
 import androidx.recyclerview.widget.RecyclerView;
 import butterknife.BindView;
 import com.arellomobile.mvp.presenter.InjectPresenter;
-import com.arellomobile.mvp.presenter.ProvidePresenter;
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.RequestManager;
 import com.themaker.fshmo.klassikaplus.R;
@@ -13,7 +12,7 @@ import com.themaker.fshmo.klassikaplus.presentation.base.MvpBaseFragment;
 
 import java.util.List;
 
-public class NoveltyFragment extends MvpBaseFragment implements NoverltyView {
+public class NoveltyFragment extends MvpBaseFragment implements NoveltyView {
 
     private static final String TAG = NoveltyFragment.class.getName();
     private List<Item> dataset;
@@ -51,6 +50,12 @@ public class NoveltyFragment extends MvpBaseFragment implements NoverltyView {
 
     @Override
     public void setDataset(List<Item> items) {
-        this.dataset = items;
+        if (!items.isEmpty())
+            this.dataset = items;
+    }
+
+    @Override
+    public void showError() {
+//todo Показывать ошибку. Добавить вьюху с изображением ошибки
     }
 }
