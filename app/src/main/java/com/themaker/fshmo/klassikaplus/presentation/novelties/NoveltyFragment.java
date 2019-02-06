@@ -2,7 +2,7 @@ package com.themaker.fshmo.klassikaplus.presentation.novelties;
 
 import android.util.Log;
 import androidx.annotation.NonNull;
-import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import butterknife.BindView;
 import com.arellomobile.mvp.presenter.InjectPresenter;
@@ -11,6 +11,7 @@ import com.bumptech.glide.RequestManager;
 import com.themaker.fshmo.klassikaplus.R;
 import com.themaker.fshmo.klassikaplus.data.domain.Item;
 import com.themaker.fshmo.klassikaplus.presentation.base.MvpBaseFragment;
+import com.themaker.fshmo.klassikaplus.presentation.decoration.GridSpaceItemDecoration;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -36,6 +37,7 @@ public class NoveltyFragment extends MvpBaseFragment implements NoveltyView {
         super.onPostCreateView();
         glide = Glide.with(rootView);
         presenter.provideDataset();
+
         noveltyAdapter = new NoveltyAdapter(
                 dataset,
                 glide,
@@ -46,13 +48,28 @@ public class NoveltyFragment extends MvpBaseFragment implements NoveltyView {
         );
         noveltyAdapter.setDataset(dataset);
         recycler.setAdapter(noveltyAdapter);
-        recycler.setLayoutManager(new LinearLayoutManager(getActivity()));
+        RecyclerView.LayoutManager manager;
+        if (orientationPortrait())
+            manager = new GridLayoutManager(getActivity(), 2);
+        else
+            manager = new GridLayoutManager(getActivity(), 3);
+        recycler.setLayoutManager(manager);
+        GridSpaceItemDecoration decoration = new GridSpaceItemDecoration(1, 1);
+        recycler.addItemDecoration(decoration);
+
     }
 
 
     @Override
     protected int setLayoutRes() {
         return R.layout.novelty_fragment;
+    }
+
+    @Override
+    public void onDestroyView() {
+        clearDataset();
+        super.onDestroyView();
+
     }
 
     @Override

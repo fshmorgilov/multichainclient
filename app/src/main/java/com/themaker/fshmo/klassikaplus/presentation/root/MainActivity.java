@@ -18,7 +18,7 @@ public class MainActivity extends MvpAppCompatActivity implements MainActivityVi
         super.onCreate(savedInstanceState);
         setContentView(R.layout.main_activity);
         getSupportFragmentManager().beginTransaction()
-                .add(R.id.main_frame, new NoveltyFragment())
+                .replace(R.id.main_frame, new NoveltyFragment())
                 .addToBackStack(NOVELTY_TAG)
                 .commit();
 
