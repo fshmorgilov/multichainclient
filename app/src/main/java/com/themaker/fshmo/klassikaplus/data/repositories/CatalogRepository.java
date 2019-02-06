@@ -50,10 +50,10 @@ public class CatalogRepository extends BaseRepository {
                 .map(itemDtoDbItemMapper::map)
                 .map(dbItemDomainMapper::map);
 //        return getItemsFromDb();
-//        return Observable.concatArray(
+//        Observable.concatArray(
 //                getItemsFromDb(),
 //                getItemsFromApi()
-        // TODO: 1/13/2019 concat array
+//         TODO: 1/13/2019 concat array
 //        ).debounce(400, TimeUnit.MILLISECONDS);
     }
 
@@ -68,12 +68,6 @@ public class CatalogRepository extends BaseRepository {
                 })
                 // TODO: 1/30/2019 refactor to Flowable
                 .subscribeOn(Schedulers.io());
-//                .subscribe(
-//                        itemDtos -> {
-//                            Log.d(TAG, "getItemsFromApi: Qntyty loaded from api: " + itemDtos.size());
-//                        },
-//                        throwable -> Log.e(TAG, "getItemsFromApi: " + throwable.getMessage())
-//                );
     }
 
     private void storeItemsInDb(List<ItemDto> items) {

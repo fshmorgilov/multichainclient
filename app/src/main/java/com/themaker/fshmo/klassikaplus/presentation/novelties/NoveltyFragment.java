@@ -1,6 +1,7 @@
 package com.themaker.fshmo.klassikaplus.presentation.novelties;
 
 import android.util.Log;
+import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import butterknife.BindView;
@@ -40,6 +41,7 @@ public class NoveltyFragment extends MvpBaseFragment implements NoveltyView {
                 glide,
                 item -> {
                     Log.i(TAG, "onPostCreateView: item pressed: " + item.getName());
+                    // TODO: 2/6/2019 Click listener
                 }
         );
         noveltyAdapter.setDataset(dataset);
@@ -58,13 +60,21 @@ public class NoveltyFragment extends MvpBaseFragment implements NoveltyView {
     }
 
     @Override
-    public void setDataset(List<Item> items) {
-        if (!items.isEmpty()) {
-            this.dataset = items;
-            noveltyAdapter.notifyDataSetChanged();
-
+    public void setDataset(@NonNull List<Item> newsItems) {
+        if (!this.dataset.isEmpty()) {
+            clearDataset();
         }
+        noveltyAdapter.setDataset(newsItems);
+        noveltyAdapter.notifyItemRangeChanged(0, newsItems.size());
+    }
 
+    private void clearDataset() {
+        if (dataset != null) {
+            int size = dataset.size();
+            dataset.clear();
+            noveltyAdapter.notifyItemRangeRemoved(0, size);
+            Log.i(TAG, "clearDataset: cleared " + String.valueOf(size) + " items");
+        }
     }
 
     @Override

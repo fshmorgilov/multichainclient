@@ -15,11 +15,7 @@ public class NoveltyPresenter extends MvpBasePresenter<NoveltyView> {
 
     //    @Inject
     CatalogRepository repository = CatalogRepository.getInstance();
-
-//    @Inject
-//    public NoveltyPresenter(CatalogRepository repository) {
-//        this.repository = repository;
-//    }
+// TODO: 2/6/2019 Подумать, как мочить disposable при onDestroy
 
     @SuppressLint("CheckResult")
     void provideDataset() {
@@ -30,12 +26,10 @@ public class NoveltyPresenter extends MvpBasePresenter<NoveltyView> {
                 .subscribe(
                         items -> {
                             Log.i(TAG, "provideDataset: # of items: " + items.size());
-                            if (getViewState() != null)
                                 getViewState().setDataset(items);
-                            else
-                                Log.e(TAG, "provideDataset: Moxy problem");
                         },
                         this::displayError);
+        // TODO: 2/6/2019 Show state loading loaded etc
     }
 
     private void displayError(Throwable throwable) {

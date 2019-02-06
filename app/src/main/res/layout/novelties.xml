@@ -39,6 +39,7 @@
                 android:id="@+id/novelty_item_price"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_toRightOf="@id/novelty_item_icon"
                 tools:src="@tools:sample/cities"
                 android:layout_below="@id/novelty_item_name"
                 />
