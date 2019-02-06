@@ -13,8 +13,7 @@ import com.themaker.fshmo.klassikaplus.data.web.catalog.CatalogApi;
 import com.themaker.fshmo.klassikaplus.data.web.dto.DataDto;
 import com.themaker.fshmo.klassikaplus.data.web.dto.ItemDto;
 import com.themaker.fshmo.klassikaplus.data.web.dto.ResponseDto;
-import io.reactivex.Flowable;
-import io.reactivex.disposables.Disposable;
+import io.reactivex.Single;
 import io.reactivex.schedulers.Schedulers;
 
 import java.util.List;
@@ -25,8 +24,10 @@ public class CatalogRepository extends BaseRepository {
 
     final AppDatabase db = AppDatabase.provideRoomDatabase(App.getInstance());
     final CatalogApi api = CatalogApi.getInstance();
+
     private ListMapping<DbItem, Item> dbItemDomainMapper = new ListMapping<>(new DbToDomainMapper());
     private ListMapping<ItemDto, DbItem> itemDtoDbItemMapper = new ListMapping<>(new DtoToDbItemMapper());
+
     private NoveltinessFilter noveltinessFilter = new NoveltinessFilter();
     // TODO: 1/31/2019 refactor to dagger
     private static CatalogRepository INSTANCE;
@@ -37,16 +38,18 @@ public class CatalogRepository extends BaseRepository {
 
     public static CatalogRepository getInstance() {
         synchronized (App.class) {
-            if(INSTANCE == null)
+            if (INSTANCE == null)
                 INSTANCE = new CatalogRepository();
             return INSTANCE;
         }
     }
 
     // TODO: 1/30/2019 Переделать если будет более 100 элементов
-    public Flowable<List<Item>> provideNoveltyData() {
-        getItemsFromApi();
-        return getItemsFromDb();
+    public Single<List<Item>> provideNoveltyData() {
+        return getItemsFromApi()
+                .map(itemDtoDbItemMapper::map)
+                .map(dbItemDomainMapper::map);
+//        return getItemsFromDb();
 //        return Observable.concatArray(
 //                getItemsFromDb(),
 //                getItemsFromApi()
@@ -54,8 +57,8 @@ public class CatalogRepository extends BaseRepository {
 //        ).debounce(400, TimeUnit.MILLISECONDS);
     }
 
-    private void getItemsFromApi() {
-        Disposable disposable = api.catalog()
+    private Single<List<ItemDto>> getItemsFromApi() {
+        return api.catalog()
                 .getNovelty()
                 .map(ResponseDto::getData)
                 .map(DataDto::getItems)
@@ -64,13 +67,13 @@ public class CatalogRepository extends BaseRepository {
                     storeItemsInDb(itemsFromApi);
                 })
                 // TODO: 1/30/2019 refactor to Flowable
-                .subscribeOn(Schedulers.io())
-                .subscribe(
-                        itemDtos -> {
-                            Log.d(TAG, "getItemsFromApi: Qntyty loaded from api: " + itemDtos.size());
-                        },
-                        throwable -> Log.e(TAG, "getItemsFromApi: " + throwable.getMessage())
-                );
+                .subscribeOn(Schedulers.io());
+//                .subscribe(
+//                        itemDtos -> {
+//                            Log.d(TAG, "getItemsFromApi: Qntyty loaded from api: " + itemDtos.size());
+//                        },
+//                        throwable -> Log.e(TAG, "getItemsFromApi: " + throwable.getMessage())
+//                );
     }
 
     private void storeItemsInDb(List<ItemDto> items) {
@@ -79,12 +82,10 @@ public class CatalogRepository extends BaseRepository {
         Log.i(TAG, "storeItemsInDb: items store");
     }
 
-    private Flowable<List<Item>> getItemsFromDb() {
-        return db.itemDao()
-                .getAll()
+    private Single<List<Item>> getItemsFromDb() {
+        return db.itemDao().getAll()
                 .map(dbItemDomainMapper::map)
-                .map(noveltinessFilter::filter)
-                .observeOn(Schedulers.io());
+                .subscribeOn(Schedulers.io());
     }
 
 }
