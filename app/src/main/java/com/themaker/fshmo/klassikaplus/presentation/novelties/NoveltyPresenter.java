@@ -36,7 +36,7 @@ public class NoveltyPresenter extends MvpBasePresenter<NoveltyView> {
 
     private void displayError(Throwable throwable) {
         logError(throwable);
-        getViewState().showState(State.NoData);
+//        getViewState().showState(State.NoData);
     }
 
     private void logError(Throwable throwable) {
