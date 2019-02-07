@@ -2,11 +2,13 @@ package com.themaker.fshmo.klassikaplus.presentation.novelties;
 
 import android.util.Log;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import butterknife.BindView;
+import butterknife.BindViews;
 import com.arellomobile.mvp.presenter.InjectPresenter;
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.RequestManager;
@@ -27,10 +29,8 @@ public class NoveltyFragment extends MvpBaseFragment implements NoveltyView {
     private List<Item> dataset = new ArrayList<>();
     private RequestManager glide;
 
-    @BindView(R.id.novelty_recycler)
-    RecyclerView recycler;
-    @BindView(R.id.novelty_error)
-    TextView error;
+    @BindView(R.id.novelty_recycler) RecyclerView recycler;
+    @BindView(R.id.novelty_error) TextView error;
 
     @InjectPresenter
     NoveltyPresenter presenter;
@@ -40,8 +40,10 @@ public class NoveltyFragment extends MvpBaseFragment implements NoveltyView {
 
     @Override
     protected void onPostCreateView() {
+
         super.onPostCreateView();
         glide = Glide.with(rootView);
+        callback = (MainActivityCallback) getActivity();
         presenter.provideDataset();
 
         noveltyAdapter = new NoveltyAdapter(
@@ -62,7 +64,6 @@ public class NoveltyFragment extends MvpBaseFragment implements NoveltyView {
         recycler.setLayoutManager(manager);
         GridSpaceItemDecoration decoration = new GridSpaceItemDecoration(1, 1);
         recycler.addItemDecoration(decoration);
-        callback = (MainActivityCallback) getActivity();
     }
 
     @Override
@@ -75,7 +76,6 @@ public class NoveltyFragment extends MvpBaseFragment implements NoveltyView {
         clearDataset();
         callback = null;
         super.onDestroyView();
-
     }
 
     @Override
@@ -97,18 +97,25 @@ public class NoveltyFragment extends MvpBaseFragment implements NoveltyView {
 
     @Override
     public void showState(@NonNull State state) {
+        Log.i(TAG, "showState: calling state " + state.toString());
         switch (state) {
-            case HasData:
+            case HasData: {
                 recycler.setVisibility(View.VISIBLE);
                 error.setVisibility(View.GONE);
-            case Loading:
+                break;
+            }
+            case Loading: {
                 recycler.setVisibility(View.GONE);
                 error.setVisibility(View.GONE);
-                // TODO: 2/7/2019 progress bar
-            case NoData:
+                break;
+            }
+            case NoData: {
                 recycler.setVisibility(View.GONE);
                 error.setVisibility(View.VISIBLE);
+                break;
+            }
         }
+        // TODO: 2/7/2019 progress bar
     }
 
     private void clearDataset() {
@@ -124,4 +131,5 @@ public class NoveltyFragment extends MvpBaseFragment implements NoveltyView {
     public void addSub(Disposable subscription) {
         super.addSub(subscription);
     }
+
 }

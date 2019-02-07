@@ -2,6 +2,7 @@ package com.themaker.fshmo.klassikaplus.presentation.root;
 
 import android.os.Bundle;
 import android.util.Log;
+import androidx.annotation.NonNull;
 import com.arellomobile.mvp.presenter.InjectPresenter;
 import com.themaker.fshmo.klassikaplus.R;
 import com.themaker.fshmo.klassikaplus.data.domain.Item;
@@ -31,7 +32,8 @@ public class MainActivity extends MvpAppCompatActivity implements MainActivityVi
     }
 
     @Override
-    public void launchItemWebViewFragment(Item item) {
+    public void launchItemWebViewFragment(@NonNull Item item) {
+        Log.i(TAG, "launchItemWebViewFragment: displaying itemWebViewFragment with item: " + item.getName());
         getSupportFragmentManager().beginTransaction()
                 .replace(R.id.main_frame, WebItemFragment.newInstance(item))
                 .commit();

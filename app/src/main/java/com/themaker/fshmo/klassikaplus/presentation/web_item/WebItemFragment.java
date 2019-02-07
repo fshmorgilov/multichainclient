@@ -38,17 +38,21 @@ public class WebItemFragment extends MvpBaseFragment {
     @Override
     protected void onPostCreateView() {
         super.onPostCreateView();
+        showState(State.Loading);
         Bundle bundle = this.getArguments();
-        if (bundle != null
-                && item != null
-                && !item.getPageAlias().isEmpty()) {
+        if (bundle != null) {
             this.item = (Item) bundle.getSerializable(KEY_ID);
-            webView.loadUrl(item.getPageAlias());
-            Log.i(TAG, "onPostCreateView: item loaded: " + item.getPageAlias());
-        } else {
-            Log.e(TAG, "onPostCreateView: no data provided for webView");
-            showState(State.NoData);
-        }
+            if (item != null && item.getPageAlias() != null) {
+                webView.loadUrl(item.getPageAlias());
+                showState(State.HasData);
+                Log.i(TAG, "onPostCreateView: item loaded: " + item.getPageAlias());
+            } else { showError("item is null"); }
+        } else { showError("bundle is null"); }
+    }
+
+    private void showError(String message) {
+        Log.e(TAG, "onPostCreateView: no data provided for webView. Reason: " + message);
+        showState(State.NoData);
     }
 
     @Override
@@ -64,13 +68,21 @@ public class WebItemFragment extends MvpBaseFragment {
 
     @Override
     public void showState(@NonNull State state) {
+        Log.i(TAG, "showState: calling state " + state.toString());
         switch (state) {
             case HasData:
                 webView.setVisibility(View.VISIBLE);
                 error.setVisibility(View.GONE);
+                break;
             case NoData:
                 webView.setVisibility(View.GONE);
                 error.setVisibility(View.VISIBLE);
+                break;
+            case Loading:
+                webView.setVisibility(View.GONE);
+                error.setVisibility(View.GONE);
+                // TODO: 2/7/2019 progressbar
+                break;
             default:
                 throw new IllegalStateException();
         }

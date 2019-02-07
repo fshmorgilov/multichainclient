@@ -1,7 +1,8 @@
 package com.themaker.fshmo.klassikaplus.presentation.novelties;
 
-import android.annotation.SuppressLint;
 import android.util.Log;
+import android.view.View;
+import butterknife.ButterKnife;
 import com.arellomobile.mvp.InjectViewState;
 import com.themaker.fshmo.klassikaplus.data.domain.Item;
 import com.themaker.fshmo.klassikaplus.data.repositories.CatalogRepository;
@@ -36,7 +37,7 @@ public class NoveltyPresenter extends MvpBasePresenter<NoveltyView> {
 
     private void displayError(Throwable throwable) {
         logError(throwable);
-//        getViewState().showState(State.NoData);
+        getViewState().showState(State.NoData);
     }
 
     private void logError(Throwable throwable) {
@@ -45,7 +46,9 @@ public class NoveltyPresenter extends MvpBasePresenter<NoveltyView> {
 
     private void displayData(List<Item> items) {
         Log.i(TAG, "provideDataset: # of items: " + items.size());
-        getViewState().setDataset(items);
         getViewState().showState(State.HasData);
+        getViewState().setDataset(items);
     }
+
+
 }
