@@ -1,3 +1,4 @@
 <resources>
     <string name="app_name">Klassikaplus</string>
+    <string name="novelty_error_no_date">Простите, но на данный момент сервис не доступен</string>
 </resources>

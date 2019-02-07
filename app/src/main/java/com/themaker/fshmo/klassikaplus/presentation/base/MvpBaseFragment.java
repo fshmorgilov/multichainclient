@@ -20,6 +20,7 @@ import butterknife.ButterKnife;
 import butterknife.Unbinder;
 import com.arellomobile.mvp.MvpView;
 import com.themaker.fshmo.klassikaplus.R;
+import com.themaker.fshmo.klassikaplus.presentation.common.State;
 import io.reactivex.disposables.CompositeDisposable;
 import io.reactivex.disposables.Disposable;
 
@@ -148,5 +149,14 @@ public abstract class MvpBaseFragment extends MvpAppCompatFragment implements Ba
                 .show();
     }
 
+    /**
+     * Показывать статус
+     * */
+    protected void showState(@NonNull State state) {
+        switch (state) {
+            default:
+                throw new IllegalArgumentException("Unknown state: " + state);
+        }
+    }
 
 }

@@ -3,42 +3,49 @@ package com.themaker.fshmo.klassikaplus.presentation.novelties;
 import android.annotation.SuppressLint;
 import android.util.Log;
 import com.arellomobile.mvp.InjectViewState;
+import com.themaker.fshmo.klassikaplus.data.domain.Item;
 import com.themaker.fshmo.klassikaplus.data.repositories.CatalogRepository;
 import com.themaker.fshmo.klassikaplus.presentation.base.MvpBasePresenter;
+import com.themaker.fshmo.klassikaplus.presentation.common.State;
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.disposables.Disposable;
+
+import java.util.List;
 
 @InjectViewState
 public class NoveltyPresenter extends MvpBasePresenter<NoveltyView> {
 
     private static final String TAG = NoveltyPresenter.class.getName();
 
+    // TODO: 2/7/2019 inject
     //    @Inject
     CatalogRepository repository = CatalogRepository.getInstance();
-// TODO: 2/6/2019 Подумать, как мочить disposable при onDestroy
 
-    @SuppressLint("CheckResult")
     void provideDataset() {
+        getViewState().showState(State.Loading);
         if (repository == null)
             Log.e(TAG, "provideDataset: Repository problem");
         Disposable subscribe = repository.provideNoveltyData()
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(
-                        items -> {
-                            Log.i(TAG, "provideDataset: # of items: " + items.size());
-                                getViewState().setDataset(items);
-                        },
+                        this::displayData,
                         this::displayError);
-        // TODO: 2/6/2019 Show state loading loaded etc
+        getViewState().addSub(subscribe);   // FIXME: 2/7/2019 возможно, не стоит
     }
+
 
     private void displayError(Throwable throwable) {
         logError(throwable);
-        getViewState().showError();
+        getViewState().showState(State.NoData);
     }
 
     private void logError(Throwable throwable) {
         Log.e(TAG, "logError: error in dataset" + throwable.getMessage());
     }
 
+    private void displayData(List<Item> items) {
+        Log.i(TAG, "provideDataset: # of items: " + items.size());
+        getViewState().setDataset(items);
+        getViewState().showState(State.HasData);
+    }
 }

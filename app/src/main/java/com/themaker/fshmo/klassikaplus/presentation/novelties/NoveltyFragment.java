@@ -1,6 +1,8 @@
 package com.themaker.fshmo.klassikaplus.presentation.novelties;
 
 import android.util.Log;
+import android.view.View;
+import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -11,7 +13,10 @@ import com.bumptech.glide.RequestManager;
 import com.themaker.fshmo.klassikaplus.R;
 import com.themaker.fshmo.klassikaplus.data.domain.Item;
 import com.themaker.fshmo.klassikaplus.presentation.base.MvpBaseFragment;
+import com.themaker.fshmo.klassikaplus.presentation.common.State;
 import com.themaker.fshmo.klassikaplus.presentation.decoration.GridSpaceItemDecoration;
+import com.themaker.fshmo.klassikaplus.presentation.root.MainActivityCallback;
+import io.reactivex.disposables.Disposable;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -22,13 +27,14 @@ public class NoveltyFragment extends MvpBaseFragment implements NoveltyView {
     private List<Item> dataset = new ArrayList<>();
     private RequestManager glide;
 
-    // TODO: 2/5/2019 dispose disposable, иначе приложение продолжает жрать сеть
-
     @BindView(R.id.novelty_recycler)
     RecyclerView recycler;
+    @BindView(R.id.novelty_error)
+    TextView error;
 
     @InjectPresenter
     NoveltyPresenter presenter;
+    MainActivityCallback callback;
 
     private NoveltyAdapter noveltyAdapter;
 
@@ -43,7 +49,7 @@ public class NoveltyFragment extends MvpBaseFragment implements NoveltyView {
                 glide,
                 item -> {
                     Log.i(TAG, "onPostCreateView: item pressed: " + item.getName());
-                    // TODO: 2/6/2019 Click listener
+                    callback.launchItemWebViewFragment(item);
                 }
         );
         noveltyAdapter.setDataset(dataset);
@@ -56,9 +62,8 @@ public class NoveltyFragment extends MvpBaseFragment implements NoveltyView {
         recycler.setLayoutManager(manager);
         GridSpaceItemDecoration decoration = new GridSpaceItemDecoration(1, 1);
         recycler.addItemDecoration(decoration);
-
+        callback = (MainActivityCallback) getActivity();
     }
-
 
     @Override
     protected int setLayoutRes() {
@@ -68,6 +73,7 @@ public class NoveltyFragment extends MvpBaseFragment implements NoveltyView {
     @Override
     public void onDestroyView() {
         clearDataset();
+        callback = null;
         super.onDestroyView();
 
     }
@@ -85,6 +91,26 @@ public class NoveltyFragment extends MvpBaseFragment implements NoveltyView {
         noveltyAdapter.notifyItemRangeChanged(0, newsItems.size());
     }
 
+    @Override
+    public void showError() {
+    }
+
+    @Override
+    public void showState(@NonNull State state) {
+        switch (state) {
+            case HasData:
+                recycler.setVisibility(View.VISIBLE);
+                error.setVisibility(View.GONE);
+            case Loading:
+                recycler.setVisibility(View.GONE);
+                error.setVisibility(View.GONE);
+                // TODO: 2/7/2019 progress bar
+            case NoData:
+                recycler.setVisibility(View.GONE);
+                error.setVisibility(View.VISIBLE);
+        }
+    }
+
     private void clearDataset() {
         if (dataset != null) {
             int size = dataset.size();
@@ -95,7 +121,7 @@ public class NoveltyFragment extends MvpBaseFragment implements NoveltyView {
     }
 
     @Override
-    public void showError() {
-//todo Показывать ошибку. Добавить вьюху с изображением ошибки
+    public void addSub(Disposable subscription) {
+        super.addSub(subscription);
     }
 }

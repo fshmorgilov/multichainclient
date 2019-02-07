@@ -3,7 +3,7 @@ package com.themaker.fshmo.klassikaplus.presentation.common;
 public enum State {
 
     HasData,
-    HasNoData,
+    NoData,
     Loading,
     NetworkError,
     ServerError,

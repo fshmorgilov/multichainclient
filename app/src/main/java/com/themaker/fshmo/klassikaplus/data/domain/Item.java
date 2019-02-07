@@ -1,6 +1,8 @@
 package com.themaker.fshmo.klassikaplus.data.domain;
 
-public class Item {
+import java.io.Serializable;
+
+public class Item implements Serializable {
 
     private String id;
     private String extId;// TODO: 2/6/2019 add extId to DB
