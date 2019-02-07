@@ -31,7 +31,7 @@ public class WebItemFragment extends MvpBaseFragment {
         Bundle bundle = new Bundle();
         bundle.putSerializable(KEY_ID, item);
         fragment.setArguments(bundle);
-        Log.i(TAG, "newInstance: fragment created for item: " + item.getId());
+        Log.i(TAG, "newInstance: fragment created for item: " + item.getName());
         return fragment;
     }
 
@@ -42,6 +42,7 @@ public class WebItemFragment extends MvpBaseFragment {
         Bundle bundle = this.getArguments();
         if (bundle != null) {
             this.item = (Item) bundle.getSerializable(KEY_ID);
+            Log.d(TAG, "onPostCreateView: item: " + item.getName());
             if (item != null && item.getPageAlias() != null) {
                 webView.loadUrl(item.getPageAlias());
                 showState(State.HasData);

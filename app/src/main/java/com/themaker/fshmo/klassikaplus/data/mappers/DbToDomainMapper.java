@@ -16,6 +16,7 @@ public class DbToDomainMapper extends Mapping<DbItem, Item> {
         item.setPrice(dbItem.getPrice());
         item.setName(dbItem.getName());
         item.setNovelty(dbItem.getNovelty());
+        item.setPageAlias(dbItem.getPageAlias());
         Log.d(TAG, "map: Item parsed: " + item.toString());
         return item;
     }
