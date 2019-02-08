@@ -40,7 +40,7 @@ public class WebItemFragment extends MvpBaseFragment {
         super.onPostCreateView();
         webView.getSettings().setLoadsImagesAutomatically(true);
         webView.getSettings().setUseWideViewPort(true);
-        webView.getSettings().setJavaScriptEnabled(true);
+        webView.getSettings().setJavaScriptEnabled(true); // FIXME: 2/8/2019 перепилить
         webView.getSettings().setLoadWithOverviewMode(true);
         webView.setOverScrollMode(View.OVER_SCROLL_NEVER);
         showState(State.Loading);
