@@ -17,6 +17,7 @@ public class MainActivity extends MvpAppCompatActivity implements MainActivityVi
     @InjectPresenter
     MainActivityPresenter presenter;
 
+    private static final String WEBVIEW_TAG = "ItemWebView";
     private static final String NOVELTY_TAG = "NoveltyFragment";
 
     @Override
@@ -36,6 +37,7 @@ public class MainActivity extends MvpAppCompatActivity implements MainActivityVi
         Log.i(TAG, "launchItemWebViewFragment: displaying itemWebViewFragment with item: " + item.getName());
         getSupportFragmentManager().beginTransaction()
                 .replace(R.id.main_frame, WebItemFragment.newInstance(item))
+                .addToBackStack(WEBVIEW_TAG)
                 .commit();
     }
 }

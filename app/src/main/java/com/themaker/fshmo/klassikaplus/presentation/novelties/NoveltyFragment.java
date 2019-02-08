@@ -122,6 +122,7 @@ public class NoveltyFragment extends MvpBaseFragment implements NoveltyView {
         if (dataset != null) {
             int size = dataset.size();
             dataset.clear();
+            // FIXME: 2/8/2019 убрать ресет датасета, а то ресайклер работает не правильно
             noveltyAdapter.notifyItemRangeRemoved(0, size);
             Log.i(TAG, "clearDataset: cleared " + String.valueOf(size) + " items");
         }

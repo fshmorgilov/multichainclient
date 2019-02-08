@@ -38,6 +38,11 @@ public class WebItemFragment extends MvpBaseFragment {
     @Override
     protected void onPostCreateView() {
         super.onPostCreateView();
+        webView.getSettings().setLoadsImagesAutomatically(true);
+        webView.getSettings().setUseWideViewPort(true);
+        webView.getSettings().setJavaScriptEnabled(true);
+        webView.getSettings().setLoadWithOverviewMode(true);
+        webView.setOverScrollMode(View.OVER_SCROLL_NEVER);
         showState(State.Loading);
         Bundle bundle = this.getArguments();
         if (bundle != null) {
