@@ -12,10 +12,12 @@ public class DbToDomainMapper extends Mapping<DbItem, Item> {
     public Item map(DbItem dbItem) {
         Item item = new Item();
         item.setId(dbItem.getId());
+        item.setExtId(dbItem.getExtId());
         item.setIcon(dbItem.getIcon());
         item.setPrice(dbItem.getPrice());
         item.setName(dbItem.getName());
         item.setNovelty(dbItem.getNovelty());
+        item.setPageAlias(dbItem.getPageAlias());
         Log.d(TAG, "map: Item parsed: " + item.toString());
         return item;
     }

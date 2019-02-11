@@ -15,6 +15,7 @@ public interface ItemDao {
 
     @Query("SELECT * FROM ITEMS")
     Single<List<DbItem>> getAll();
+    // TODO: 2/8/2019 Refactor to Flawable
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     void insertAll(List<DbItem> items);

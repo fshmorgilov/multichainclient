@@ -1,10 +1,7 @@
 package com.themaker.fshmo.klassikaplus.data.persistence.model;
 
 import androidx.annotation.NonNull;
-import androidx.room.ColumnInfo;
-import androidx.room.Entity;
-import androidx.room.Ignore;
-import androidx.room.PrimaryKey;
+import androidx.room.*;
 
 import java.util.List;
 

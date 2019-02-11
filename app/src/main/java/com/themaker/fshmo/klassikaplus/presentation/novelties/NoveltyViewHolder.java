@@ -20,10 +20,6 @@ class NoveltyViewHolder extends RecyclerView.ViewHolder {
     TextView name;
     @BindView(R.id.novelty_item_price)
     TextView price;
-    @BindView(R.id.novelty_item_gotoshop)
-    TextView goToShop;
-    @BindView(R.id.novelty_item_novelty)
-    TextView novelty;
 
     private View baseView;
     private static final String TAG = NoveltyViewHolder.class.getName();
@@ -45,10 +41,10 @@ class NoveltyViewHolder extends RecyclerView.ViewHolder {
             name.setText(item.getName());
         else
             name.setVisibility(View.GONE);
-        if (item.getPageAlias() != null)
-            goToShop.setVisibility(View.VISIBLE);
-        if (item.getNovelty() && item.getNovelty() != null)
-            novelty.setVisibility(View.VISIBLE);
+//        if (item.getPageAlias() != null)
+//            goToShop.setVisibility(View.VISIBLE);
+//        if (item.getNovelty() && item.getNovelty() != null)
+//            novelty.setVisibility(View.VISIBLE);
         if(!item.getIcon().isEmpty()) {
             String url = item.getIcon();
             glide.load(url)

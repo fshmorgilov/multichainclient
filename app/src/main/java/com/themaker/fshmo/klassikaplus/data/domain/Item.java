@@ -1,9 +1,11 @@
 package com.themaker.fshmo.klassikaplus.data.domain;
 
-public class Item {
+import java.io.Serializable;
+
+public class Item implements Serializable {
 
     private String id;
-    private String extId;// TODO: 2/6/2019 add extId to DB
+    private String extId;
     private String name; //h1
     private String description; //ключевое описание
     private String vendorCode;
@@ -140,6 +142,10 @@ public class Item {
 
     public void setDiscountable(Boolean discountable) {
         this.discountable = discountable;
+    }
+
+    public void setExtId(String extId) {
+        this.extId = extId;
     }
 }
 

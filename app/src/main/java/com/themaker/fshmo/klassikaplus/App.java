@@ -1,7 +1,7 @@
 package com.themaker.fshmo.klassikaplus;
 
 import android.app.Application;
-import com.facebook.stetho.Stetho;
+//import com.facebook.stetho.Stetho;
 import com.themaker.fshmo.klassikaplus.dagger.AppComponent;
 import com.themaker.fshmo.klassikaplus.dagger.DaggerAppComponent;
 import com.themaker.fshmo.klassikaplus.dagger.module.ApplicationModule;
@@ -16,7 +16,7 @@ public class App extends Application {
     public void onCreate() {
         super.onCreate();
         APP_INSTANCE = this;
-        Stetho.initializeWithDefaults(this);
+//        Stetho.initializeWithDefaults(this);
         appComponent = DaggerAppComponent.builder()
                 .applicationModule(new ApplicationModule(this))
                 .dataModule(new DataModule())
