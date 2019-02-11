@@ -51,7 +51,7 @@ public class NoveltyFragment extends MvpBaseFragment implements NoveltyView {
                 dataset,
                 glide,
                 item -> {
-                    Log.i(TAG, "onPostCreateView: item pressed: " + item.getName());
+                    Log.i(TAG, "onPostCreateView: item pressed: " + item.getId());
                     callback.launchItemWebViewFragment(item);
                 }
         );

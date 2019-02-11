@@ -24,7 +24,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="0dp"
                 android:layout_margin="@dimen/common_margin"
-                android:layout_weight="9"
+                android:layout_weight="18"
                 android:scaleType="centerCrop"
                 android:cropToPadding="true"
                 tools:src="@tools:sample/avatars"
@@ -32,12 +32,14 @@
 
         <TextView
                 android:id="@+id/novelty_item_name"
+                android:layout_marginTop="@dimen/common_margin"
+                android:layout_marginEnd="@dimen/common_margin"
+                android:layout_marginStart="@dimen/common_margin"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:padding="@dimen/common_padding"
                 android:textAlignment="center"
                 android:textSize="@dimen/items_name_text_size"
-                android:maxLines="2"
+                android:maxLines="1"
                 android:layout_weight="1"
                 tools:src="@tools:sample/full_names"
                 />
@@ -49,7 +51,6 @@
                 android:background="@drawable/price_border"
                 android:textSize="@dimen/item_price_text_size"
                 android:fontFamily="@font/avant_garde"
-                android:padding="@dimen/common_padding"
                 android:textAlignment="center"
                 tools:src="@tools:sample/cities"
                 />
