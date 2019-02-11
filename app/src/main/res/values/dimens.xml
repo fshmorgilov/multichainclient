@@ -5,4 +5,6 @@
     <dimen name="novelty_recycler_width">180dp</dimen>
     <dimen name="common_padding">8dp</dimen>
     <dimen name="card_corner_radius">4dp</dimen>
+    <dimen name="items_name_text_size">32sp</dimen>
+    <dimen name="item_price_text_size">24sp</dimen>
 </resources>
