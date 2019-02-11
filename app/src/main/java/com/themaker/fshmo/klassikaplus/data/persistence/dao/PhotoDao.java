@@ -12,7 +12,7 @@ import java.util.List;
 @Dao
 public interface PhotoDao {
 
-    @Query("SELECT * FROM PHOTOS")
+    @Query("SELECT * FROM photos")
     Single<List<DbPhoto>> getAll();
     // TODO: 2/8/2019 Refactor to Flawable
 
@@ -25,7 +25,7 @@ public interface PhotoDao {
     @Query("SELECT * FROM PHOTOS WHERE id in (:id)")
     Single<DbPhoto> findById(String id);
 
-    @Query("SELECT * FROM PHOTOS WHERE itemId in (:itemId)")
+    @Query("SELECT * FROM PHOTOS WHERE item_id in (:itemId)")
     Single<List<DbPhoto>> findByItemId(String itemId);
 
 }

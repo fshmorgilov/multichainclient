@@ -6,6 +6,7 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.GridLayoutManager;
+import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import butterknife.BindView;
 import butterknife.BindViews;
@@ -56,12 +57,7 @@ public class NoveltyFragment extends MvpBaseFragment implements NoveltyView {
         );
         noveltyAdapter.setDataset(dataset);
         recycler.setAdapter(noveltyAdapter);
-        RecyclerView.LayoutManager manager;
-        if (orientationPortrait())
-            manager = new GridLayoutManager(getActivity(), 2);
-        else
-            manager = new GridLayoutManager(getActivity(), 3);
-        recycler.setLayoutManager(manager);
+        recycler.setLayoutManager(new LinearLayoutManager(getActivity()));
         GridSpaceItemDecoration decoration = new GridSpaceItemDecoration(1, 1);
         recycler.addItemDecoration(decoration);
     }
