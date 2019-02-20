@@ -16,7 +16,8 @@ public final class CatalogApi { // TODO: 1/16/2019 refactor to bean
 
     private static final int TIMEOUT_SECONDS = 2;
 
-    private final CatalogEndpoint endpoint;
+    private final CatalogEndpoint catalogEndpoint;
+    private final RevisionEndpoint revisionEndpoint;
     private final OkHttpClient client;
 
     private static CatalogApi api;
@@ -32,7 +33,8 @@ public final class CatalogApi { // TODO: 1/16/2019 refactor to bean
         final Retrofit retrofit;
         client = buildOkHttpClient();
         retrofit = buildRetrofit();
-        endpoint = retrofit.create(CatalogEndpoint.class);
+        catalogEndpoint = retrofit.create(CatalogEndpoint.class);
+        revisionEndpoint = retrofit.create(RevisionEndpoint.class);
     }
 
     @NonNull
@@ -48,7 +50,7 @@ public final class CatalogApi { // TODO: 1/16/2019 refactor to bean
     @NonNull
     private OkHttpClient buildOkHttpClient() {
         final HttpLoggingInterceptor networkLoggingInterceptor = new HttpLoggingInterceptor();
-        networkLoggingInterceptor.setLevel(HttpLoggingInterceptor.Level.BASIC);
+        networkLoggingInterceptor.setLevel(HttpLoggingInterceptor.Level.BODY);
 
         return new OkHttpClient.Builder()
                 .addInterceptor(networkLoggingInterceptor)
@@ -59,7 +61,11 @@ public final class CatalogApi { // TODO: 1/16/2019 refactor to bean
     }
 
     public CatalogEndpoint catalog() {
-        return endpoint;
+        return catalogEndpoint;
+    }
+
+    public RevisionEndpoint revision(){
+        return revisionEndpoint;
     }
 
 }
