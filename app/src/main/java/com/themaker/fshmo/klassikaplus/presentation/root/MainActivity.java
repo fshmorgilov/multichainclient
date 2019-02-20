@@ -1,5 +1,8 @@
 package com.themaker.fshmo.klassikaplus.presentation.root;
 
+import android.app.Activity;
+import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import androidx.annotation.NonNull;
@@ -19,6 +22,11 @@ public class MainActivity extends MvpAppCompatActivity implements MainActivityVi
 
     private static final String WEBVIEW_TAG = "ItemWebView";
     private static final String NOVELTY_TAG = "NoveltyFragment";
+
+    public static void start(Context context) {
+        Intent intent = new Intent(context, MainActivity.class);
+        context.startActivity(intent);
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

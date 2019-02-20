@@ -9,6 +9,7 @@ import android.util.Log;
 import androidx.annotation.NonNull;
 import androidx.work.WorkManager;
 import com.themaker.fshmo.klassikaplus.App;
+import com.themaker.fshmo.klassikaplus.presentation.root.MainActivity;
 import io.reactivex.Single;
 import io.reactivex.schedulers.Schedulers;
 import io.reactivex.subjects.BehaviorSubject;
@@ -76,7 +77,7 @@ public class NetworkUtils {
 
         @Override
         public void onReceive(Context context, Intent intent) {
-            WorkManager.getInstance().cancelWorkById(workRequestId);
+            MainActivity.start(context);
             Log.i(TAG, "onReceive: canceled service ID: " + workRequestId);
         }
 
