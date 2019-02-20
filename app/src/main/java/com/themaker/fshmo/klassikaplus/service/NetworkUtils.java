@@ -78,7 +78,7 @@ public class NetworkUtils {
         @Override
         public void onReceive(Context context, Intent intent) {
             MainActivity.start(context);
-            Log.i(TAG, "onReceive: canceled service ID: " + workRequestId);
+            Log.i(TAG, "Starting App");
         }
 
         public void setWorkRequestId(@NonNull UUID workRequestId) {
