@@ -42,6 +42,7 @@ public class RevisionRequestService extends Worker {
     private void makeNotification() {
         Intent notificationTapIntent = new Intent(context, NetworkUtils.NotificationTapReceiver.class);
         notificationTapIntent.setAction(ACTION_TAP);
+        // TODO: 2/20/2019 pending intent for launching app
         PendingIntent pendingIntent = PendingIntent.getBroadcast(context, 0, notificationTapIntent, 0);
         Notification notification = new NotificationCompat.Builder(getApplicationContext(), "abcde")
                 .setSmallIcon(R.drawable.logo_main) // TODO: 2/20/2019 set icon
@@ -51,6 +52,7 @@ public class RevisionRequestService extends Worker {
                 .build();
         if (notificationManager == null)
             notificationManager = (NotificationManager) getApplicationContext().getSystemService(Context.NOTIFICATION_SERVICE);
+        assert notificationManager != null;
         notificationManager.notify(notificationId, notification);
     }
 
