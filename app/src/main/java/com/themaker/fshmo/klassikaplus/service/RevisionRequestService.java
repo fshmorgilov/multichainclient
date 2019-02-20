@@ -11,7 +11,9 @@ import androidx.core.app.NotificationCompat;
 import androidx.work.Worker;
 import androidx.work.WorkerParameters;
 import com.themaker.fshmo.klassikaplus.R;
+import com.themaker.fshmo.klassikaplus.data.web.catalog.CatalogApi;
 
+import javax.inject.Inject;
 import java.io.IOException;
 
 import static com.themaker.fshmo.klassikaplus.service.NetworkUtils.NotificationTapReceiver.ACTION_TAP;
@@ -27,6 +29,8 @@ public class RevisionRequestService extends Worker {
     private static final int notificationId = 123;
 
     private NotificationManager notificationManager;
+    @Inject
+    CatalogApi api;
 
     public RevisionRequestService(@NonNull Context context, @NonNull WorkerParameters workerParams) {
         super(context, workerParams);

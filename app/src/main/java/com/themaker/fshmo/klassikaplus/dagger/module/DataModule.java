@@ -22,11 +22,11 @@ public class DataModule {
     CatalogRepository catalogRepository;
     CatalogApi catalogApi;
 
-//    public DataModule(AppDatabase db, CatalogRepository catalogRepository, CatalogApi api) {
-//        this.db = db;
-//        this.catalogRepository = catalogRepository;
-//        this.catalogApi = api;
-//    }
+    public DataModule(AppDatabase db, CatalogRepository catalogRepository, CatalogApi api) {
+        this.db = db;
+        this.catalogRepository = catalogRepository;
+        this.catalogApi = api;
+    }
 
     @NonNull
     @Provides
