@@ -1,11 +1,16 @@
 package com.themaker.fshmo.klassikaplus;
 
 import android.app.Application;
-//import com.facebook.stetho.Stetho;
+import androidx.work.*;
 import com.themaker.fshmo.klassikaplus.dagger.AppComponent;
 import com.themaker.fshmo.klassikaplus.dagger.DaggerAppComponent;
 import com.themaker.fshmo.klassikaplus.dagger.module.ApplicationModule;
 import com.themaker.fshmo.klassikaplus.dagger.module.DataModule;
+import com.themaker.fshmo.klassikaplus.service.RevisionRequestService;
+
+import java.util.concurrent.TimeUnit;
+
+//import com.facebook.stetho.Stetho;
 
 public class App extends Application {
 
@@ -21,6 +26,19 @@ public class App extends Application {
                 .applicationModule(new ApplicationModule(this))
                 .dataModule(new DataModule())
                 .build();
+    }
+
+    private static void performScheduledWork(){
+        Constraints constraints = new Constraints.Builder()
+                .setRequiredNetworkType(NetworkType.CONNECTED)
+                .build();
+        WorkRequest workRequest = new PeriodicWorkRequest.Builder(RevisionRequestService.class, 24, TimeUnit.HOURS)
+                .setConstraints(constraints)
+                .addTag(RevisionRequestService.WORK_TAG)
+                .build();
+        NetworkUtils.getInstance().getCancelReceiver().setWorkRequestId(workRequest.getId());
+        WorkManager.getInstance()
+                .enqueue(workRequest);
     }
 
     public static App getInstance() {
