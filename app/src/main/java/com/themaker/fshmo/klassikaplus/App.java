@@ -34,7 +34,9 @@ public class App extends Application {
         Constraints constraints = new Constraints.Builder()
                 .setRequiredNetworkType(NetworkType.CONNECTED)
                 .build();
+
         WorkRequest workRequest = new PeriodicWorkRequest.Builder(RevisionRequestService.class, 24, TimeUnit.HOURS)
+                .setBackoffCriteria(BackoffPolicy.EXPONENTIAL, 2, TimeUnit.HOURS)
                 .setConstraints(constraints)
                 .addTag(RevisionRequestService.WORK_TAG)
                 .build();

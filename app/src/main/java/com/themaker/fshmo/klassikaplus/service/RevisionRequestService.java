@@ -12,10 +12,10 @@ import androidx.work.Worker;
 import androidx.work.WorkerParameters;
 import com.themaker.fshmo.klassikaplus.App;
 import com.themaker.fshmo.klassikaplus.R;
+import com.themaker.fshmo.klassikaplus.data.preferences.Preferences;
 import com.themaker.fshmo.klassikaplus.data.web.catalog.CatalogApi;
-import io.reactivex.Scheduler;
-import io.reactivex.disposables.Disposable;
-import io.reactivex.schedulers.Schedulers;
+import com.themaker.fshmo.klassikaplus.data.web.dto.revision.ResponseDto;
+import retrofit2.Response;
 
 import javax.inject.Inject;
 import java.io.IOException;
@@ -36,6 +36,8 @@ public class RevisionRequestService extends Worker {
 
     @Inject
     CatalogApi api;
+    @Inject
+    Preferences preferences;
 
     public RevisionRequestService(@NonNull Context context, @NonNull WorkerParameters workerParams) {
         super(context, workerParams);
@@ -46,20 +48,27 @@ public class RevisionRequestService extends Worker {
     @NonNull
     @Override
     public Result doWork() {
-        api.revision().checkRevision();
-
-        makeNotification();
-        return Result.retry();
+        try {
+            Integer serverRevision = api.revision().checkRevision().execute().body().getData();
+            if (serverRevision != null && serverRevision >= preferences.getRevision()) {
+                makeNotification();
+                preferences.updateRevision(serverRevision);
+            }
+            return Result.success();
+        } catch (IOException e) {
+            Log.i(TAG, "doWork: call for API failed");
+            return Result.failure();
+        }
     }
 
     private void makeNotification() {
         Intent notificationTapIntent = new Intent(context, NetworkUtils.NotificationTapReceiver.class);
         notificationTapIntent.setAction(ACTION_TAP);
-        // TODO: 2/20/2019 pending intent for launching app
         PendingIntent pendingIntent = PendingIntent.getBroadcast(context, 0, notificationTapIntent, 0);
         Notification notification = new NotificationCompat.Builder(getApplicationContext(), "abcde")
                 .setSmallIcon(R.drawable.logo_main) // TODO: 2/20/2019 set icon
                 .setContentTitle(context.getString(R.string.collection_is_updated))
+                .setContentIntent(pendingIntent)
                 .setPriority(NotificationCompat.PRIORITY_DEFAULT)
                 .setAutoCancel(true)
                 .build();

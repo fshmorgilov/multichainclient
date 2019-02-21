@@ -12,7 +12,7 @@ import retrofit2.converter.gson.GsonConverterFactory;
 
 public final class CatalogApi { // TODO: 1/16/2019 refactor to bean
 
-    private static final String url = "http://192.168.0.4:63000/catalog/";
+    private static final String url = "http://192.168.0.4:63000/";
 
     private static final int TIMEOUT_SECONDS = 2;
 

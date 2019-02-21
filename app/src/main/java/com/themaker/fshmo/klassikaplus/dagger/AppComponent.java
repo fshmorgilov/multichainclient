@@ -4,6 +4,7 @@ import android.app.Application;
 import com.themaker.fshmo.klassikaplus.dagger.module.ApplicationModule;
 import com.themaker.fshmo.klassikaplus.dagger.module.DataModule;
 import com.themaker.fshmo.klassikaplus.data.persistence.AppDatabase;
+import com.themaker.fshmo.klassikaplus.data.preferences.Preferences;
 import com.themaker.fshmo.klassikaplus.data.repositories.CatalogRepository;
 import com.themaker.fshmo.klassikaplus.data.web.catalog.CatalogApi;
 import com.themaker.fshmo.klassikaplus.presentation.novelties.NoveltyPresenter;
@@ -24,5 +25,7 @@ public interface AppComponent {
     void inject(RevisionRequestService service);
 
     void inject(NoveltyPresenter presenter);
+
+    void inject(Preferences preferences);
 
 }
