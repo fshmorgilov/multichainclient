@@ -18,15 +18,15 @@ import javax.inject.Singleton;
 public class DataModule {
 
     private static final String DATABASE_NAME = "klassikaplus.db";
-    AppDatabase db;
-    CatalogRepository catalogRepository;
-    CatalogApi catalogApi;
+//    AppDatabase db;
+//    CatalogRepository catalogRepository;
+//    CatalogApi catalogApi;
 
-    public DataModule(AppDatabase db, CatalogRepository catalogRepository, CatalogApi api) {
-        this.db = db;
-        this.catalogRepository = catalogRepository;
-        this.catalogApi = api;
-    }
+//    public DataModule(AppDatabase db, CatalogRepository catalogRepository, CatalogApi api) {
+//        this.db = db;
+//        this.catalogRepository = catalogRepository;
+//        this.catalogApi = api;
+//    }
 
     @NonNull
     @Provides

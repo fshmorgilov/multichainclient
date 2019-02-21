@@ -8,6 +8,6 @@ public interface RevisionEndpoint {
 
 
     @GET("revision/get_revision")
-    Single<ResponseDto> checkRevision();
+    ResponseDto checkRevision();
     // FIXME: 2/20/2019 переделать в ResponseDto
 }

@@ -10,8 +10,12 @@ import androidx.annotation.NonNull;
 import androidx.core.app.NotificationCompat;
 import androidx.work.Worker;
 import androidx.work.WorkerParameters;
+import com.themaker.fshmo.klassikaplus.App;
 import com.themaker.fshmo.klassikaplus.R;
 import com.themaker.fshmo.klassikaplus.data.web.catalog.CatalogApi;
+import io.reactivex.Scheduler;
+import io.reactivex.disposables.Disposable;
+import io.reactivex.schedulers.Schedulers;
 
 import javax.inject.Inject;
 import java.io.IOException;
@@ -29,18 +33,23 @@ public class RevisionRequestService extends Worker {
     private static final int notificationId = 123;
 
     private NotificationManager notificationManager;
+
     @Inject
     CatalogApi api;
 
     public RevisionRequestService(@NonNull Context context, @NonNull WorkerParameters workerParams) {
         super(context, workerParams);
         this.context = context;
+        App.getInstance().getComponent().inject(this);
     }
 
     @NonNull
     @Override
     public Result doWork() {
-        return null;
+        api.revision().checkRevision();
+
+        makeNotification();
+        return Result.retry();
     }
 
     private void makeNotification() {

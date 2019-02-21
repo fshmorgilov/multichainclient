@@ -11,7 +11,7 @@ import com.themaker.fshmo.klassikaplus.service.RevisionRequestService;
 
 import java.util.concurrent.TimeUnit;
 
-//import com.facebook.stetho.Stetho;
+import com.facebook.stetho.Stetho;
 
 public class App extends Application {
 
@@ -22,7 +22,7 @@ public class App extends Application {
     public void onCreate() {
         super.onCreate();
         APP_INSTANCE = this;
-//        Stetho.initializeWithDefaults(this);
+        Stetho.initializeWithDefaults(this);
         appComponent = DaggerAppComponent.builder()
                 .applicationModule(new ApplicationModule(this))
                 .dataModule(new DataModule())
