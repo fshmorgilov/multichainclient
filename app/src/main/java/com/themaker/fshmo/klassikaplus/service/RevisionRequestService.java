@@ -14,8 +14,6 @@ import com.themaker.fshmo.klassikaplus.App;
 import com.themaker.fshmo.klassikaplus.R;
 import com.themaker.fshmo.klassikaplus.data.preferences.Preferences;
 import com.themaker.fshmo.klassikaplus.data.web.catalog.CatalogApi;
-import com.themaker.fshmo.klassikaplus.data.web.dto.revision.ResponseDto;
-import retrofit2.Response;
 
 import javax.inject.Inject;
 import java.io.IOException;
@@ -50,7 +48,9 @@ public class RevisionRequestService extends Worker {
     public Result doWork() {
         try {
             Integer serverRevision = api.revision().checkRevision().execute().body().getData();
-            if (serverRevision != null && serverRevision >= preferences.getRevision()) {
+            if (serverRevision != null
+                    && !preferences.isFirstTimeAppLaunch()
+                    && serverRevision >= preferences.getRevision()) {
                 makeNotification();
                 preferences.updateRevision(serverRevision);
             }

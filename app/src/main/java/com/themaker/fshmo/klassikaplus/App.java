@@ -2,6 +2,7 @@ package com.themaker.fshmo.klassikaplus;
 
 import android.app.Application;
 import androidx.work.*;
+import com.facebook.stetho.Stetho;
 import com.themaker.fshmo.klassikaplus.dagger.AppComponent;
 import com.themaker.fshmo.klassikaplus.dagger.DaggerAppComponent;
 import com.themaker.fshmo.klassikaplus.dagger.module.ApplicationModule;
@@ -10,8 +11,6 @@ import com.themaker.fshmo.klassikaplus.service.NetworkUtils;
 import com.themaker.fshmo.klassikaplus.service.RevisionRequestService;
 
 import java.util.concurrent.TimeUnit;
-
-import com.facebook.stetho.Stetho;
 
 public class App extends Application {
 
@@ -40,6 +39,7 @@ public class App extends Application {
                 .setConstraints(constraints)
                 .addTag(RevisionRequestService.WORK_TAG)
                 .build();
+
         NetworkUtils.getInstance().getNotificationTapReceiver().setWorkRequestId(workRequest.getId());
         WorkManager.getInstance()
                 .enqueue(workRequest);

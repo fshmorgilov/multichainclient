@@ -37,4 +37,14 @@ public class Preferences {
     public Integer getRevision(){
         return sharedPreferences.getInt(KEY_REVISION,DEFAULT_REVISION);
     }
+
+    public void setFirstTimeAppLaunch(){
+        SharedPreferences.Editor editor = sharedPreferences.edit();
+        editor.putBoolean(KEY_FIRST_RUN, false);
+        editor.apply();
+    }
+
+    public boolean isFirstTimeAppLaunch(){
+        return sharedPreferences.getBoolean(KEY_FIRST_RUN, true);
+    }
 }
