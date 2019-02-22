@@ -19,12 +19,6 @@ public class DtoToDbItemMapper extends Mapping<ItemDto, DbItem> {
         dbItem.setBasePrice(itemDto.getBasePrice());
         dbItem.setDiscount(itemDto.getDiscount());
         dbItem.setPrice(itemDto.getPrice());
-//        dbItem.setPhotos
-        // TODO: 1/30/2019 Маппинг для галлереи
-//        dbItem.Discountable
-//        dbItem.setPublished(itemDto.getP);
-//        dbItem.setAnnotation(itemDto.geta);
-//        dbItem.setTitle(itemDto.getTit);
         return dbItem;
     }
 }

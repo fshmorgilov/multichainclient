@@ -5,7 +5,6 @@ import androidx.room.*;
 
 import java.util.List;
 
-// TODO: 1/30/2019 добавить галлерею
 @Entity(tableName = "items")
 public class DbItem {
 

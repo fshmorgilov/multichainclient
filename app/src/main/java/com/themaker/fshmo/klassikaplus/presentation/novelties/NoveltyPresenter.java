@@ -20,8 +20,6 @@ public class NoveltyPresenter extends MvpBasePresenter<NoveltyView> {
 
     private static final String TAG = NoveltyPresenter.class.getName();
 
-    // TODO: 2/7/2019 inject
-
     @Inject
     CatalogRepository repository;
 

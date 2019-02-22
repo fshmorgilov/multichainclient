@@ -19,7 +19,6 @@ import io.reactivex.schedulers.Schedulers;
 import javax.inject.Inject;
 import java.util.List;
 
-// TODO: 2/22/2019 Провести ревью, подправить
 public class CatalogRepository extends BaseRepository {
 
     private static final String TAG = CatalogRepository.class.getName();
