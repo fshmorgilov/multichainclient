@@ -19,6 +19,7 @@ import io.reactivex.schedulers.Schedulers;
 import javax.inject.Inject;
 import java.util.List;
 
+// TODO: 2/22/2019 Провести ревью, подправить
 public class CatalogRepository extends BaseRepository {
 
     private static final String TAG = CatalogRepository.class.getName();
@@ -31,7 +32,6 @@ public class CatalogRepository extends BaseRepository {
     private ListMapping<DbItem, Item> dbItemDomainMapper = new ListMapping<>(new DbToDomainMapper());
     private ListMapping<ItemDto, DbItem> itemDtoDbItemMapper = new ListMapping<>(new DtoToDbItemMapper());
 
-    private NoveltinessFilter noveltinessFilter = new NoveltinessFilter();
     private static CatalogRepository INSTANCE;
 
     public CatalogRepository() {
@@ -47,17 +47,11 @@ public class CatalogRepository extends BaseRepository {
         }
     }
 
-    // TODO: 1/30/2019 Переделать если будет более 100 элементов
     public Single<List<Item>> provideNoveltyData() {
         return getItemsFromApi()
+                // TODO: 2/22/2019 Dto to domain mapper
                 .map(itemDtoDbItemMapper::map)
                 .map(dbItemDomainMapper::map);
-//        return getItemsFromDb();
-//        Observable.concatArray(
-//                getItemsFromDb(),
-//                getItemsFromApi()
-//         TODO: 1/13/2019 concat array
-//        ).debounce(400, TimeUnit.MILLISECONDS);
     }
 
     private Single<List<ItemDto>> getItemsFromApi() {
@@ -69,7 +63,6 @@ public class CatalogRepository extends BaseRepository {
                     Log.i(TAG, "getItemsFromApi: storing users in DB");
                     storeItemsInDb(itemsFromApi);
                 })
-                // TODO: 1/30/2019 refactor to Flowable
                 .subscribeOn(Schedulers.io());
     }
 
@@ -79,6 +72,7 @@ public class CatalogRepository extends BaseRepository {
         Log.i(TAG, "storeItemsInDb: items store");
     }
 
+    // FIXME: 2/22/2019 Использовать сначала данные из кэша перед загрузкой с сервера
     private Single<List<Item>> getItemsFromDb() {
         return db.itemDao().getAll()
                 .map(dbItemDomainMapper::map)
