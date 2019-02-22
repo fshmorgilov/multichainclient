@@ -14,6 +14,7 @@ import com.themaker.fshmo.klassikaplus.App;
 import com.themaker.fshmo.klassikaplus.R;
 import com.themaker.fshmo.klassikaplus.data.preferences.Preferences;
 import com.themaker.fshmo.klassikaplus.data.web.catalog.CatalogApi;
+import com.themaker.fshmo.klassikaplus.presentation.root.MainActivity;
 
 import javax.inject.Inject;
 import java.io.IOException;
@@ -32,6 +33,7 @@ public class RevisionRequestService extends Worker {
     public static final int REQUEST_INTERVAL = 24;//hours
 
     private NotificationManager notificationManager;
+
 
     @Inject
     CatalogApi api;
@@ -63,9 +65,10 @@ public class RevisionRequestService extends Worker {
     }
 
     private void makeNotification() {
-        Intent notificationTapIntent = new Intent(context, NetworkUtils.NotificationTapReceiver.class);
+        Intent notificationTapIntent = new Intent(context, MainActivity.class);
         notificationTapIntent.setAction(ACTION_TAP);
-        PendingIntent pendingIntent = PendingIntent.getBroadcast(context, 0, notificationTapIntent, 0);
+        notificationTapIntent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP|Intent.FLAG_ACTIVITY_SINGLE_TOP);
+        PendingIntent pendingIntent = PendingIntent.getActivity(context, 0, notificationTapIntent, 0);
         Notification notification = new NotificationCompat.Builder(getApplicationContext(), "abcde")
                 .setSmallIcon(R.drawable.logo_main) // TODO: 2/20/2019 change icon
                 .setContentTitle(context.getString(R.string.collection_is_updated))
