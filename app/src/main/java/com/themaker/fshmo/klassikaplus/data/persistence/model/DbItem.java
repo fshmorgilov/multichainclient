@@ -44,7 +44,7 @@ public class DbItem {
     @ColumnInfo(name = "page_alias")
     private String pageAlias;
 
-    @ColumnInfo(name = "template") //todo шаблон отображения для сайта, возможно мне не нужен
+    @ColumnInfo(name = "template")
     private String template;
 
     @ColumnInfo(name = "menu_item_name")

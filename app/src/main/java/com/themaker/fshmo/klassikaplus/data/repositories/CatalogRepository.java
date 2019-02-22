@@ -16,25 +16,27 @@ import com.themaker.fshmo.klassikaplus.data.web.dto.catalog.ResponseDto;
 import io.reactivex.Single;
 import io.reactivex.schedulers.Schedulers;
 
+import javax.inject.Inject;
 import java.util.List;
 
 public class CatalogRepository extends BaseRepository {
 
     private static final String TAG = CatalogRepository.class.getName();
 
-    // FIXME: 2/21/2019 Refactor to inject
-    final AppDatabase db = AppDatabase.provideRoomDatabase(App.getInstance());
-    final CatalogApi api = CatalogApi.getInstance();
+    @Inject
+    AppDatabase db;
+    @Inject
+    CatalogApi api;
 
     private ListMapping<DbItem, Item> dbItemDomainMapper = new ListMapping<>(new DbToDomainMapper());
     private ListMapping<ItemDto, DbItem> itemDtoDbItemMapper = new ListMapping<>(new DtoToDbItemMapper());
 
     private NoveltinessFilter noveltinessFilter = new NoveltinessFilter();
-    // TODO: 1/31/2019 refactor to dagger
     private static CatalogRepository INSTANCE;
 
     public CatalogRepository() {
         INSTANCE = this;
+        App.getInstance().getComponent().inject(this);
     }
 
     public static CatalogRepository getInstance() {

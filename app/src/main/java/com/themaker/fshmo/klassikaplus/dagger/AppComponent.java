@@ -28,4 +28,6 @@ public interface AppComponent {
 
     void inject(Preferences preferences);
 
+    void inject(CatalogRepository repository);
+
 }
