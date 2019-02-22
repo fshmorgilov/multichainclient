@@ -1,6 +1,5 @@
 package com.themaker.fshmo.klassikaplus.presentation.root;
 
-import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
@@ -56,5 +55,6 @@ public class MainActivity extends MvpAppCompatActivity implements MainActivityVi
                 .replace(R.id.main_frame, WebItemFragment.newInstance(item))
                 .addToBackStack(WEBVIEW_TAG)
                 .commit();
+        // TODO: 2/21/2019 Снять mainActivity с backstack
     }
 }

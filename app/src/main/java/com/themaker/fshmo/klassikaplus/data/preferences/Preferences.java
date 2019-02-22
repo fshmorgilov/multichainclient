@@ -1,6 +1,7 @@
 package com.themaker.fshmo.klassikaplus.data.preferences;
 
 import android.content.SharedPreferences;
+import android.util.Log;
 import androidx.annotation.NonNull;
 import com.google.gson.Gson;
 import io.reactivex.subjects.PublishSubject;
@@ -19,6 +20,7 @@ public class Preferences {
     private static final String KEY_F_USER_ID = "F_USER_ID";
     private static final String KEY_REVISION = "REVISION";
     private static final int DEFAULT_REVISION = 1;
+    private static final String TAG = Preferences.class.getName();
 
 
     private final SharedPreferences sharedPreferences;
@@ -28,23 +30,28 @@ public class Preferences {
         sharedPreferences = preferences;
     }
 
-    public void updateRevision(@NonNull Integer revision){
+    public void updateRevision(@NonNull Integer revision) {
+        Log.i(TAG, "updateRevision: updating to: " + revision);
         SharedPreferences.Editor editor = sharedPreferences.edit();
         editor.putInt(KEY_REVISION, revision);
         editor.apply();
     }
 
-    public Integer getRevision(){
-        return sharedPreferences.getInt(KEY_REVISION,DEFAULT_REVISION);
+    public Integer getRevision() {
+        Integer rev = sharedPreferences.getInt(KEY_REVISION, DEFAULT_REVISION);
+        Log.i(TAG, "getRevision: current revision: " + rev);
+        return rev;
     }
 
-    public void setFirstTimeAppLaunch(){
+    public void setFirstTimeAppLaunch() {
+        Log.i(TAG, "setFirstTimeAppLaunch: disabling first launch features");
         SharedPreferences.Editor editor = sharedPreferences.edit();
         editor.putBoolean(KEY_FIRST_RUN, false);
         editor.apply();
     }
 
-    public boolean isFirstTimeAppLaunch(){
+    public boolean isFirstTimeAppLaunch() {
+        Log.i(TAG, "isFirstTimeAppLaunch: ");
         return sharedPreferences.getBoolean(KEY_FIRST_RUN, true);
     }
 }

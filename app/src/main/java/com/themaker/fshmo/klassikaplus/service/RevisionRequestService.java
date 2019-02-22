@@ -29,6 +29,7 @@ public class RevisionRequestService extends Worker {
 
     private static final String channelId = "KlassikaplusChannel";
     private static final int notificationId = 123;
+    public static final int REQUEST_INTERVAL = 24;//hours
 
     private NotificationManager notificationManager;
 
@@ -50,7 +51,7 @@ public class RevisionRequestService extends Worker {
             Integer serverRevision = api.revision().checkRevision().execute().body().getData();
             if (serverRevision != null
                     && !preferences.isFirstTimeAppLaunch()
-                    && serverRevision >= preferences.getRevision()) {
+                    && serverRevision > preferences.getRevision()) {
                 makeNotification();
                 preferences.updateRevision(serverRevision);
             }
@@ -66,12 +67,12 @@ public class RevisionRequestService extends Worker {
         notificationTapIntent.setAction(ACTION_TAP);
         PendingIntent pendingIntent = PendingIntent.getBroadcast(context, 0, notificationTapIntent, 0);
         Notification notification = new NotificationCompat.Builder(getApplicationContext(), "abcde")
-                .setSmallIcon(R.drawable.logo_main) // TODO: 2/20/2019 set icon
+                .setSmallIcon(R.drawable.logo_main) // TODO: 2/20/2019 change icon
                 .setContentTitle(context.getString(R.string.collection_is_updated))
                 .setContentIntent(pendingIntent)
                 .setPriority(NotificationCompat.PRIORITY_DEFAULT)
                 .setAutoCancel(true)
-                .build();
+                .build();// TODO: 2/21/2019 tap action does not work
         if (notificationManager == null)
             notificationManager = (NotificationManager) getApplicationContext().getSystemService(Context.NOTIFICATION_SERVICE);
         assert notificationManager != null;

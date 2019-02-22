@@ -29,20 +29,23 @@ public class App extends Application {
         performScheduledWork();
     }
 
-    private static void performScheduledWork(){
+    private static void performScheduledWork() {
         Constraints constraints = new Constraints.Builder()
                 .setRequiredNetworkType(NetworkType.CONNECTED)
                 .build();
-
-        WorkRequest workRequest = new PeriodicWorkRequest.Builder(RevisionRequestService.class, 24, TimeUnit.HOURS)
+        PeriodicWorkRequest workRequest = new PeriodicWorkRequest.Builder(
+                RevisionRequestService.class,
+                RevisionRequestService.REQUEST_INTERVAL,
+                TimeUnit.HOURS)
+                .addTag(RevisionRequestService.WORK_TAG)
                 .setBackoffCriteria(BackoffPolicy.EXPONENTIAL, 2, TimeUnit.HOURS)
                 .setConstraints(constraints)
-                .addTag(RevisionRequestService.WORK_TAG)
                 .build();
-
-        NetworkUtils.getInstance().getNotificationTapReceiver().setWorkRequestId(workRequest.getId());
+        NetworkUtils.getInstance()
+                .getNotificationTapReceiver()
+                .setWorkRequestId(workRequest.getId());
         WorkManager.getInstance()
-                .enqueue(workRequest);
+                .enqueueUniquePeriodicWork(RevisionRequestService.WORK_TAG, ExistingPeriodicWorkPolicy.KEEP, workRequest);
     }
 
     public static App getInstance() {
@@ -50,7 +53,7 @@ public class App extends Application {
     }
 
 
-    public AppComponent getComponent(){
+    public AppComponent getComponent() {
         return appComponent;
     }
 }

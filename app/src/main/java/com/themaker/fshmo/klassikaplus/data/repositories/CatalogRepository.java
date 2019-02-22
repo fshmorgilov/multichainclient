@@ -22,6 +22,7 @@ public class CatalogRepository extends BaseRepository {
 
     private static final String TAG = CatalogRepository.class.getName();
 
+    // FIXME: 2/21/2019 Refactor to inject
     final AppDatabase db = AppDatabase.provideRoomDatabase(App.getInstance());
     final CatalogApi api = CatalogApi.getInstance();
 

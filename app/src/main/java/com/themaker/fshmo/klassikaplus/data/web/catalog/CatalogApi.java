@@ -10,8 +10,9 @@ import retrofit2.Retrofit;
 import retrofit2.adapter.rxjava2.RxJava2CallAdapterFactory;
 import retrofit2.converter.gson.GsonConverterFactory;
 
-public final class CatalogApi { // TODO: 1/16/2019 refactor to bean
+public final class CatalogApi {
 
+    // FIXME: 2/21/2019 поправить IP адресс
     private static final String url = "http://192.168.0.4:63000/";
 
     private static final int TIMEOUT_SECONDS = 2;
