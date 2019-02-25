@@ -52,10 +52,14 @@ public class RevisionRequestService extends Worker {
         try {
             Integer serverRevision = api.revision().checkRevision().execute().body().getData();
             if (serverRevision != null
-                    && !preferences.isFirstTimeAppLaunch()
-                    && serverRevision > preferences.getRevision()) {
-                makeNotification();
-                preferences.updateRevision(serverRevision);
+                    && !preferences.isFirstTimeAppLaunch()) {
+                if (serverRevision > preferences.getRevision()) {
+                    makeNotification();
+                    preferences.updateRevision(serverRevision);
+                }
+                if (serverRevision < preferences.getRevision()) {
+                    preferences.updateRevision(serverRevision);
+                }
             }
             return Result.success();
         } catch (IOException e) {
@@ -67,7 +71,7 @@ public class RevisionRequestService extends Worker {
     private void makeNotification() {
         Intent notificationTapIntent = new Intent(context, MainActivity.class);
         notificationTapIntent.setAction(ACTION_TAP);
-        notificationTapIntent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP|Intent.FLAG_ACTIVITY_SINGLE_TOP);
+        notificationTapIntent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_SINGLE_TOP);
         PendingIntent pendingIntent = PendingIntent.getActivity(context, 0, notificationTapIntent, 0);
         Notification notification = new NotificationCompat.Builder(getApplicationContext(), "abcde")
                 .setSmallIcon(R.drawable.logo_main) // fixme: 2/20/2019 change icon
