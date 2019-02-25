@@ -13,7 +13,8 @@ import retrofit2.converter.gson.GsonConverterFactory;
 public final class CatalogApi {
 
     // FIXME: 2/21/2019 поправить IP адресс
-    private static final String url = "http://192.168.0.4:63000/";
+    private static final String url_dev = "http://192.168.0.4:63000/";
+    private static final String url_test = "https://klassikaplus-test.herokuapp.com/";
 
     private static final int TIMEOUT_SECONDS = 2;
 
@@ -41,7 +42,7 @@ public final class CatalogApi {
     @NonNull
     private Retrofit buildRetrofit() {
         return new Retrofit.Builder()
-                .baseUrl(url)
+                .baseUrl(url_test)
                 .addConverterFactory(GsonConverterFactory.create())
                 .client(client)
                 .addCallAdapterFactory(RxJava2CallAdapterFactory.create())

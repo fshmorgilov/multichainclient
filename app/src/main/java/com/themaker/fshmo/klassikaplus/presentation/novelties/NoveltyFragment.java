@@ -41,11 +41,11 @@ public class NoveltyFragment extends MvpBaseFragment implements NoveltyView {
 
     @Override
     protected void onPostCreateView() {
-
         super.onPostCreateView();
         glide = Glide.with(rootView);
         callback = (MainActivityCallback) getActivity();
         presenter.provideDataset();
+        // FIXME: 2/25/2019 do not rerequest on back pressed
 
         noveltyAdapter = new NoveltyAdapter(
                 dataset,
