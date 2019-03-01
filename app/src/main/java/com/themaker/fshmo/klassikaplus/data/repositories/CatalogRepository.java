@@ -13,11 +13,13 @@ import com.themaker.fshmo.klassikaplus.data.web.catalog.CatalogApi;
 import com.themaker.fshmo.klassikaplus.data.web.dto.catalog.DataDto;
 import com.themaker.fshmo.klassikaplus.data.web.dto.catalog.ItemDto;
 import com.themaker.fshmo.klassikaplus.data.web.dto.catalog.ResponseDto;
+import io.reactivex.Flowable;
 import io.reactivex.Single;
 import io.reactivex.schedulers.Schedulers;
 
 import javax.inject.Inject;
 import java.util.List;
+import java.util.concurrent.TimeUnit;
 
 public class CatalogRepository extends BaseRepository {
 
@@ -46,35 +48,36 @@ public class CatalogRepository extends BaseRepository {
         }
     }
 
-    public Single<List<Item>> provideNoveltyData() {
-        return getItemsFromApi()
-                // TODO: 2/22/2019 Dto to domain mapper
-                .map(itemDtoDbItemMapper::map)
-                .map(dbItemDomainMapper::map);
+    public Flowable<List<Item>> provideNoveltyData() {
+        return Flowable.concat(
+                getItemsFromApi()
+                        .map(itemDtoDbItemMapper::map)
+                        .map(dbItemDomainMapper::map),
+                getItemsFromDb())
+                .debounce(400, TimeUnit.MILLISECONDS);
     }
 
-    private Single<List<ItemDto>> getItemsFromApi() {
+    private Flowable<List<ItemDto>> getItemsFromApi() {
         return api.catalog()
                 .getNovelty()
                 .map(ResponseDto::getData)
                 .map(DataDto::getItems)
-                .doOnSuccess(itemsFromApi -> {
-                    Log.i(TAG, "getItemsFromApi: storing users in DB");
-                    storeItemsInDb(itemsFromApi);
-                })
+                .doOnSuccess(this::storeItemsInDb)
+                .toFlowable()
                 .subscribeOn(Schedulers.io());
     }
 
     private void storeItemsInDb(List<ItemDto> items) {
         List<DbItem> dbItems = itemDtoDbItemMapper.map(items);
         db.itemDao().insertAll(dbItems);
-        Log.i(TAG, "storeItemsInDb: items store");
+        Log.i(TAG, "storeItemsInDb: items stored");
     }
 
-    // FIXME: 2/22/2019 Использовать сначала данные из кэша перед загрузкой с сервера
-    private Single<List<Item>> getItemsFromDb() {
+    private Flowable<List<Item>> getItemsFromDb() {
         return db.itemDao().getAll()
                 .map(dbItemDomainMapper::map)
+                .doOnSuccess(items -> Log.i(TAG, "getItemsFromDb: getting items from db"))
+                .toFlowable()
                 .subscribeOn(Schedulers.io());
     }
 
