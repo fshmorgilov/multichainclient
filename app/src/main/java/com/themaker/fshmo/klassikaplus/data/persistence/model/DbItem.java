@@ -66,6 +66,9 @@ public class DbItem {
     @ColumnInfo(name = "icon")
     private String icon;
 
+    @ColumnInfo (name = "category")
+    private String category;
+
     //Characteristics
     @Ignore
     private String countryManufacturer; //Страна производитель
@@ -284,5 +287,13 @@ public class DbItem {
 
     public void setExtId(@NonNull String extId) {
         this.extId = extId;
+    }
+
+    public String getCategory() {
+        return category;
+    }
+
+    public void setCategory(String category) {
+        this.category = category;
     }
 }
