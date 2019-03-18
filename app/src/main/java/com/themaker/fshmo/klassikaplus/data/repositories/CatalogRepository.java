@@ -8,13 +8,11 @@ import com.themaker.fshmo.klassikaplus.data.mappers.DtoToDbItemMapper;
 import com.themaker.fshmo.klassikaplus.data.mappers.ListMapping;
 import com.themaker.fshmo.klassikaplus.data.persistence.AppDatabase;
 import com.themaker.fshmo.klassikaplus.data.persistence.model.DbItem;
-import com.themaker.fshmo.klassikaplus.data.repositories.filters.NoveltinessFilter;
 import com.themaker.fshmo.klassikaplus.data.web.catalog.CatalogApi;
 import com.themaker.fshmo.klassikaplus.data.web.dto.catalog.DataDto;
 import com.themaker.fshmo.klassikaplus.data.web.dto.catalog.ItemDto;
 import com.themaker.fshmo.klassikaplus.data.web.dto.catalog.ResponseDto;
 import io.reactivex.Flowable;
-import io.reactivex.Single;
 import io.reactivex.schedulers.Schedulers;
 
 import javax.inject.Inject;
@@ -50,14 +48,14 @@ public class CatalogRepository extends BaseRepository {
 
     public Flowable<List<Item>> provideNoveltyData() {
         return Flowable.concat(
-                getItemsFromApi()
+                getNoveltyItemsFromApi()
                         .map(itemDtoDbItemMapper::map)
                         .map(dbItemDomainMapper::map),
                 getItemsFromDb())
                 .debounce(400, TimeUnit.MILLISECONDS);
     }
 
-    private Flowable<List<ItemDto>> getItemsFromApi() {
+    private Flowable<List<ItemDto>> getNoveltyItemsFromApi() {
         return api.catalog()
                 .getNovelty()
                 .map(ResponseDto::getData)
