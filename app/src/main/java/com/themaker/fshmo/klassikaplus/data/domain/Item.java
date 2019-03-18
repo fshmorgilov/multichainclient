@@ -19,7 +19,7 @@ public class Item implements Serializable {
     private Double discount;
     private Boolean discountable;
     private Double price;
-    private ItemCategory category;
+    private String category;
 
     @Override
     public String toString() {
@@ -149,11 +149,11 @@ public class Item implements Serializable {
         this.extId = extId;
     }
 
-    public ItemCategory getCategory() {
+    public String getCategory() {
         return category;
     }
 
-    public void setCategory(ItemCategory category) {
+    public void setCategory(String category) {
         this.category = category;
     }
 }

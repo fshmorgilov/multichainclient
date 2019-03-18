@@ -40,6 +40,7 @@ dependencies {
     def room_version = "2.1.0-alpha02"
     def moxy_version = "1.5.5"
     def glide_version = "4.8.0"
+    def daggerVer = "2.20" // or latest version
 
     implementation fileTree(include: ['*.jar'], dir: 'libs')
     // AppCompan, RecycleView, CardView
@@ -67,11 +68,11 @@ dependencies {
     // RxJava support for Room
     implementation 'androidx.room:room-rxjava2:2.1.0-alpha03'
     /* Dagger2  */
-    implementation 'com.google.dagger:dagger-android:2.20'
-    implementation 'com.google.dagger:dagger-android-support:2.20'
-    annotationProcessor 'com.google.dagger:dagger-android-processor:2.20'
-    annotationProcessor 'com.google.dagger:dagger-compiler:2.20'
 
+    implementation "com.google.dagger:dagger:$daggerVer"
+    implementation "com.google.dagger:dagger-android-support:$daggerVer"
+    annotationProcessor "com.google.dagger:dagger-android-processor:$daggerVer"
+    annotationProcessor "com.google.dagger:dagger-compiler:$daggerVer"
     //ButterKnife
     implementation "com.jakewharton:butterknife:$butterknife_version"
     annotationProcessor "com.jakewharton:butterknife-compiler:$butterknife_version"
