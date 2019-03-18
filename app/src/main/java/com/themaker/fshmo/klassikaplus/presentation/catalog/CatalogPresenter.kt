@@ -5,6 +5,7 @@ import com.arellomobile.mvp.InjectViewState
 import com.arellomobile.mvp.MvpPresenter
 import com.themaker.fshmo.klassikaplus.App
 import com.themaker.fshmo.klassikaplus.data.domain.Item
+import com.themaker.fshmo.klassikaplus.data.domain.ItemCategory
 import com.themaker.fshmo.klassikaplus.data.repositories.CatalogRepository
 import com.themaker.fshmo.klassikaplus.presentation.common.State
 import io.reactivex.android.schedulers.AndroidSchedulers
@@ -13,14 +14,14 @@ import javax.inject.Inject
 @InjectViewState
 internal class CatalogPresenter : MvpPresenter<CatalogView>() {
 
-    private val TAG: String = "CatalogPresenter" //fixme classname in Kot?
+    private val TAG: String = javaClass.name
 
     @Inject
     private lateinit var repository: CatalogRepository
 
-    internal fun provideDataset() {
+    internal fun provideDataset(category: ItemCategory) {
         viewState.showState(State.Loading)
-        val subscribe = repository.provideNoveltyData()
+        val subscribe = repository.provideByCategoryData(category)
             .observeOn(AndroidSchedulers.mainThread())
             .subscribe(
                 this::displayData,
@@ -47,6 +48,5 @@ internal class CatalogPresenter : MvpPresenter<CatalogView>() {
     init {
         App.getInstance().component.inject(this)
     }
-
 
 }

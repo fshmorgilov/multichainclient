@@ -18,7 +18,7 @@ import com.themaker.fshmo.klassikaplus.presentation.web_item.WebItemFragment;
 import javax.inject.Inject;
 import java.util.List;
 
-public class MainActivity extends MvpAppCompatActivity implements MainActivityView, MainActivityCallback {
+public class MainActivity extends MvpAppCompatActivity implements MainActivityView, WebItemCallback {
 
     private static final String TAG = MainActivity.class.getName();
 

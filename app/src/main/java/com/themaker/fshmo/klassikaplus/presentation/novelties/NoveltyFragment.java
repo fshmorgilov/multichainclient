@@ -2,14 +2,11 @@ package com.themaker.fshmo.klassikaplus.presentation.novelties;
 
 import android.util.Log;
 import android.view.View;
-import android.view.ViewGroup;
 import android.widget.TextView;
 import androidx.annotation.NonNull;
-import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import butterknife.BindView;
-import butterknife.BindViews;
 import com.arellomobile.mvp.presenter.InjectPresenter;
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.RequestManager;
@@ -18,7 +15,7 @@ import com.themaker.fshmo.klassikaplus.data.domain.Item;
 import com.themaker.fshmo.klassikaplus.presentation.base.MvpBaseFragment;
 import com.themaker.fshmo.klassikaplus.presentation.common.State;
 import com.themaker.fshmo.klassikaplus.presentation.decoration.GridSpaceItemDecoration;
-import com.themaker.fshmo.klassikaplus.presentation.root.MainActivityCallback;
+import com.themaker.fshmo.klassikaplus.presentation.root.WebItemCallback;
 import io.reactivex.disposables.Disposable;
 
 import java.util.ArrayList;
@@ -35,7 +32,7 @@ public class NoveltyFragment extends MvpBaseFragment implements NoveltyView {
 
     @InjectPresenter
     NoveltyPresenter presenter;
-    MainActivityCallback callback;
+    WebItemCallback callback;
 
     private NoveltyAdapter noveltyAdapter;
 
@@ -43,7 +40,7 @@ public class NoveltyFragment extends MvpBaseFragment implements NoveltyView {
     protected void onPostCreateView() {
         super.onPostCreateView();
         glide = Glide.with(rootView);
-        callback = (MainActivityCallback) getActivity();
+        callback = (WebItemCallback) getActivity();
         presenter.provideDataset();
         // FIXME: 2/25/2019 do not rerequest on back pressed
 
