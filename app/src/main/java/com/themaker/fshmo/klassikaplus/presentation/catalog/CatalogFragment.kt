@@ -8,6 +8,7 @@ import com.bumptech.glide.Glide
 import com.bumptech.glide.RequestManager
 import com.themaker.fshmo.klassikaplus.R
 import com.themaker.fshmo.klassikaplus.data.domain.Item
+import com.themaker.fshmo.klassikaplus.data.domain.ItemCategory
 import com.themaker.fshmo.klassikaplus.presentation.base.MvpBaseFragment
 import com.themaker.fshmo.klassikaplus.presentation.common.State
 import com.themaker.fshmo.klassikaplus.presentation.decoration.GridSpaceItemDecoration
@@ -25,6 +26,8 @@ class CatalogFragment : MvpBaseFragment(), CatalogView {
     private val retryBtn = catalog_retry
     private val errorViewList = listOf<View>(textError, retryBtn)
 
+    private var currentCategory:ItemCategory = ItemCategory.ZHAKET
+
     @InjectPresenter
     private lateinit var presenter: CatalogPresenter
 
@@ -36,10 +39,12 @@ class CatalogFragment : MvpBaseFragment(), CatalogView {
 
     override fun onPostCreateView() {
         super.onPostCreateView()
+        presenter.provideDataset(currentCategory)
         with(recycler){
-            adapter = CatalogAdapter(glide, dataset, callback::launchItemWebViewFragment)
+            val catalogAdapter = CatalogAdapter(glide, dataset, callback::launchItemWebViewFragment)
+            catalogAdapter.setDataset(dataset)
+            adapter = catalogAdapter
             layoutManager = LinearLayoutManager(context)
-            setDataset(dataset)
             addItemDecoration(GridSpaceItemDecoration(1,1))
         }
     }
