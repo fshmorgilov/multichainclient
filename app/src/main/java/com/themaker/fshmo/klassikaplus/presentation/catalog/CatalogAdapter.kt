@@ -9,17 +9,15 @@ import com.bumptech.glide.RequestManager
 import com.themaker.fshmo.klassikaplus.R
 import com.themaker.fshmo.klassikaplus.data.domain.Item
 
-class CatalogAdapter(glide: RequestManager, items: MutableList<Item>, clickListener: OnItemClickListener) :
+class CatalogAdapter(glide: RequestManager, items: MutableList<Item>, clickListener : (Item) -> Unit) :
     RecyclerView.Adapter<CatalogViewHolder>() {
     private val dataset: MutableList<Item> = items
-    private val onItemClickListener: OnItemClickListener = clickListener
+    private val onItemClickListener = clickListener
     private val glide: RequestManager = glide
+
 
     private val TAG = CatalogAdapter::class.java.name
 
-    interface OnItemClickListener {
-        fun onItemClick(item: Item)
-    }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): CatalogViewHolder {
         val v = LayoutInflater.from(parent.context).inflate(R.layout.novelties, parent, false) as View
@@ -44,6 +42,5 @@ class CatalogAdapter(glide: RequestManager, items: MutableList<Item>, clickListe
         this.dataset.addAll(newsItems)
         notifyItemRangeInserted(currSize + 1, newsItems.size)
         Log.i(TAG, "Dataset changed. Added: " + newsItems.size + " items")
-
     }
 }
