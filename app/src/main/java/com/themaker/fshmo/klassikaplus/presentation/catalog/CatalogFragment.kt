@@ -1,7 +1,11 @@
 package com.themaker.fshmo.klassikaplus.presentation.catalog
 
 import android.util.Log
+import android.view.Menu
+import android.view.MenuInflater
+import android.view.MenuItem
 import android.view.View
+import androidx.appcompat.widget.Toolbar
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.arellomobile.mvp.presenter.InjectPresenter
 import com.bumptech.glide.Glide
@@ -25,8 +29,9 @@ class CatalogFragment : MvpBaseFragment(), CatalogView {
     private val textError = catalog_error
     private val retryBtn = catalog_retry
     private val errorViewList = listOf<View>(textError, retryBtn)
+    private val toolbar = catalog_toolbar as Toolbar
 
-    private var currentCategory:ItemCategory = ItemCategory.ZHAKET
+    private var currentCategory: ItemCategory = ItemCategory.ZHAKET
 
     @InjectPresenter
     private lateinit var presenter: CatalogPresenter
@@ -39,13 +44,31 @@ class CatalogFragment : MvpBaseFragment(), CatalogView {
 
     override fun onPostCreateView() {
         super.onPostCreateView()
+        configureToolbar(toolbar)
         presenter.provideDataset(currentCategory)
-        with(recycler){
+        with(recycler) {
             val catalogAdapter = CatalogAdapter(glide, dataset, callback::launchItemWebViewFragment)
             catalogAdapter.setDataset(dataset)
             adapter = catalogAdapter
             layoutManager = LinearLayoutManager(context)
-            addItemDecoration(GridSpaceItemDecoration(1,1))
+            addItemDecoration(GridSpaceItemDecoration(1, 1))
+        }
+    }
+
+    override fun configureToolbar(toolbar: Toolbar) {
+        super.configureToolbar(toolbar)
+        toolbar.title = currentCategory.name
+    }
+
+    override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
+        super.onCreateOptionsMenu(menu, inflater)
+        inflater.inflate(R.menu.catalog_menu, menu)
+    }
+
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+        when (item.itemId) {
+            R.id.category_selection -> { return true; TODO("open category selection") }
+            else -> {super.onOptionsItemSelected(item); return false}
         }
     }
 
@@ -67,15 +90,18 @@ class CatalogFragment : MvpBaseFragment(), CatalogView {
     override fun showState(state: State) {
         when (state) {
             State.HasData -> {
-                recycler.visibility =View.VISIBLE
+                recycler.visibility = View.VISIBLE
+                toolbar.visibility = View.VISIBLE
                 errorViewList.forEach { it.visibility = View.GONE }
             }
             State.Loading -> {
-                recycler.visibility =View.GONE
+                recycler.visibility = View.GONE
+                toolbar.visibility = View.VISIBLE
                 errorViewList.forEach { it.visibility = View.GONE }
             }
             State.NetworkError -> {
-                recycler.visibility =View.GONE
+                recycler.visibility = View.GONE
+                toolbar.visibility = View.GONE
                 errorViewList.forEach { it.visibility = View.VISIBLE }
             }
             else -> throw IllegalStateException()

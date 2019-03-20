@@ -5,4 +5,5 @@
     <string name="item_name_template">Костюм с юбкой Szanel Czerwony</string>
     <string name="collection_is_updated">Коллекция обновлена</string>
     <string name="refresh">Refresh</string>
+    <string name="category_selection">Выбор категории</string>
 </resources>
