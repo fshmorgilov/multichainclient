@@ -17,17 +17,18 @@ internal class CatalogPresenter : MvpPresenter<CatalogView>() {
     private val TAG: String = javaClass.name
 
     @Inject
-    private lateinit var repository: CatalogRepository
+    lateinit var repository: CatalogRepository
 
     internal fun provideDataset(category: ItemCategory) {
-        viewState.showState(State.Loading)
-        val subscribe = repository.provideByCategoryData(category)
-            .observeOn(AndroidSchedulers.mainThread())
-            .subscribe(
-                this::displayData,
-                this::displayError
-            )
-        viewState.addSub(subscribe)   // FIXME: 2/7/2019 возможно, не стоит
+//        viewState.showState(State.Loading)
+//        val subscribe = repository.provideByCategoryData(category)
+//            .observeOn(AndroidSchedulers.mainThread())
+//            .subscribe(
+//                this::displayData
+//                this::displayError
+//            )
+//        viewState.addSub(subscribe)   // FIXME: 2/7/2019 возможно, не стоит
+        viewState.setDataset(ArrayList())
     }
 
     private fun displayError(throwable: Throwable) {

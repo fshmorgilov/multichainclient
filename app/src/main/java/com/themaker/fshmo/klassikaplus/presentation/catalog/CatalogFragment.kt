@@ -1,5 +1,6 @@
 package com.themaker.fshmo.klassikaplus.presentation.catalog
 
+import android.os.Bundle
 import android.util.Log
 import android.view.Menu
 import android.view.MenuInflater
@@ -7,6 +8,7 @@ import android.view.MenuItem
 import android.view.View
 import androidx.appcompat.widget.Toolbar
 import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
 import com.arellomobile.mvp.presenter.InjectPresenter
 import com.bumptech.glide.Glide
 import com.bumptech.glide.RequestManager
@@ -24,19 +26,18 @@ class CatalogFragment : MvpBaseFragment(), CatalogView {
 
     private val TAG = javaClass.name
     private val dataset = ArrayList<Item>()
-    private val callback: WebItemCallback = activity as WebItemCallback
-    private val recycler = catalog_recycler
     private val textError = catalog_error
     private val retryBtn = catalog_retry
-    private val errorViewList = listOf<View>(textError, retryBtn)
-    private val toolbar = catalog_toolbar as Toolbar
+    private val toolbar = catalog_toolbar as Toolbar?
+    private lateinit var recycler: RecyclerView
+    private lateinit var callback: WebItemCallback
 
     private var currentCategory: ItemCategory = ItemCategory.ZHAKET
 
     @InjectPresenter
-    private lateinit var presenter: CatalogPresenter
+    internal lateinit var presenter: CatalogPresenter
 
-    private var glide: RequestManager = Glide.with(this)
+    private lateinit var glide: RequestManager
 
     override fun onBackPressed() {
         activity?.onBackPressed()
@@ -44,13 +45,21 @@ class CatalogFragment : MvpBaseFragment(), CatalogView {
 
     override fun onPostCreateView() {
         super.onPostCreateView()
-        configureToolbar(toolbar)
+        callback = activity as WebItemCallback
+        glide = Glide.with(this)
+//        configureToolbar(toolbar!!)
         presenter.provideDataset(currentCategory)
+
+    }
+
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+        recycler = view.findViewById(R.id.catalog_recycler)
         with(recycler) {
             val catalogAdapter = CatalogAdapter(glide, dataset, callback::launchItemWebViewFragment)
+            layoutManager = LinearLayoutManager(activity)
             catalogAdapter.setDataset(dataset)
             adapter = catalogAdapter
-            layoutManager = LinearLayoutManager(context)
             addItemDecoration(GridSpaceItemDecoration(1, 1))
         }
     }
@@ -67,8 +76,12 @@ class CatalogFragment : MvpBaseFragment(), CatalogView {
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         when (item.itemId) {
-            R.id.category_selection -> { return true; TODO("open category selection") }
-            else -> {super.onOptionsItemSelected(item); return false}
+            R.id.category_selection -> {
+                return true; TODO("open category selection")
+            }
+            else -> {
+                super.onOptionsItemSelected(item); return false
+            }
         }
     }
 
@@ -91,18 +104,21 @@ class CatalogFragment : MvpBaseFragment(), CatalogView {
         when (state) {
             State.HasData -> {
                 recycler.visibility = View.VISIBLE
-                toolbar.visibility = View.VISIBLE
-                errorViewList.forEach { it.visibility = View.GONE }
+                toolbar?.visibility = View.VISIBLE
+                textError.visibility = View.GONE
+                retryBtn.visibility = View.GONE
             }
             State.Loading -> {
                 recycler.visibility = View.GONE
-                toolbar.visibility = View.VISIBLE
-                errorViewList.forEach { it.visibility = View.GONE }
+                toolbar?.visibility = View.VISIBLE
+                textError.visibility = View.GONE
+                retryBtn.visibility = View.GONE
             }
             State.NetworkError -> {
                 recycler.visibility = View.GONE
-                toolbar.visibility = View.GONE
-                errorViewList.forEach { it.visibility = View.VISIBLE }
+                toolbar?.visibility = View.GONE
+                textError.visibility = View.VISIBLE
+                retryBtn.visibility = View.VISIBLE
             }
             else -> throw IllegalStateException()
         }

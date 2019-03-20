@@ -12,6 +12,7 @@ import com.themaker.fshmo.klassikaplus.R;
 import com.themaker.fshmo.klassikaplus.data.domain.Item;
 import com.themaker.fshmo.klassikaplus.data.preferences.Preferences;
 import com.themaker.fshmo.klassikaplus.presentation.base.MvpAppCompatActivity;
+import com.themaker.fshmo.klassikaplus.presentation.catalog.CatalogFragment;
 import com.themaker.fshmo.klassikaplus.presentation.novelties.NoveltyFragment;
 import com.themaker.fshmo.klassikaplus.presentation.web_item.WebItemFragment;
 
@@ -44,10 +45,15 @@ public class MainActivity extends MvpAppCompatActivity implements MainActivityVi
         super.onCreate(savedInstanceState);
         setContentView(R.layout.main_activity);
         preferences.setFirstTimeAppLaunch();
+//        getSupportFragmentManager().beginTransaction()
+//                .replace(R.id.main_frame, new NoveltyFragment())
+//                .addToBackStack(NOVELTY_TAG)
+//                .commit();
         getSupportFragmentManager().beginTransaction()
-                .replace(R.id.main_frame, new NoveltyFragment())
-                .addToBackStack(NOVELTY_TAG)
+                .replace(R.id.main_frame, new CatalogFragment())
+                .addToBackStack("Catalog")
                 .commit();
+        // FIXME: 20.03.2019 Edit
     }
 
     @Override

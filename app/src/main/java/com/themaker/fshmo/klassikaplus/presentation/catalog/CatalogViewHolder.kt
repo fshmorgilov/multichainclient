@@ -25,12 +25,12 @@ class CatalogViewHolder(v: View) : RecyclerView.ViewHolder(v) {
     fun bind(
         item: Item,
         glide: RequestManager,
-        onItemClickListener: CatalogAdapter.OnItemClickListener
+        onItemClickListener : (Item) -> Unit
     ) {
         price.text = item.price?.toString()
         name.text = item.name
         item.icon.let { glide.load(it).into(image) }
-        view.setOnClickListener { onItemClickListener.onItemClick(item) }
+        view.setOnClickListener { onItemClickListener(item) }
         Log.d(TAG, "Binded item: ${item.id}")
     }
 }
