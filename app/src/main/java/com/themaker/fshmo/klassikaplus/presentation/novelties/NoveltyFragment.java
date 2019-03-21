@@ -1,9 +1,13 @@
 package com.themaker.fshmo.klassikaplus.presentation.novelties;
 
 import android.util.Log;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.TextView;
 import androidx.annotation.NonNull;
+import androidx.appcompat.app.ActionBar;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.Toolbar;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import butterknife.BindView;
@@ -15,6 +19,7 @@ import com.themaker.fshmo.klassikaplus.data.domain.Item;
 import com.themaker.fshmo.klassikaplus.presentation.base.MvpBaseFragment;
 import com.themaker.fshmo.klassikaplus.presentation.common.State;
 import com.themaker.fshmo.klassikaplus.presentation.decoration.GridSpaceItemDecoration;
+import com.themaker.fshmo.klassikaplus.presentation.root.MainNaivgationCallback;
 import com.themaker.fshmo.klassikaplus.presentation.root.WebItemCallback;
 import io.reactivex.disposables.Disposable;
 
@@ -26,13 +31,15 @@ public class NoveltyFragment extends MvpBaseFragment implements NoveltyView {
     private static final String TAG = NoveltyFragment.class.getName();
     private List<Item> dataset = new ArrayList<>();
     private RequestManager glide;
+    private MainNaivgationCallback mainMenuCallback ;
+    private WebItemCallback webItemCallback;
 
     @BindView(R.id.novelty_recycler) RecyclerView recycler;
     @BindView(R.id.novelty_error) TextView error;
+    @BindView((R.id.novelty_toolbar)) Toolbar toolbar;
 
     @InjectPresenter
     NoveltyPresenter presenter;
-    WebItemCallback callback;
 
     private NoveltyAdapter noveltyAdapter;
 
@@ -40,16 +47,21 @@ public class NoveltyFragment extends MvpBaseFragment implements NoveltyView {
     protected void onPostCreateView() {
         super.onPostCreateView();
         glide = Glide.with(rootView);
-        callback = (WebItemCallback) getActivity();
+        webItemCallback = (WebItemCallback) getActivity();
+        mainMenuCallback = (MainNaivgationCallback) getActivity();
+        setupActionBar();
         presenter.provideDataset();
-        // FIXME: 2/25/2019 do not rerequest on back pressed
+        setupRecycler();
+    }
 
+    // FIXME: 2/25/2019 do not rerequest on back pressed
+    private void setupRecycler() {
         noveltyAdapter = new NoveltyAdapter(
                 dataset,
                 glide,
                 item -> {
                     Log.i(TAG, "onPostCreateView: item pressed: " + item.getId());
-                    callback.launchItemWebViewFragment(item);
+                    webItemCallback.launchItemWebViewFragment(item);
                 }
         );
         noveltyAdapter.setDataset(dataset);
@@ -57,6 +69,14 @@ public class NoveltyFragment extends MvpBaseFragment implements NoveltyView {
         recycler.setLayoutManager(new LinearLayoutManager(getActivity()));
         GridSpaceItemDecoration decoration = new GridSpaceItemDecoration(1, 1);
         recycler.addItemDecoration(decoration);
+    }
+
+    //TODO вынести в абстракнтый класс
+    private void setupActionBar() {
+        ((AppCompatActivity) getActivity()).setSupportActionBar(toolbar);
+        ActionBar actionBar = ((AppCompatActivity) getActivity()).getSupportActionBar();
+        actionBar.setDisplayHomeAsUpEnabled(true);
+        actionBar.setHomeAsUpIndicator(R.drawable.ic_menu);
     }
 
     @Override
@@ -67,7 +87,7 @@ public class NoveltyFragment extends MvpBaseFragment implements NoveltyView {
     @Override
     public void onDestroyView() {
         clearDataset();
-        callback = null;
+        webItemCallback = null;
         super.onDestroyView();
     }
 
@@ -95,20 +115,34 @@ public class NoveltyFragment extends MvpBaseFragment implements NoveltyView {
             case HasData: {
                 recycler.setVisibility(View.VISIBLE);
                 error.setVisibility(View.GONE);
+                toolbar.setVisibility(View.VISIBLE);
                 break;
             }
             case Loading: {
                 recycler.setVisibility(View.GONE);
                 error.setVisibility(View.GONE);
+                toolbar.setVisibility(View.VISIBLE);
                 break;
             }
             case NoData: {
                 recycler.setVisibility(View.GONE);
                 error.setVisibility(View.VISIBLE);
+                toolbar.setVisibility(View.VISIBLE);
                 break;
             }
         }
         // TODO: 2/7/2019 progress bar
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            case android.R.id.home:
+                Log.i(TAG, "onOptionsItemSelected: MainNavigation called");
+                mainMenuCallback.showMainNavigation();
+                return true;
+        }
+        return super.onOptionsItemSelected(item);
     }
 
     private void clearDataset() {

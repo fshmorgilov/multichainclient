@@ -5,6 +5,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import androidx.annotation.NonNull;
+import androidx.core.view.GravityCompat;
 import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.fragment.app.Fragment;
 import com.arellomobile.mvp.presenter.InjectPresenter;
@@ -15,21 +16,23 @@ import com.themaker.fshmo.klassikaplus.data.domain.Item;
 import com.themaker.fshmo.klassikaplus.data.preferences.Preferences;
 import com.themaker.fshmo.klassikaplus.presentation.base.MvpAppCompatActivity;
 import com.themaker.fshmo.klassikaplus.presentation.catalog.CatalogFragment;
+import com.themaker.fshmo.klassikaplus.presentation.novelties.NoveltyFragment;
 import com.themaker.fshmo.klassikaplus.presentation.web_item.WebItemFragment;
 
 import javax.inject.Inject;
 import java.util.List;
 
-public class MainActivity extends MvpAppCompatActivity implements MainActivityView, WebItemCallback {
+public class MainActivity extends MvpAppCompatActivity
+        implements MainActivityView, WebItemCallback, MainNaivgationCallback {
 
     private static final String TAG = MainActivity.class.getName();
 
     @Inject
     Preferences preferences;
-
-
     @InjectPresenter
     MainActivityPresenter presenter;
+
+    private DrawerLayout drawerLayout;
 
     private static final String WEBVIEW_TAG = "ItemWebView";
     private static final String NOVELTY_TAG = "NoveltyFragment";
@@ -46,23 +49,23 @@ public class MainActivity extends MvpAppCompatActivity implements MainActivityVi
         App.getInstance().getComponent().inject(this);
         super.onCreate(savedInstanceState);
         setContentView(R.layout.main_activity);
-        DrawerLayout drawerLayout = findViewById(R.id.main_base_view_group);
+        drawerLayout = findViewById(R.id.main_base_view_group);
         NavigationView navigationView = findViewById(R.id.main_navigation);
-        navigationView.setNavigationItemSelectedListener((menuItem) ->{
+        navigationView.setNavigationItemSelectedListener((menuItem) -> {
             menuItem.setChecked(true);
             drawerLayout.closeDrawers();
             return true;
         });
 
         preferences.setFirstTimeAppLaunch();
-//        getSupportFragmentManager().beginTransaction()
-//                .replace(R.id.main_frame, new NoveltyFragment())
-//                .addToBackStack(NOVELTY_TAG)
-//                .commit();
         getSupportFragmentManager().beginTransaction()
-                .replace(R.id.main_frame, new CatalogFragment())
-                .addToBackStack("Catalog")
+                .replace(R.id.main_frame, new NoveltyFragment())
+                .addToBackStack(NOVELTY_TAG)
                 .commit();
+//        getSupportFragmentManager().beginTransaction()
+//                .replace(R.id.main_frame, new CatalogFragment())
+//                .addToBackStack("Catalog")
+//                .commit();
         // FIXME: 20.03.2019 Edit
     }
 
@@ -90,5 +93,10 @@ public class MainActivity extends MvpAppCompatActivity implements MainActivityVi
                 .replace(R.id.main_frame, WebItemFragment.newInstance(item))
                 .addToBackStack(WEBVIEW_TAG)
                 .commit();
+    }
+
+    @Override
+    public void showMainNavigation() {
+        drawerLayout.openDrawer(GravityCompat.START);
     }
 }
