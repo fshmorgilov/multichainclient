@@ -6,4 +6,6 @@
     <string name="collection_is_updated">Коллекция обновлена</string>
     <string name="refresh">Refresh</string>
     <string name="category_selection">Выбор категории</string>
+    <string name="about">О компании</string>
+    <string name="catalog">Каталог</string>
 </resources>
