@@ -73,10 +73,14 @@ public class NoveltyFragment extends MvpBaseFragment implements NoveltyView {
 
     //TODO вынести в абстракнтый класс
     private void setupActionBar() {
-        ((AppCompatActivity) getActivity()).setSupportActionBar(toolbar);
-        ActionBar actionBar = ((AppCompatActivity) getActivity()).getSupportActionBar();
-        actionBar.setDisplayHomeAsUpEnabled(true);
-        actionBar.setHomeAsUpIndicator(R.drawable.ic_menu);
+        setHasOptionsMenu(true);
+        if (toolbar == null) Log.e(TAG, "setupActionBar: toolbar is null");
+        else {
+            ((AppCompatActivity) getActivity()).setSupportActionBar(toolbar);
+            ActionBar actionBar = ((AppCompatActivity) getActivity()).getSupportActionBar();
+            actionBar.setDisplayHomeAsUpEnabled(true);
+            actionBar.setHomeAsUpIndicator(R.drawable.ic_menu);
+        }
     }
 
     @Override
@@ -97,9 +101,7 @@ public class NoveltyFragment extends MvpBaseFragment implements NoveltyView {
 
     @Override
     public void setDataset(@NonNull List<Item> newsItems) {
-        if (!this.dataset.isEmpty()) {
-            clearDataset();
-        }
+        if (!this.dataset.isEmpty()) clearDataset();
         noveltyAdapter.setDataset(newsItems);
         noveltyAdapter.notifyItemRangeChanged(0, newsItems.size());
     }
@@ -137,10 +139,9 @@ public class NoveltyFragment extends MvpBaseFragment implements NoveltyView {
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
-            case android.R.id.home:
+            case R.id.home:
                 Log.i(TAG, "onOptionsItemSelected: MainNavigation called");
                 mainMenuCallback.showMainNavigation();
-                return true;
         }
         return super.onOptionsItemSelected(item);
     }

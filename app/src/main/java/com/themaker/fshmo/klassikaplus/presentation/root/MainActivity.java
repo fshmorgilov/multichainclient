@@ -98,5 +98,6 @@ public class MainActivity extends MvpAppCompatActivity
     @Override
     public void showMainNavigation() {
         drawerLayout.openDrawer(GravityCompat.START);
+        Log.d(TAG, "showMainNavigation: opening navigstion");
     }
 }
