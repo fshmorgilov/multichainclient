@@ -15,7 +15,7 @@ import com.themaker.fshmo.klassikaplus.R;
 import com.themaker.fshmo.klassikaplus.data.domain.Item;
 import com.themaker.fshmo.klassikaplus.presentation.base.MvpBaseFragment;
 import com.themaker.fshmo.klassikaplus.presentation.common.State;
-import com.themaker.fshmo.klassikaplus.presentation.root.MainNaivgationCallback;
+import com.themaker.fshmo.klassikaplus.presentation.root.MainNavigationCallback;
 
 public class WebItemFragment extends MvpBaseFragment {
 
@@ -23,7 +23,7 @@ public class WebItemFragment extends MvpBaseFragment {
     private static final String KEY_ID = "BundleKey";
 
     private Item item;
-    private MainNaivgationCallback mainMenuCallback = (MainNaivgationCallback) getActivity();
+    private MainNavigationCallback mainMenuCallback = (MainNavigationCallback) getActivity();
 
     @BindView(R.id.web_item_webview) WebView webView;
     @BindView(R.id.web_item_error) TextView error;

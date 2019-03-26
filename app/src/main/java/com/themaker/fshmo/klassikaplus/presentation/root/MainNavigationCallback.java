@@ -1,6 +1,6 @@
 package com.themaker.fshmo.klassikaplus.presentation.root;
 
-public interface MainNaivgationCallback {
+public interface MainNavigationCallback {
 
     void showMainNavigation();
 }

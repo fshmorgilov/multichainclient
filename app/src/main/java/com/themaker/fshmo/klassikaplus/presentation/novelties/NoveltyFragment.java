@@ -19,7 +19,7 @@ import com.themaker.fshmo.klassikaplus.data.domain.Item;
 import com.themaker.fshmo.klassikaplus.presentation.base.MvpBaseFragment;
 import com.themaker.fshmo.klassikaplus.presentation.common.State;
 import com.themaker.fshmo.klassikaplus.presentation.decoration.GridSpaceItemDecoration;
-import com.themaker.fshmo.klassikaplus.presentation.root.MainNaivgationCallback;
+import com.themaker.fshmo.klassikaplus.presentation.root.MainNavigationCallback;
 import com.themaker.fshmo.klassikaplus.presentation.root.WebItemCallback;
 import io.reactivex.disposables.Disposable;
 
@@ -31,7 +31,7 @@ public class NoveltyFragment extends MvpBaseFragment implements NoveltyView {
     private static final String TAG = NoveltyFragment.class.getName();
     private List<Item> dataset = new ArrayList<>();
     private RequestManager glide;
-    private MainNaivgationCallback mainMenuCallback ;
+    private MainNavigationCallback mainMenuCallback ;
     private WebItemCallback webItemCallback;
 
     @BindView(R.id.novelty_recycler) RecyclerView recycler;
@@ -48,7 +48,7 @@ public class NoveltyFragment extends MvpBaseFragment implements NoveltyView {
         super.onPostCreateView();
         glide = Glide.with(rootView);
         webItemCallback = (WebItemCallback) getActivity();
-        mainMenuCallback = (MainNaivgationCallback) getActivity();
+        mainMenuCallback = (MainNavigationCallback) getActivity();
         setupActionBar();
         presenter.provideDataset();
         setupRecycler();

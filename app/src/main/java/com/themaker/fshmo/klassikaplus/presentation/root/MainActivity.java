@@ -15,7 +15,6 @@ import com.themaker.fshmo.klassikaplus.R;
 import com.themaker.fshmo.klassikaplus.data.domain.Item;
 import com.themaker.fshmo.klassikaplus.data.preferences.Preferences;
 import com.themaker.fshmo.klassikaplus.presentation.base.MvpAppCompatActivity;
-import com.themaker.fshmo.klassikaplus.presentation.catalog.CatalogFragment;
 import com.themaker.fshmo.klassikaplus.presentation.novelties.NoveltyFragment;
 import com.themaker.fshmo.klassikaplus.presentation.web_item.WebItemFragment;
 
@@ -23,7 +22,7 @@ import javax.inject.Inject;
 import java.util.List;
 
 public class MainActivity extends MvpAppCompatActivity
-        implements MainActivityView, WebItemCallback, MainNaivgationCallback {
+        implements MainActivityView, WebItemCallback, MainNavigationCallback {
 
     private static final String TAG = MainActivity.class.getName();
 
@@ -97,6 +96,7 @@ public class MainActivity extends MvpAppCompatActivity
 
     @Override
     public void showMainNavigation() {
+        drawerLayout = findViewById(R.id.main_base_view_group);
         drawerLayout.openDrawer(GravityCompat.START);
         Log.d(TAG, "showMainNavigation: opening navigstion");
     }
