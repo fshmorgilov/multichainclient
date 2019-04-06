@@ -31,7 +31,7 @@ public class NoveltyFragment extends MvpBaseFragment implements NoveltyView {
     private static final String TAG = NoveltyFragment.class.getName();
     private List<Item> dataset = new ArrayList<>();
     private RequestManager glide;
-    private MainNavigationCallback mainMenuCallback ;
+    private MainNavigationCallback mainMenuCallback;
     private WebItemCallback webItemCallback;
 
     @BindView(R.id.novelty_recycler) RecyclerView recycler;
@@ -138,12 +138,15 @@ public class NoveltyFragment extends MvpBaseFragment implements NoveltyView {
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
+        // FIXME: 4/6/2019 Не работает
         switch (item.getItemId()) {
             case R.id.home:
-                Log.i(TAG, "onOptionsItemSelected: MainNavigation called");
+                Log.i(TAG, "onOptionsItemSelected: MainNavigation called"); //this is not printed out
                 mainMenuCallback.showMainNavigation();
+                return true;
+            default:
+                return super.onOptionsItemSelected(item);
         }
-        return super.onOptionsItemSelected(item);
     }
 
     private void clearDataset() {
