@@ -16,6 +16,7 @@ import com.themaker.fshmo.klassikaplus.R;
 import com.themaker.fshmo.klassikaplus.data.domain.Item;
 import com.themaker.fshmo.klassikaplus.data.preferences.Preferences;
 import com.themaker.fshmo.klassikaplus.presentation.base.MvpAppCompatActivity;
+import com.themaker.fshmo.klassikaplus.presentation.catalog.CatalogFragment;
 import com.themaker.fshmo.klassikaplus.presentation.novelties.NoveltyFragment;
 import com.themaker.fshmo.klassikaplus.presentation.web_item.WebItemFragment;
 
@@ -51,21 +52,12 @@ public class MainActivity extends MvpAppCompatActivity
         setContentView(R.layout.main_activity);
         drawerLayout = findViewById(R.id.main_base_view_group);
         NavigationView navigationView = findViewById(R.id.main_navigation);
-        navigationView.setNavigationItemSelectedListener((menuItem) -> {
-            menuItem.setChecked(true);
-            drawerLayout.closeDrawers();
-            return true;
-        });
-
+        navigationView.setNavigationItemSelectedListener(this::onNavigationItemSelected);
         preferences.setFirstTimeAppLaunch();
         getSupportFragmentManager().beginTransaction()
                 .replace(R.id.main_frame, new NoveltyFragment())
                 .addToBackStack(NOVELTY_TAG)
                 .commit();
-//        getSupportFragmentManager().beginTransaction()
-//                .replace(R.id.main_frame, new CatalogFragment())
-//                .addToBackStack("Catalog")
-//                .commit();
         // FIXME: 20.03.2019 Edit
     }
 
@@ -111,5 +103,28 @@ public class MainActivity extends MvpAppCompatActivity
         drawerLayout = findViewById(R.id.main_base_view_group);
         drawerLayout.openDrawer(GravityCompat.START);
         Log.d(TAG, "showMainNavigation: opening navigstion");
+    }
+
+    private boolean onNavigationItemSelected(MenuItem menuItem) {
+        menuItem.setChecked(true);
+        drawerLayout.closeDrawers();
+        switch (menuItem.getItemId()) {
+            case R.id.nav_catalog:
+                getSupportFragmentManager().beginTransaction()
+                        .replace(R.id.main_frame, new CatalogFragment())
+                        .addToBackStack("Catalog")
+                        .commit();
+                break;
+            case R.id.nav_about:
+                // TODO: 4/6/2019
+                break;
+            case R.id.nav_novelty:
+                getSupportFragmentManager().beginTransaction()
+                        .replace(R.id.main_frame, new NoveltyFragment())
+                        .addToBackStack(NOVELTY_TAG)
+                        .commit();
+                break;
+        }
+        return true;
     }
 }
