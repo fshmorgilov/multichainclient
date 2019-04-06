@@ -2,10 +2,10 @@ package com.themaker.fshmo.klassikaplus.presentation.catalog
 
 import android.os.Bundle
 import android.util.Log
-import android.view.Menu
-import android.view.MenuInflater
-import android.view.MenuItem
-import android.view.View
+import android.view.*
+import android.widget.TextView
+import androidx.appcompat.app.ActionBar
+import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.Toolbar
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
@@ -22,15 +22,15 @@ import com.themaker.fshmo.klassikaplus.presentation.root.MainNavigationCallback
 import com.themaker.fshmo.klassikaplus.presentation.root.WebItemCallback
 import io.reactivex.disposables.Disposable
 import kotlinx.android.synthetic.main.catalog_fragment.*
-import kotlinx.android.synthetic.main.main_activity.*
 
 class CatalogFragment : MvpBaseFragment(), CatalogView {
 
     private val TAG = javaClass.name
     private val dataset = ArrayList<Item>()
-    private val textError = catalog_error
-    private val retryBtn = catalog_retry
-    private val toolbar = catalog_toolbar as Toolbar?
+
+    private lateinit var textError: TextView
+    private lateinit var retryBtn: TextView
+    private lateinit var toolbar: Toolbar
     private lateinit var recycler: RecyclerView
     private lateinit var webItemCallback: WebItemCallback
     private lateinit var navigationCallback: MainNavigationCallback
@@ -49,15 +49,23 @@ class CatalogFragment : MvpBaseFragment(), CatalogView {
     override fun onPostCreateView() {
         super.onPostCreateView()
         webItemCallback = activity as WebItemCallback
+        toolbar = rootView.findViewById(R.id.catalog_toolbar)
+        recycler = rootView.findViewById(R.id.catalog_recycler)
         glide = Glide.with(this)
-//        configureToolbar(toolbar!!)
         presenter.provideDataset(currentCategory)
+        setupActionBar()
+    }
 
+    private fun setupActionBar() {
+        setHasOptionsMenu(true)
+        (activity as AppCompatActivity).setSupportActionBar(toolbar)
+        val actionBar: ActionBar? = (activity as AppCompatActivity).supportActionBar
+        actionBar?.setDisplayHomeAsUpEnabled(true)
+        actionBar?.setHomeAsUpIndicator(R.drawable.ic_menu)
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        recycler = view.findViewById(R.id.catalog_recycler)
         with(recycler) {
             val catalogAdapter = CatalogAdapter(glide, dataset, webItemCallback::launchItemWebViewFragment)
             layoutManager = LinearLayoutManager(activity)
@@ -65,11 +73,6 @@ class CatalogFragment : MvpBaseFragment(), CatalogView {
             adapter = catalogAdapter
             addItemDecoration(GridSpaceItemDecoration(1, 1))
         }
-    }
-
-    override fun configureToolbar(toolbar: Toolbar) {
-        super.configureToolbar(toolbar)
-        toolbar.title = currentCategory.name
     }
 
     override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
