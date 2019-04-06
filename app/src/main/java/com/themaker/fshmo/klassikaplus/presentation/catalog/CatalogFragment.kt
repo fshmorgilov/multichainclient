@@ -18,9 +18,11 @@ import com.themaker.fshmo.klassikaplus.data.domain.ItemCategory
 import com.themaker.fshmo.klassikaplus.presentation.base.MvpBaseFragment
 import com.themaker.fshmo.klassikaplus.presentation.common.State
 import com.themaker.fshmo.klassikaplus.presentation.decoration.GridSpaceItemDecoration
+import com.themaker.fshmo.klassikaplus.presentation.root.MainNavigationCallback
 import com.themaker.fshmo.klassikaplus.presentation.root.WebItemCallback
 import io.reactivex.disposables.Disposable
 import kotlinx.android.synthetic.main.catalog_fragment.*
+import kotlinx.android.synthetic.main.main_activity.*
 
 class CatalogFragment : MvpBaseFragment(), CatalogView {
 
@@ -30,7 +32,8 @@ class CatalogFragment : MvpBaseFragment(), CatalogView {
     private val retryBtn = catalog_retry
     private val toolbar = catalog_toolbar as Toolbar?
     private lateinit var recycler: RecyclerView
-    private lateinit var callback: WebItemCallback
+    private lateinit var webItemCallback: WebItemCallback
+    private lateinit var navigationCallback: MainNavigationCallback
 
     private var currentCategory: ItemCategory = ItemCategory.ZHAKET
 
@@ -45,7 +48,7 @@ class CatalogFragment : MvpBaseFragment(), CatalogView {
 
     override fun onPostCreateView() {
         super.onPostCreateView()
-        callback = activity as WebItemCallback
+        webItemCallback = activity as WebItemCallback
         glide = Glide.with(this)
 //        configureToolbar(toolbar!!)
         presenter.provideDataset(currentCategory)
@@ -56,7 +59,7 @@ class CatalogFragment : MvpBaseFragment(), CatalogView {
         super.onViewCreated(view, savedInstanceState)
         recycler = view.findViewById(R.id.catalog_recycler)
         with(recycler) {
-            val catalogAdapter = CatalogAdapter(glide, dataset, callback::launchItemWebViewFragment)
+            val catalogAdapter = CatalogAdapter(glide, dataset, webItemCallback::launchItemWebViewFragment)
             layoutManager = LinearLayoutManager(activity)
             catalogAdapter.setDataset(dataset)
             adapter = catalogAdapter
@@ -76,6 +79,10 @@ class CatalogFragment : MvpBaseFragment(), CatalogView {
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         when (item.itemId) {
+            android.R.id.home -> {
+                navigationCallback.showMainNavigation()
+                return true
+            }
             R.id.category_selection -> {
                 return true; TODO("open category selection")
             }
