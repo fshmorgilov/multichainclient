@@ -98,7 +98,8 @@ public class MainActivity extends MvpAppCompatActivity
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
-            case R.id.home:
+            case android.R.id.home:
+                Log.i(TAG, "onOptionsItemSelected: MainNavigation called"); //this is not printed out
                 return false;
             default:
                 return super.onOptionsItemSelected(item);
