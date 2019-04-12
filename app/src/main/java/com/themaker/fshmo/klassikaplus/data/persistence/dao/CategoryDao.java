@@ -19,6 +19,6 @@ public interface CategoryDao {
     Single<DbCategory> findById(Integer id);
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
-    void insertAll(List<DbCategory> categories);
+    void insertAll(List<DbCategory> category);
 
 }

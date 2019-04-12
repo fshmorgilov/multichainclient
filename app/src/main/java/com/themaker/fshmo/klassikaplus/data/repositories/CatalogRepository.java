@@ -3,10 +3,9 @@ package com.themaker.fshmo.klassikaplus.data.repositories;
 import android.util.Log;
 import com.themaker.fshmo.klassikaplus.App;
 import com.themaker.fshmo.klassikaplus.data.domain.Item;
-import com.themaker.fshmo.klassikaplus.data.mappers.DbToDomainItemMapper;
-import com.themaker.fshmo.klassikaplus.data.mappers.DtoToDbItemMapper;
-import com.themaker.fshmo.klassikaplus.data.mappers.ListMapping;
+import com.themaker.fshmo.klassikaplus.data.mappers.*;
 import com.themaker.fshmo.klassikaplus.data.persistence.AppDatabase;
+import com.themaker.fshmo.klassikaplus.data.persistence.model.DbCategory;
 import com.themaker.fshmo.klassikaplus.data.persistence.model.DbItem;
 import com.themaker.fshmo.klassikaplus.data.web.catalog.CatalogApi;
 import com.themaker.fshmo.klassikaplus.data.web.dto.catalog.items.DataDto;
@@ -29,8 +28,6 @@ public class CatalogRepository extends BaseRepository {
     @Inject
     CatalogApi api;
 
-    private ListMapping<DbItem, Item> dbItemDomainMapper = new ListMapping<>(new DbToDomainItemMapper());
-    private ListMapping<ItemDto, DbItem> itemDtoDbItemMapper = new ListMapping<>(new DtoToDbItemMapper());
 
     private static CatalogRepository INSTANCE;
 
@@ -48,6 +45,8 @@ public class CatalogRepository extends BaseRepository {
     }
 
     public Flowable<List<Item>> provideNoveltyData() {
+        ListMapping<DbItem, Item> dbItemDomainMapper = new ListMapping<>(new DbToDomainItemMapper());
+        ListMapping<ItemDto, DbItem> itemDtoDbItemMapper = new ListMapping<>(new DtoToDbItemMapper());
         return Flowable.concat(
                 getNoveltyItemsFromApi()
                         .map(itemDtoDbItemMapper::map)
@@ -57,12 +56,20 @@ public class CatalogRepository extends BaseRepository {
     }
 
     public Flowable<List<Item>> provideByCategoryData(Integer category) {
+        ListMapping<DbItem, Item> dbItemDomainMapper = new ListMapping<>(new DbToDomainItemMapper());
+        ListMapping<ItemDto, DbItem> itemDtoDbItemMapper = new ListMapping<>(new DtoToDbItemMapper());
         return Flowable.concat(
                 getItemsByCategory(category)
                         .map(itemDtoDbItemMapper::map)
                         .map(dbItemDomainMapper::map),
                 getItemsFromDbByCategory(category)
         );
+    }
+
+    public Flowable<List<DbCategory>> provideCategories() {
+        DtoToDbCategoryMapper mapper = new DtoToDbCategoryMapper();
+        return getCategoriesFromApi()
+                .map(mapper::map);
     }
 
     private Flowable<List<ItemDto>> getNoveltyItemsFromApi() {
@@ -85,23 +92,38 @@ public class CatalogRepository extends BaseRepository {
                 .subscribeOn(Schedulers.io());
     }
 
+    private Flowable<Map<Integer, String>> getCategoriesFromApi() {
+        return api.catalog()
+                .getCategories()
+                .map(com.themaker.fshmo.klassikaplus.data.web.dto.catalog.categories.ResponseDto::getData)
+                .map(com.themaker.fshmo.klassikaplus.data.web.dto.catalog.categories.DataDto::getItems)
+                .doOnSuccess(this::storeCategoriesInDb)
+                .toFlowable()
+                .subscribeOn(Schedulers.io());
+    }
+
     private void storeItemsInDb(List<ItemDto> items) {
+        ListMapping<ItemDto, DbItem> itemDtoDbItemMapper = new ListMapping<>(new DtoToDbItemMapper());
         List<DbItem> dbItems = itemDtoDbItemMapper.map(items);
         db.itemDao().insertAll(dbItems);
         Log.i(TAG, "storeItemsInDb: items stored");
     }
 
-    private void storeCategoriesInDb(Map<Integer, String> categories){
-
+    private void storeCategoriesInDb(Map<Integer, String> categories) {
+        DtoToDbCategoryMapper mapper = new DtoToDbCategoryMapper();
+        db.categoryDao().insertAll(mapper.map(categories));
+        Log.i(TAG, "storeCategoriesInDb: Number of categories stored: " + categories.keySet().size());
     }
 
     private Flowable<List<Item>> getItemsFromDbByNovelty() {
+        ListMapping<DbItem, Item> dbItemDomainMapper = new ListMapping<>(new DbToDomainItemMapper());
         return db.itemDao().getByNovelty(true)
                 .map(dbItemDomainMapper::map)
                 .subscribeOn(Schedulers.io());
     }
 
     private Flowable<List<Item>> getItemsFromDbByCategory(Integer categoryId) {
+        ListMapping<DbItem, Item> dbItemDomainMapper = new ListMapping<>(new DbToDomainItemMapper());
         return db.itemDao().getByCategory(categoryId)
                 .map(dbItemDomainMapper::map)
                 .subscribeOn(Schedulers.io());
