@@ -10,14 +10,13 @@ import com.themaker.fshmo.klassikaplus.data.mappers.ListMapping;
 import com.themaker.fshmo.klassikaplus.data.persistence.AppDatabase;
 import com.themaker.fshmo.klassikaplus.data.persistence.model.DbItem;
 import com.themaker.fshmo.klassikaplus.data.web.catalog.CatalogApi;
-import com.themaker.fshmo.klassikaplus.data.web.dto.catalog.DataDto;
-import com.themaker.fshmo.klassikaplus.data.web.dto.catalog.ItemDto;
-import com.themaker.fshmo.klassikaplus.data.web.dto.catalog.ResponseDto;
+import com.themaker.fshmo.klassikaplus.data.web.dto.catalog.items.DataDto;
+import com.themaker.fshmo.klassikaplus.data.web.dto.catalog.items.ItemDto;
+import com.themaker.fshmo.klassikaplus.data.web.dto.catalog.items.ResponseDto;
 import io.reactivex.Flowable;
 import io.reactivex.schedulers.Schedulers;
 
 import javax.inject.Inject;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.TimeUnit;
 

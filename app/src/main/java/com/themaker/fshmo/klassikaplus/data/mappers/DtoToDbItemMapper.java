@@ -2,7 +2,7 @@ package com.themaker.fshmo.klassikaplus.data.mappers;
 
 import androidx.annotation.NonNull;
 import com.themaker.fshmo.klassikaplus.data.persistence.model.DbItem;
-import com.themaker.fshmo.klassikaplus.data.web.dto.catalog.ItemDto;
+import com.themaker.fshmo.klassikaplus.data.web.dto.catalog.items.ItemDto;
 
 public class DtoToDbItemMapper extends Mapping<ItemDto, DbItem> {
     @Override

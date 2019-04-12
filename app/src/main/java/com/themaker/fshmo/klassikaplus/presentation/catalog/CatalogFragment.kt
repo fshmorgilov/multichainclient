@@ -60,8 +60,10 @@ class CatalogFragment : MvpBaseFragment(), CatalogView {
         setHasOptionsMenu(true)
         (activity as AppCompatActivity).setSupportActionBar(toolbar)
         val actionBar: ActionBar? = (activity as AppCompatActivity).supportActionBar
-        actionBar?.setDisplayHomeAsUpEnabled(true)
-        actionBar?.setHomeAsUpIndicator(R.drawable.ic_menu)
+        with(actionBar) {
+            this?.setDisplayHomeAsUpEnabled(true)
+            this?.setHomeAsUpIndicator(R.drawable.ic_menu)
+        }
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
@@ -87,6 +89,7 @@ class CatalogFragment : MvpBaseFragment(), CatalogView {
                 return true
             }
             R.id.category_selection -> {
+
                 return true; TODO("open category selection")
             }
             else -> {
