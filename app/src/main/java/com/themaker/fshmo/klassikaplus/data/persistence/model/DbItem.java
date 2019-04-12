@@ -67,7 +67,7 @@ public class DbItem {
     private String icon;
 
     @ColumnInfo (name = "category")
-    private String category;
+    private Integer category;
 
     //Characteristics
     @Ignore
@@ -289,11 +289,11 @@ public class DbItem {
         this.extId = extId;
     }
 
-    public String getCategory() {
+    public Integer getCategory() {
         return category;
     }
 
-    public void setCategory(String category) {
+    public void setCategory(Integer category) {
         this.category = category;
     }
 }

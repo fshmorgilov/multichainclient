@@ -3,8 +3,7 @@ package com.themaker.fshmo.klassikaplus.data.repositories;
 import android.util.Log;
 import com.themaker.fshmo.klassikaplus.App;
 import com.themaker.fshmo.klassikaplus.data.domain.Item;
-import com.themaker.fshmo.klassikaplus.data.domain.ItemCategory;
-import com.themaker.fshmo.klassikaplus.data.mappers.DbToDomainMapper;
+import com.themaker.fshmo.klassikaplus.data.mappers.DbToDomainItemMapper;
 import com.themaker.fshmo.klassikaplus.data.mappers.DtoToDbItemMapper;
 import com.themaker.fshmo.klassikaplus.data.mappers.ListMapping;
 import com.themaker.fshmo.klassikaplus.data.persistence.AppDatabase;
@@ -18,6 +17,7 @@ import io.reactivex.schedulers.Schedulers;
 
 import javax.inject.Inject;
 import java.util.List;
+import java.util.Map;
 import java.util.concurrent.TimeUnit;
 
 public class CatalogRepository extends BaseRepository {
@@ -29,7 +29,7 @@ public class CatalogRepository extends BaseRepository {
     @Inject
     CatalogApi api;
 
-    private ListMapping<DbItem, Item> dbItemDomainMapper = new ListMapping<>(new DbToDomainMapper());
+    private ListMapping<DbItem, Item> dbItemDomainMapper = new ListMapping<>(new DbToDomainItemMapper());
     private ListMapping<ItemDto, DbItem> itemDtoDbItemMapper = new ListMapping<>(new DtoToDbItemMapper());
 
     private static CatalogRepository INSTANCE;
@@ -56,7 +56,7 @@ public class CatalogRepository extends BaseRepository {
                 .debounce(400, TimeUnit.MILLISECONDS);
     }
 
-    public Flowable<List<Item>> provideByCategoryData(ItemCategory category) {
+    public Flowable<List<Item>> provideByCategoryData(Integer category) {
         return Flowable.concat(
                 getItemsByCategory(category)
                         .map(itemDtoDbItemMapper::map)
@@ -75,7 +75,7 @@ public class CatalogRepository extends BaseRepository {
                 .subscribeOn(Schedulers.io());
     }
 
-    private Flowable<List<ItemDto>> getItemsByCategory(ItemCategory category) {
+    private Flowable<List<ItemDto>> getItemsByCategory(Integer category) {
         return api.catalog()
                 .getItemsByCategory(category)
                 .map(ResponseDto::getData)
@@ -91,17 +91,19 @@ public class CatalogRepository extends BaseRepository {
         Log.i(TAG, "storeItemsInDb: items stored");
     }
 
+    private void storeCategoriesInDb(Map<Integer, String> categories){
+
+    }
+
     private Flowable<List<Item>> getItemsFromDbByNovelty() {
         return db.itemDao().getByNovelty(true)
                 .map(dbItemDomainMapper::map)
                 .subscribeOn(Schedulers.io());
     }
 
-    private Flowable<List<Item>> getItemsFromDbByCategory(ItemCategory category) {
-        return db.itemDao().getByCategory(String.valueOf(category))
+    private Flowable<List<Item>> getItemsFromDbByCategory(Integer categoryId) {
+        return db.itemDao().getByCategory(categoryId)
                 .map(dbItemDomainMapper::map)
                 .subscribeOn(Schedulers.io());
     }
-
-
 }

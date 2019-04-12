@@ -3,7 +3,7 @@ package com.themaker.fshmo.klassikaplus.data.mappers
 import com.themaker.fshmo.klassikaplus.data.domain.Item
 import com.themaker.fshmo.klassikaplus.data.web.dto.catalog.items.ItemDto
 
-class DtoToDomainMapper : Mapping<ItemDto, Item>() {
+class DtoToDomainItemMapper : Mapping<ItemDto, Item>() {
     override fun map(itemDto: ItemDto?): Item {
         return Item().apply {
             id = itemDto?.id
