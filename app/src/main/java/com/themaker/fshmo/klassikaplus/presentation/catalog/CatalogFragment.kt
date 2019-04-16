@@ -35,7 +35,7 @@ class CatalogFragment : MvpBaseFragment(), CatalogView {
     private lateinit var webItemCallback: WebItemCallback
     private lateinit var navigationCallback: MainNavigationCallback
 
-    private var currentCategory: ItemCategory = ItemCategory.ZHAKET
+    private var currentCategory: Int = 1
 
     @InjectPresenter
     internal lateinit var presenter: CatalogPresenter
@@ -51,6 +51,8 @@ class CatalogFragment : MvpBaseFragment(), CatalogView {
         webItemCallback = activity as WebItemCallback
         toolbar = rootView.findViewById(R.id.catalog_toolbar)
         recycler = rootView.findViewById(R.id.catalog_recycler)
+        textError = rootView.findViewById(R.id.catalog_error)
+        retryBtn = rootView.findViewById(R.id.catalog_retry)
         glide = Glide.with(this)
         presenter.provideDataset(currentCategory)
         setupActionBar()
@@ -135,7 +137,6 @@ class CatalogFragment : MvpBaseFragment(), CatalogView {
             }
             else -> throw IllegalStateException()
         }
-        super.showState(state)
     }
 
     override fun addSub(subscription: Disposable) {

@@ -28,7 +28,6 @@ public class CatalogRepository extends BaseRepository {
     @Inject
     CatalogApi api;
 
-
     private static CatalogRepository INSTANCE;
 
     public CatalogRepository() {
@@ -62,14 +61,14 @@ public class CatalogRepository extends BaseRepository {
                 getItemsByCategory(category)
                         .map(itemDtoDbItemMapper::map)
                         .map(dbItemDomainMapper::map),
-                getItemsFromDbByCategory(category)
-        );
+                getItemsFromDbByCategory(category))
+                .debounce(400, TimeUnit.MILLISECONDS);
     }
 
     public Flowable<List<DbCategory>> provideCategories() {
-        DtoToDbCategoryMapper mapper = new DtoToDbCategoryMapper();
+        DtoToDbCategoryMapper dtoToDbCategoryMapper = new DtoToDbCategoryMapper();
         return getCategoriesFromApi()
-                .map(mapper::map);
+                .map(dtoToDbCategoryMapper::map);
     }
 
     private Flowable<List<ItemDto>> getNoveltyItemsFromApi() {

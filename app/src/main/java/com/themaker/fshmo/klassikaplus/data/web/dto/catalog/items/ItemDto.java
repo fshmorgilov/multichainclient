@@ -52,7 +52,10 @@ public class ItemDto implements Serializable {
     private List<PhotoDto> photos = null;
     @SerializedName("category")
     @Expose
-    private Integer category;
+    private String category;
+    @SerializedName("categoryId")
+    @Expose
+    private Integer categoryId;
 
     private final static long serialVersionUID = 4022723505261094500L;
 
@@ -168,11 +171,19 @@ public class ItemDto implements Serializable {
         this.photos = photos;
     }
 
-    public Integer getCategory() {
+    public String getCategory() {
         return category;
     }
 
-    public void setCategory(Integer category) {
+    public void setCategory(String category) {
         this.category = category;
+    }
+
+    public Integer getCategoryId() {
+        return categoryId;
+    }
+
+    public void setCategoryId(Integer categoryId) {
+        this.categoryId = categoryId;
     }
 }

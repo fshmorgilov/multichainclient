@@ -12,7 +12,7 @@ public interface CatalogEndpoint {
     Single<ResponseDto> getNovelty();
 
     @GET("catalog/{categoryId}") //todo category
-    Single<ResponseDto> getItemsByCategory(@Path("category") Integer category);
+    Single<ResponseDto> getItemsByCategory(@Path("categoryId") Integer category);
 
     @GET("catalog/get_categories")
     Single<com.themaker.fshmo.klassikaplus.data.web.dto.catalog.categories.ResponseDto> getCategories();

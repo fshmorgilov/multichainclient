@@ -18,6 +18,7 @@ class DtoToDomainItemMapper : Mapping<ItemDto, Item>() {
             discount = itemDto?.discount?.toDouble()
             price = itemDto?.price
             category = itemDto?.category
+            categoryId = itemDto?.categoryId
         }
     }
 }

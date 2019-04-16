@@ -19,21 +19,21 @@ internal class CatalogPresenter : MvpPresenter<CatalogView>() {
     @Inject
     lateinit var repository: CatalogRepository
 
-    internal fun provideDataset(category: ItemCategory) {
-//        viewState.showState(State.Loading)
-//        val subscribe = repository.provideByCategoryData(category)
-//            .observeOn(AndroidSchedulers.mainThread())
-//            .subscribe(
-//                this::displayData
-//                this::displayError
-//            )
-//        viewState.addSub(subscribe)   // FIXME: 2/7/2019 возможно, не стоит
+    internal fun provideDataset(categoryId:Int){
+        viewState.showState(State.Loading)
+        val subscribe = repository.provideByCategoryData(categoryId)
+            .observeOn(AndroidSchedulers.mainThread())
+            .subscribe(
+                this::displayData,
+                this::displayError
+            )
+        viewState.addSub(subscribe)   // FIXME: 2/7/2019 возможно, не стоит
         viewState.setDataset(ArrayList())
     }
 
     private fun displayError(throwable: Throwable) {
         logError(throwable)
-        viewState.showState(State.NoData)
+        viewState.showState(State.NetworkError)
     }
 
     private fun logError(throwable: Throwable) {

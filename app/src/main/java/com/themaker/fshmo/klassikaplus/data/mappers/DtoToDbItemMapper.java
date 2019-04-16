@@ -20,6 +20,7 @@ public class DtoToDbItemMapper extends Mapping<ItemDto, DbItem> {
         dbItem.setDiscount(itemDto.getDiscount());
         dbItem.setPrice(itemDto.getPrice());
         dbItem.setCategory(itemDto.getCategory());
+        dbItem.setCategoryId(itemDto.getCategoryId());
         return dbItem;
     }
 }
