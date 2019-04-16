@@ -35,7 +35,7 @@ class CatalogFragment : MvpBaseFragment(), CatalogView {
     private lateinit var webItemCallback: WebItemCallback
     private lateinit var navigationCallback: MainNavigationCallback
 
-    private var currentCategory: Int = 1
+    private var currentCategory: Int = 2
 
     @InjectPresenter
     internal lateinit var presenter: CatalogPresenter

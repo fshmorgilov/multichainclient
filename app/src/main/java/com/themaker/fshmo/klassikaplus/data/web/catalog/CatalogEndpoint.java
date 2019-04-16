@@ -8,10 +8,10 @@ import retrofit2.http.Path;
 
 public interface CatalogEndpoint {
 
-    @GET("catalog/novelties")
+    @GET("catalog/holder_item")
     Single<ResponseDto> getNovelty();
 
-    @GET("catalog/{categoryId}") //todo category
+    @GET("catalog/{categoryId}")
     Single<ResponseDto> getItemsByCategory(@Path("categoryId") Integer category);
 
     @GET("catalog/get_categories")

@@ -37,7 +37,7 @@ internal class CatalogPresenter : MvpPresenter<CatalogView>() {
     }
 
     private fun logError(throwable: Throwable) {
-        Log.e(TAG, "logError: error in dataset" + throwable.message)
+        Log.e(TAG, "logError: error in dataset: " + throwable.message)
     }
 
     private fun displayData(items: List<Item>) {

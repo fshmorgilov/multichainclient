@@ -57,12 +57,15 @@ public class CatalogRepository extends BaseRepository {
     public Flowable<List<Item>> provideByCategoryData(Integer category) {
         ListMapping<DbItem, Item> dbItemDomainMapper = new ListMapping<>(new DbToDomainItemMapper());
         ListMapping<ItemDto, DbItem> itemDtoDbItemMapper = new ListMapping<>(new DtoToDbItemMapper());
-        return Flowable.concat(
-                getItemsByCategory(category)
-                        .map(itemDtoDbItemMapper::map)
-                        .map(dbItemDomainMapper::map),
-                getItemsFromDbByCategory(category))
-                .debounce(400, TimeUnit.MILLISECONDS);
+//        return Flowable.concat(
+//                getItemsByCategory(category)
+//                        .map(itemDtoDbItemMapper::map)
+//                        .map(dbItemDomainMapper::map),
+//                getItemsFromDbByCategory(category))
+//                .debounce(400, TimeUnit.MILLISECONDS);
+        return getItemsByCategory(category)
+                .map(itemDtoDbItemMapper::map)
+                .map(dbItemDomainMapper::map);
     }
 
     public Flowable<List<DbCategory>> provideCategories() {
@@ -72,6 +75,7 @@ public class CatalogRepository extends BaseRepository {
     }
 
     private Flowable<List<ItemDto>> getNoveltyItemsFromApi() {
+        Log.i(TAG, "getNoveltyItemsFromApi: Requested holder_item");
         return api.catalog()
                 .getNovelty()
                 .map(ResponseDto::getData)
@@ -82,6 +86,7 @@ public class CatalogRepository extends BaseRepository {
     }
 
     private Flowable<List<ItemDto>> getItemsByCategory(Integer category) {
+        Log.i(TAG, "getItemsByCategory: Requested items by category: " + category);
         return api.catalog()
                 .getItemsByCategory(category)
                 .map(ResponseDto::getData)
@@ -105,7 +110,7 @@ public class CatalogRepository extends BaseRepository {
         ListMapping<ItemDto, DbItem> itemDtoDbItemMapper = new ListMapping<>(new DtoToDbItemMapper());
         List<DbItem> dbItems = itemDtoDbItemMapper.map(items);
         db.itemDao().insertAll(dbItems);
-        Log.i(TAG, "storeItemsInDb: items stored");
+        Log.i(TAG, "storeItemsInDb: items stored " + items.size());
     }
 
     private void storeCategoriesInDb(Map<Integer, String> categories) {
