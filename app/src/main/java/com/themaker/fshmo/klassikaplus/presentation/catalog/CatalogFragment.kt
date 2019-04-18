@@ -101,9 +101,9 @@ class CatalogFragment : MvpBaseFragment(), CatalogView {
                 context?.let {
                     var dialog = AlertDialog.Builder(it)
                     dialog.setTitle(getString(R.string.choose_category))
-                        .setPositiveButton(R.string.ok, {dialog, which ->  })
-                        .setNegativeButton(R.string.cancel, {dialog, which ->  })
-                        .setItems()
+                        .setPositiveButton(R.string.ok) { dialog, which -> TODO()}
+                        .setNegativeButton(R.string.cancel) { dialog, which -> TODO()}
+                        .setItems(categories.toStr,{})
                 }
                 return true;
             }
@@ -150,6 +150,10 @@ class CatalogFragment : MvpBaseFragment(), CatalogView {
             }
             else -> throw IllegalStateException()
         }
+    }
+
+    override fun setCategories(categories: List<ItemCategory>) {
+        this.categories = categories
     }
 
     override fun addSub(subscription: Disposable) {

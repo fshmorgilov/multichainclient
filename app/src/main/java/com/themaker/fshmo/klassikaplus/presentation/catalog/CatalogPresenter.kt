@@ -5,7 +5,6 @@ import com.arellomobile.mvp.InjectViewState
 import com.arellomobile.mvp.MvpPresenter
 import com.themaker.fshmo.klassikaplus.App
 import com.themaker.fshmo.klassikaplus.data.domain.Item
-import com.themaker.fshmo.klassikaplus.data.domain.ItemCategory
 import com.themaker.fshmo.klassikaplus.data.persistence.model.DbCategory
 import com.themaker.fshmo.klassikaplus.data.repositories.CatalogRepository
 import com.themaker.fshmo.klassikaplus.presentation.common.State
@@ -34,16 +33,20 @@ internal class CatalogPresenter : MvpPresenter<CatalogView>() {
         viewState.setDataset(ArrayList())
     }
 
-    internal fun provideCategories(){
+    internal fun provideCategories() {
         if (categoryList.isEmpty()) {
-            var disposable = repository.provideCategories()
+            val disposable = repository.provideCategories()
                 .observeOn(AndroidSchedulers.mainThread())
-                .subscribe({})
+                .subscribe(
+                    { categories -> viewState.setCategories(categories) },
+                    { t: Throwable? -> displayError(throwable = t) }
+                )
+            viewState.addSub(disposable)
         }
     }
 
-    private fun displayError(throwable: Throwable) {
-        logError(throwable)
+    private fun displayError(throwable: Throwable?) {
+        throwable?.let { logError(it) }
         viewState.showState(State.NetworkError)
     }
 
