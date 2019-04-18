@@ -3,6 +3,7 @@ package com.themaker.fshmo.klassikaplus.data.repositories;
 import android.util.Log;
 import com.themaker.fshmo.klassikaplus.App;
 import com.themaker.fshmo.klassikaplus.data.domain.Item;
+import com.themaker.fshmo.klassikaplus.data.domain.ItemCategory;
 import com.themaker.fshmo.klassikaplus.data.mappers.*;
 import com.themaker.fshmo.klassikaplus.data.persistence.AppDatabase;
 import com.themaker.fshmo.klassikaplus.data.persistence.model.DbCategory;
@@ -68,10 +69,13 @@ public class CatalogRepository extends BaseRepository {
                 .map(dbItemDomainMapper::map);
     }
 
-    public Flowable<List<DbCategory>> provideCategories() {
+    public Flowable<List<ItemCategory>> provideCategories() {
         DtoToDbCategoryMapper dtoToDbCategoryMapper = new DtoToDbCategoryMapper();
+        DbToDomainCategoryMapper dbToDomainCategoryMapper = new DbToDomainCategoryMapper();
+        ListMapping<DbCategory, ItemCategory> dbToDomainCategoryListMapping = new ListMapping<>(dbToDomainCategoryMapper);
         return getCategoriesFromApi()
-                .map(dtoToDbCategoryMapper::map);
+                .map(dtoToDbCategoryMapper::map)
+                .map(dbToDomainCategoryListMapping::map);
     }
 
     private Flowable<List<ItemDto>> getNoveltyItemsFromApi() {

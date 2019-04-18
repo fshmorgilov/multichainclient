@@ -6,6 +6,7 @@ import com.arellomobile.mvp.MvpPresenter
 import com.themaker.fshmo.klassikaplus.App
 import com.themaker.fshmo.klassikaplus.data.domain.Item
 import com.themaker.fshmo.klassikaplus.data.domain.ItemCategory
+import com.themaker.fshmo.klassikaplus.data.persistence.model.DbCategory
 import com.themaker.fshmo.klassikaplus.data.repositories.CatalogRepository
 import com.themaker.fshmo.klassikaplus.presentation.common.State
 import io.reactivex.android.schedulers.AndroidSchedulers
@@ -19,7 +20,9 @@ internal class CatalogPresenter : MvpPresenter<CatalogView>() {
     @Inject
     lateinit var repository: CatalogRepository
 
-    internal fun provideDataset(categoryId:Int){
+    lateinit var categoryList: List<DbCategory>
+
+    internal fun provideDataset(categoryId: Int) {
         viewState.showState(State.Loading)
         val subscribe = repository.provideByCategoryData(categoryId)
             .observeOn(AndroidSchedulers.mainThread())
@@ -29,6 +32,14 @@ internal class CatalogPresenter : MvpPresenter<CatalogView>() {
             )
         viewState.addSub(subscribe)   // FIXME: 2/7/2019 возможно, не стоит
         viewState.setDataset(ArrayList())
+    }
+
+    internal fun provideCategories(){
+        if (categoryList.isEmpty()) {
+            var disposable = repository.provideCategories()
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe({})
+        }
     }
 
     private fun displayError(throwable: Throwable) {

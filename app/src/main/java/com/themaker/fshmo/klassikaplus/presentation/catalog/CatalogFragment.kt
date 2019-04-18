@@ -5,6 +5,7 @@ import android.util.Log
 import android.view.*
 import android.widget.TextView
 import androidx.appcompat.app.ActionBar
+import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.Toolbar
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -32,9 +33,11 @@ class CatalogFragment : MvpBaseFragment(), CatalogView {
     private lateinit var retryBtn: TextView
     private lateinit var toolbar: Toolbar
     private lateinit var recycler: RecyclerView
+
     private lateinit var webItemCallback: WebItemCallback
     private lateinit var navigationCallback: MainNavigationCallback
 
+    private var categories: List<> = ArrayList()
     private var currentCategory: Int = 2
 
     @InjectPresenter
@@ -56,6 +59,7 @@ class CatalogFragment : MvpBaseFragment(), CatalogView {
         navigationCallback = activity as MainNavigationCallback
         glide = Glide.with(this)
         presenter.provideDataset(currentCategory)
+        presenter.provideCategories()
         setupActionBar()
     }
 
@@ -93,8 +97,15 @@ class CatalogFragment : MvpBaseFragment(), CatalogView {
                 return true
             }
             R.id.category_selection -> {
-
-                return true; TODO("open category selection")
+                //fixme перенести во фрагмент
+                context?.let {
+                    var dialog = AlertDialog.Builder(it)
+                    dialog.setTitle(getString(R.string.choose_category))
+                        .setPositiveButton(R.string.ok, {dialog, which ->  })
+                        .setNegativeButton(R.string.cancel, {dialog, which ->  })
+                        .setItems()
+                }
+                return true;
             }
             else -> {
                 super.onOptionsItemSelected(item); return false
@@ -121,19 +132,19 @@ class CatalogFragment : MvpBaseFragment(), CatalogView {
         when (state) {
             State.HasData -> {
                 recycler.visibility = View.VISIBLE
-                toolbar?.visibility = View.VISIBLE
+                toolbar.visibility = View.VISIBLE
                 textError.visibility = View.GONE
                 retryBtn.visibility = View.GONE
             }
             State.Loading -> {
                 recycler.visibility = View.GONE
-                toolbar?.visibility = View.VISIBLE
+                toolbar.visibility = View.VISIBLE
                 textError.visibility = View.GONE
                 retryBtn.visibility = View.GONE
             }
             State.NetworkError -> {
                 recycler.visibility = View.GONE
-                toolbar?.visibility = View.GONE
+                toolbar.visibility = View.GONE
                 textError.visibility = View.VISIBLE
                 retryBtn.visibility = View.VISIBLE
             }
