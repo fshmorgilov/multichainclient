@@ -53,6 +53,7 @@ class CatalogFragment : MvpBaseFragment(), CatalogView {
         recycler = rootView.findViewById(R.id.catalog_recycler)
         textError = rootView.findViewById(R.id.catalog_error)
         retryBtn = rootView.findViewById(R.id.catalog_retry)
+        navigationCallback = activity as MainNavigationCallback
         glide = Glide.with(this)
         presenter.provideDataset(currentCategory)
         setupActionBar()
@@ -62,6 +63,7 @@ class CatalogFragment : MvpBaseFragment(), CatalogView {
         setHasOptionsMenu(true)
         (activity as AppCompatActivity).setSupportActionBar(toolbar)
         val actionBar: ActionBar? = (activity as AppCompatActivity).supportActionBar
+        toolbar.title = rootView.resources.getString(R.string.catalog)
         with(actionBar) {
             this?.setDisplayHomeAsUpEnabled(true)
             this?.setHomeAsUpIndicator(R.drawable.ic_menu)

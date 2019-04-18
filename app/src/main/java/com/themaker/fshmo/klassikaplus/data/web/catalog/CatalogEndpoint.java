@@ -8,7 +8,7 @@ import retrofit2.http.Path;
 
 public interface CatalogEndpoint {
 
-    @GET("catalog/holder_item")
+    @GET("catalog/novelties/")
     Single<ResponseDto> getNovelty();
 
     @GET("catalog/{categoryId}")

@@ -1,19 +1,22 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
-             android:orientation="vertical"
-             android:layout_width="match_parent"
-             android:layout_height="match_parent"
-             android:fitsSystemWindows="true"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+                android:orientation="vertical"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:fitsSystemWindows="true"
         >
 
-    <include layout="@layout/small_toolbar"
+    <include
+            layout="@layout/small_toolbar"
             android:id="@+id/catalog_toolbar"
             />
 
     <TextView
             android:id="@+id/catalog_error"
             android:text="@string/novelty_error_no_date"
+            android:layout_marginTop="@dimen/common_margin"
             android:layout_width="match_parent"
+            android:layout_below="@id/catalog_toolbar"
             android:layout_height="match_parent"
             android:visibility="gone"
             />
@@ -21,6 +24,10 @@
     <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:gravity="center"
+            android:layout_below="@id/catalog_error"
+            android:background="@color/colorAccent"
+            android:textColor="@color/true_white"
             android:id="@+id/catalog_retry"
             android:text="@string/refresh"
             android:visibility="gone"
@@ -29,9 +36,10 @@
     <androidx.recyclerview.widget.RecyclerView
             xmlns:tools="http://schemas.android.com/tools"
             android:id="@+id/catalog_recycler"
+            android:layout_below="@id/catalog_toolbar"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             tools:listItem="@layout/novelty"
             />
 
-</FrameLayout>
+</RelativeLayout>
