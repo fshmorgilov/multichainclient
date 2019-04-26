@@ -1,5 +1,6 @@
 package com.themaker.fshmo.klassikaplus.presentation.catalog
 
+import android.content.DialogInterface
 import android.os.Bundle
 import android.util.Log
 import android.view.*
@@ -37,7 +38,7 @@ class CatalogFragment : MvpBaseFragment(), CatalogView {
     private lateinit var webItemCallback: WebItemCallback
     private lateinit var navigationCallback: MainNavigationCallback
 
-    private var categories: List<> = ArrayList()
+    private var categories: List<ItemCategory> = ArrayList()
     private var currentCategory: Int = 2
 
     @InjectPresenter
@@ -97,15 +98,26 @@ class CatalogFragment : MvpBaseFragment(), CatalogView {
                 return true
             }
             R.id.category_selection -> {
-                //fixme перенести во фрагмент
+                //TODO перенести во фрагмент
+                val categoriesNames = categories.map { it.name }
+                var selectedCategory: Int? = currentCategory
                 context?.let {
-                    var dialog = AlertDialog.Builder(it)
+                    val dialog = AlertDialog.Builder(it)
                     dialog.setTitle(getString(R.string.choose_category))
-                        .setPositiveButton(R.string.ok) { dialog, which -> TODO()}
-                        .setNegativeButton(R.string.cancel) { dialog, which -> TODO()}
-                        .setItems(categories.toStr,{})
+                        .setItems(categoriesNames.toTypedArray()) { dialog: DialogInterface?, which: Int ->
+                            selectedCategory =
+                                categories.find { category -> category.name == categoriesNames[which] }?.id
+                            Log.i(TAG, "Selected category: $selectedCategory")
+                        }
+                        .setPositiveButton(R.string.ok) { dialog, which ->
+                            currentCategory = selectedCategory!!
+                                presenter.provideDataset(currentCategory)
+                        }
+                        .setNegativeButton(R.string.cancel) { dialog, which -> dialog.dismiss() }
+                        .create()
+                        .show()
                 }
-                return true;
+                return true
             }
             else -> {
                 super.onOptionsItemSelected(item); return false

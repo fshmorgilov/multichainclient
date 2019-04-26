@@ -23,6 +23,7 @@ internal class CatalogPresenter : MvpPresenter<CatalogView>() {
 
     internal fun provideDataset(categoryId: Int) {
         viewState.showState(State.Loading)
+        Log.i(TAG, "providing data for category")
         val subscribe = repository.provideByCategoryData(categoryId)
             .observeOn(AndroidSchedulers.mainThread())
             .subscribe(
