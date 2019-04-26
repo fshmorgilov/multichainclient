@@ -17,7 +17,7 @@ import java.util.List;
 public class NoveltyPresenter extends MvpBasePresenter<NoveltyView> {
 
     private static final String TAG = NoveltyPresenter.class.getName();
-
+    // TODO: 4/26/2019 Refactor to holdData
     @Inject
     CatalogRepository repository;
 

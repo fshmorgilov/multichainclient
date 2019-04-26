@@ -5,7 +5,6 @@ import android.view.View
 import android.widget.ImageView
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
-import butterknife.ButterKnife
 import com.bumptech.glide.RequestManager
 import com.themaker.fshmo.klassikaplus.R
 import com.themaker.fshmo.klassikaplus.data.domain.Item

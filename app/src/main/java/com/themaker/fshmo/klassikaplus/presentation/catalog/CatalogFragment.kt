@@ -23,7 +23,6 @@ import com.themaker.fshmo.klassikaplus.presentation.decoration.GridSpaceItemDeco
 import com.themaker.fshmo.klassikaplus.presentation.root.MainNavigationCallback
 import com.themaker.fshmo.klassikaplus.presentation.root.WebItemCallback
 import io.reactivex.disposables.Disposable
-import kotlinx.android.synthetic.main.catalog_fragment.*
 
 class CatalogFragment : MvpBaseFragment(), CatalogView {
 
@@ -39,7 +38,7 @@ class CatalogFragment : MvpBaseFragment(), CatalogView {
     private lateinit var navigationCallback: MainNavigationCallback
 
     private var categories: List<ItemCategory> = ArrayList()
-    private var currentCategory: Int = 2
+    private var currentCategoryId: Int = 2
 
     @InjectPresenter
     internal lateinit var presenter: CatalogPresenter
@@ -59,7 +58,7 @@ class CatalogFragment : MvpBaseFragment(), CatalogView {
         retryBtn = rootView.findViewById(R.id.catalog_retry)
         navigationCallback = activity as MainNavigationCallback
         glide = Glide.with(this)
-        presenter.provideDataset(currentCategory)
+        presenter.provideDataset(currentCategoryId)
         presenter.provideCategories()
         setupActionBar()
     }
@@ -100,7 +99,7 @@ class CatalogFragment : MvpBaseFragment(), CatalogView {
             R.id.category_selection -> {
                 //TODO перенести во фрагмент
                 val categoriesNames = categories.map { it.name }
-                var selectedCategory: Int? = currentCategory
+                var selectedCategory: Int? = currentCategoryId
                 context?.let {
                     val dialog = AlertDialog.Builder(it)
                     dialog.setTitle(getString(R.string.choose_category))
@@ -110,8 +109,8 @@ class CatalogFragment : MvpBaseFragment(), CatalogView {
                             Log.i(TAG, "Selected category: $selectedCategory")
                         }
                         .setPositiveButton(R.string.ok) { dialog, which ->
-                            currentCategory = selectedCategory!!
-                                presenter.provideDataset(currentCategory)
+                            currentCategoryId = selectedCategory!!
+                                presenter.provideDataset(currentCategoryId)
                         }
                         .setNegativeButton(R.string.cancel) { dialog, which -> dialog.dismiss() }
                         .create()

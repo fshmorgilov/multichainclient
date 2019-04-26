@@ -15,9 +15,7 @@ class CatalogAdapter(glide: RequestManager, items: MutableList<Item>, clickListe
     private val onItemClickListener = clickListener
     private val glide: RequestManager = glide
 
-
     private val TAG = CatalogAdapter::class.java.name
-
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): CatalogViewHolder {
         val v = LayoutInflater.from(parent.context).inflate(R.layout.novelties, parent, false) as View

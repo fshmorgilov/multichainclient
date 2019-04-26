@@ -5,7 +5,7 @@ import com.arellomobile.mvp.InjectViewState
 import com.arellomobile.mvp.MvpPresenter
 import com.themaker.fshmo.klassikaplus.App
 import com.themaker.fshmo.klassikaplus.data.domain.Item
-import com.themaker.fshmo.klassikaplus.data.persistence.model.DbCategory
+import com.themaker.fshmo.klassikaplus.data.domain.ItemCategory
 import com.themaker.fshmo.klassikaplus.data.repositories.CatalogRepository
 import com.themaker.fshmo.klassikaplus.presentation.common.State
 import io.reactivex.android.schedulers.AndroidSchedulers
@@ -19,19 +19,24 @@ internal class CatalogPresenter : MvpPresenter<CatalogView>() {
     @Inject
     lateinit var repository: CatalogRepository
 
-    lateinit var categoryList: List<DbCategory>
+    private var categoryList: List<ItemCategory> = ArrayList()
+    private var itemList: List<Item> = ArrayList()
+    private var currentCategoryId = 2
 
     internal fun provideDataset(categoryId: Int) {
+        Log.i(TAG, "providing data for category: $categoryId")
         viewState.showState(State.Loading)
-        Log.i(TAG, "providing data for category")
-        val subscribe = repository.provideByCategoryData(categoryId)
-            .observeOn(AndroidSchedulers.mainThread())
-            .subscribe(
-                this::displayData,
-                this::displayError
-            )
-        viewState.addSub(subscribe)   // FIXME: 2/7/2019 возможно, не стоит
-        viewState.setDataset(ArrayList())
+        if (currentCategoryId == categoryId && categoryList.isNotEmpty())
+            displayData(itemList)
+        else {
+            val subscribe = repository.provideByCategoryData(categoryId)
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(
+                    this::displayData,
+                    this::displayError
+                )
+            viewState.addSub(subscribe)   // FIXME: 2/7/2019 возможно, не стоит
+        }
     }
 
     internal fun provideCategories() {
@@ -43,6 +48,8 @@ internal class CatalogPresenter : MvpPresenter<CatalogView>() {
                     { t: Throwable? -> displayError(throwable = t) }
                 )
             viewState.addSub(disposable)
+        } else {
+            viewState.setCategories(categoryList)
         }
     }
 
@@ -56,9 +63,10 @@ internal class CatalogPresenter : MvpPresenter<CatalogView>() {
     }
 
     private fun displayData(items: List<Item>) {
+        itemList = items
         Log.i(TAG, "provideDataset: # of items: " + items.size)
-        viewState.showState(State.HasData)
         viewState.setDataset(items)
+        viewState.showState(State.HasData)
     }
 
     init {
