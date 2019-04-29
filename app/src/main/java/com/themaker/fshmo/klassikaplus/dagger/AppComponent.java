@@ -7,6 +7,7 @@ import com.themaker.fshmo.klassikaplus.data.persistence.AppDatabase;
 import com.themaker.fshmo.klassikaplus.data.preferences.Preferences;
 import com.themaker.fshmo.klassikaplus.data.repositories.CatalogRepository;
 import com.themaker.fshmo.klassikaplus.data.web.catalog.CatalogApi;
+import com.themaker.fshmo.klassikaplus.presentation.catalog.CatalogPresenter;
 import com.themaker.fshmo.klassikaplus.presentation.novelties.NoveltyPresenter;
 import com.themaker.fshmo.klassikaplus.presentation.root.MainActivity;
 import com.themaker.fshmo.klassikaplus.service.RevisionRequestService;
@@ -29,5 +30,7 @@ public interface AppComponent {
     void inject(Preferences preferences);
 
     void inject(CatalogRepository repository);
+
+    void inject(CatalogPresenter presenter);
 
 }
