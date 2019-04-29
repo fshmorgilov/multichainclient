@@ -3,6 +3,7 @@ package com.themaker.fshmo.klassikaplus.presentation.novelties;
 import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.ActionBar;
@@ -35,8 +36,9 @@ public class NoveltyFragment extends MvpBaseFragment implements NoveltyView {
     private WebItemCallback webItemCallback;
 
     @BindView(R.id.novelty_recycler) RecyclerView recycler;
-    @BindView(R.id.novelty_error) TextView error;
+    @BindView(R.id.error_layout) LinearLayout error;
     @BindView((R.id.novelty_toolbar)) Toolbar toolbar;
+    @BindView(R.id.error_refresh_btn) TextView errorBtn;
 
     @InjectPresenter
     NoveltyPresenter presenter;
@@ -52,6 +54,7 @@ public class NoveltyFragment extends MvpBaseFragment implements NoveltyView {
         setupActionBar();
         presenter.provideDataset();
         setupRecycler();
+        errorBtn.setOnClickListener(v -> presenter.provideDataset());
     }
 
     // FIXME: 2/25/2019 do not rerequest on back pressed
