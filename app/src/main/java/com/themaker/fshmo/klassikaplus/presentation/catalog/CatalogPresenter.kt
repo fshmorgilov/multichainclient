@@ -45,7 +45,7 @@ internal class CatalogPresenter : MvpPresenter<CatalogView>() {
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(
                     { categories -> viewState.setCategories(categories) },
-                    { t: Throwable? -> displayError(throwable = t) }
+                    { t: Throwable? -> t?.let { logError(throwable = t) } }
                 )
             viewState.addSub(disposable)
         } else {

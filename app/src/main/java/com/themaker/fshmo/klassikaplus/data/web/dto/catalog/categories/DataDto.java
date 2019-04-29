@@ -8,7 +8,7 @@ import java.util.Map;
 
 public class DataDto implements Serializable {
 
-    @SerializedName("items")
+    @SerializedName("categories")
     @Expose
     private Map<Integer, String> items = null;
     private final static long serialVersionUID = 6985812391318078436L;

@@ -155,7 +155,7 @@ class CatalogFragment : MvpBaseFragment(), CatalogView {
             }
             State.NetworkError -> {
                 recycler.visibility = View.GONE
-                toolbar.visibility = View.GONE
+                toolbar.visibility = View.VISIBLE
                 textError.visibility = View.VISIBLE
                 retryBtn.visibility = View.VISIBLE
             }

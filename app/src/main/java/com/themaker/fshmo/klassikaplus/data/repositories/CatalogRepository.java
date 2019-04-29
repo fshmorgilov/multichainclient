@@ -73,6 +73,7 @@ public class CatalogRepository extends BaseRepository {
         DtoToDbCategoryMapper dtoToDbCategoryMapper = new DtoToDbCategoryMapper();
         DbToDomainCategoryMapper dbToDomainCategoryMapper = new DbToDomainCategoryMapper();
         ListMapping<DbCategory, ItemCategory> dbToDomainCategoryListMapping = new ListMapping<>(dbToDomainCategoryMapper);
+        //TODO set Default or from database
         return getCategoriesFromApi()
                 .map(dtoToDbCategoryMapper::map)
                 .map(dbToDomainCategoryListMapping::map);

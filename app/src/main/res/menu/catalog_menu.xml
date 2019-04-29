@@ -3,7 +3,7 @@
       xmlns:app="http://schemas.android.com/apk/res-auto">
     <item
             android:id="@+id/category_selection"
-            android:icon="@drawable/border_item_background"
+            android:icon="@drawable/ic_catalog_64"
             app:showAsAction="always"
             android:title="@string/category_selection">
     </item>
