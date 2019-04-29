@@ -36,8 +36,8 @@ public class NoveltyFragment extends MvpBaseFragment implements NoveltyView {
     private WebItemCallback webItemCallback;
 
     @BindView(R.id.novelty_recycler) RecyclerView recycler;
-    @BindView(R.id.error_layout) LinearLayout error;
     @BindView((R.id.novelty_toolbar)) Toolbar toolbar;
+    @BindView(R.id.novelty_error_layout) LinearLayout error;
     @BindView(R.id.error_refresh_btn) TextView errorBtn;
 
     @InjectPresenter
