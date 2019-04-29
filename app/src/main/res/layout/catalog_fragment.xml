@@ -11,26 +11,12 @@
             android:id="@+id/catalog_toolbar"
             />
 
-    <TextView
-            android:id="@+id/catalog_error"
-            android:text="@string/novelty_error_no_date"
-            android:layout_marginTop="@dimen/common_margin"
+    <include
+            layout="@layout/error_layout"
+            android:id="@+id/catalog_error_layout"
+            android:layout_height="wrap_content"
             android:layout_width="match_parent"
             android:layout_below="@id/catalog_toolbar"
-            android:layout_height="match_parent"
-            android:visibility="gone"
-            />
-
-    <TextView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:gravity="center"
-            android:layout_below="@id/catalog_error"
-            android:background="@color/colorAccent"
-            android:textColor="@color/true_white"
-            android:id="@+id/catalog_retry"
-            android:text="@string/refresh"
-            android:visibility="gone"
             />
 
     <androidx.recyclerview.widget.RecyclerView

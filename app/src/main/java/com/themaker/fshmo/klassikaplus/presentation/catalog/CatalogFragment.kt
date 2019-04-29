@@ -4,6 +4,7 @@ import android.content.DialogInterface
 import android.os.Bundle
 import android.util.Log
 import android.view.*
+import android.widget.LinearLayout
 import android.widget.TextView
 import androidx.appcompat.app.ActionBar
 import androidx.appcompat.app.AlertDialog
@@ -29,8 +30,8 @@ class CatalogFragment : MvpBaseFragment(), CatalogView {
     private val TAG = javaClass.name
     private val dataset = ArrayList<Item>()
 
-    private lateinit var textError: TextView
-    private lateinit var retryBtn: TextView
+    private lateinit var error: LinearLayout
+    private lateinit var errorRetryBtn: TextView
     private lateinit var toolbar: Toolbar
     private lateinit var recycler: RecyclerView
 
@@ -53,15 +54,20 @@ class CatalogFragment : MvpBaseFragment(), CatalogView {
     override fun onPostCreateView() {
         super.onPostCreateView()
         webItemCallback = activity as WebItemCallback
-        toolbar = rootView.findViewById(R.id.catalog_toolbar)
-        recycler = rootView.findViewById(R.id.catalog_recycler)
-        textError = rootView.findViewById(R.id.catalog_error)
-        retryBtn = rootView.findViewById(R.id.catalog_retry)
         navigationCallback = activity as MainNavigationCallback
+        initializeView()
+        errorRetryBtn.setOnClickListener { presenter.provideDataset(currentCategoryId) }
         glide = Glide.with(this)
         presenter.provideDataset(currentCategoryId)
         presenter.provideCategories()
         setupActionBar()
+    }
+
+    private fun initializeView() {
+        toolbar = rootView.findViewById(R.id.catalog_toolbar)
+        recycler = rootView.findViewById(R.id.catalog_recycler)
+        error = rootView.findViewById(R.id.catalog_error_layout)
+        errorRetryBtn = rootView.findViewById(R.id.error_refresh_btn)
     }
 
     private fun setupActionBar() {
@@ -129,8 +135,7 @@ class CatalogFragment : MvpBaseFragment(), CatalogView {
             if (isEmpty()) {
                 addAll(items)
                 recyclerAdapter.notifyItemRangeInserted(0, size)
-            }
-            else {
+            } else {
                 val sizeHolder = size
                 clear()
                 recyclerAdapter.notifyItemRangeRemoved(0, sizeHolder)
@@ -150,20 +155,20 @@ class CatalogFragment : MvpBaseFragment(), CatalogView {
             State.HasData -> {
                 recycler.visibility = View.VISIBLE
                 toolbar.visibility = View.VISIBLE
-                textError.visibility = View.GONE
-                retryBtn.visibility = View.GONE
+                error.visibility = View.GONE
+                errorRetryBtn.visibility = View.GONE
             }
             State.Loading -> {
                 recycler.visibility = View.GONE
                 toolbar.visibility = View.VISIBLE
-                textError.visibility = View.GONE
-                retryBtn.visibility = View.GONE
+                error.visibility = View.GONE
+                errorRetryBtn.visibility = View.GONE
             }
             State.NetworkError -> {
                 recycler.visibility = View.GONE
                 toolbar.visibility = View.VISIBLE
-                textError.visibility = View.VISIBLE
-                retryBtn.visibility = View.VISIBLE
+                error.visibility = View.VISIBLE
+                errorRetryBtn.visibility = View.VISIBLE
             }
             else -> throw IllegalStateException()
         }
