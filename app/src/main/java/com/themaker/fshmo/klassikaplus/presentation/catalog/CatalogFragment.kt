@@ -36,6 +36,7 @@ class CatalogFragment : MvpBaseFragment(), CatalogView {
 
     private lateinit var webItemCallback: WebItemCallback
     private lateinit var navigationCallback: MainNavigationCallback
+    private lateinit var recyclerAdapter: CatalogAdapter
 
     private var categories: List<ItemCategory> = ArrayList()
     private var currentCategoryId: Int = 2
@@ -81,6 +82,7 @@ class CatalogFragment : MvpBaseFragment(), CatalogView {
             layoutManager = LinearLayoutManager(activity)
             catalogAdapter.setDataset(dataset)
             adapter = catalogAdapter
+            recyclerAdapter = catalogAdapter
             addItemDecoration(GridSpaceItemDecoration(1, 1))
         }
     }
@@ -103,14 +105,12 @@ class CatalogFragment : MvpBaseFragment(), CatalogView {
                 context?.let {
                     val dialog = AlertDialog.Builder(it)
                     dialog.setTitle(getString(R.string.choose_category))
-                        .setItems(categoriesNames.toTypedArray()) { dialog: DialogInterface?, which: Int ->
+                        .setItems(categoriesNames.toTypedArray()) { _: DialogInterface?, which: Int ->
                             selectedCategory =
                                 categories.find { category -> category.name == categoriesNames[which] }?.id
                             Log.i(TAG, "Selected category: $selectedCategory")
-                        }
-                        .setPositiveButton(R.string.ok) { dialog, which ->
                             currentCategoryId = selectedCategory!!
-                                presenter.provideDataset(currentCategoryId)
+                            presenter.provideDataset(currentCategoryId)
                         }
                         .setNegativeButton(R.string.cancel) { dialog, which -> dialog.dismiss() }
                         .create()
@@ -126,10 +126,16 @@ class CatalogFragment : MvpBaseFragment(), CatalogView {
 
     override fun setDataset(items: List<Item>) {
         dataset.apply {
-            if (isEmpty())
+            if (isEmpty()) {
                 addAll(items)
+                recyclerAdapter.notifyItemRangeInserted(0, size)
+            }
             else {
-                clear(); addAll(items)
+                val sizeHolder = size
+                clear()
+                recyclerAdapter.notifyItemRangeRemoved(0, sizeHolder)
+                addAll(items)
+                recyclerAdapter.notifyItemRangeInserted(0, items.size)
             }
             Log.i(TAG, "Setting dataset")
         }
