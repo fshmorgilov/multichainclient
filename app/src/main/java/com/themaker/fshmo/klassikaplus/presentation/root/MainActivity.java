@@ -58,7 +58,6 @@ public class MainActivity extends MvpAppCompatActivity
                 .replace(R.id.main_frame, new NoveltyFragment())
                 .addToBackStack(NOVELTY_TAG)
                 .commit();
-        // FIXME: 20.03.2019 Edit
     }
 
     @Override

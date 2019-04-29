@@ -135,12 +135,10 @@ public class NoveltyFragment extends MvpBaseFragment implements NoveltyView {
                 break;
             }
         }
-        // TODO: 2/7/2019 progress bar
     }
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        // FIXME: 4/6/2019 Не работает
         switch (item.getItemId()) {
             case android.R.id.home:
                 Log.i(TAG, "onOptionsItemSelected: MainNavigation called"); //this is not printed out

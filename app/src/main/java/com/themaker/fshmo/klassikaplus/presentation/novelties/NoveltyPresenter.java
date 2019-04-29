@@ -35,7 +35,7 @@ public class NoveltyPresenter extends MvpBasePresenter<NoveltyView> {
                 .subscribe(
                         this::displayData,
                         this::displayError);
-        getViewState().addSub(subscribe);   // FIXME: 2/7/2019 возможно, не стоит
+        getViewState().addSub(subscribe);
     }
 
 

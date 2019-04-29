@@ -35,7 +35,7 @@ internal class CatalogPresenter : MvpPresenter<CatalogView>() {
                     this::displayData,
                     this::displayError
                 )
-            viewState.addSub(subscribe)   // FIXME: 2/7/2019 возможно, не стоит
+            viewState.addSub(subscribe)
         }
     }
 

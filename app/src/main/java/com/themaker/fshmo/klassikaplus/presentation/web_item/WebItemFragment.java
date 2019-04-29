@@ -80,7 +80,6 @@ public class WebItemFragment extends MvpBaseFragment {
     @Override
     protected int setLayoutRes() {
         return R.layout.web_item;
-        // TODO: 2/6/2019 сделать webVew layout
     }
 
     @Override
@@ -106,7 +105,6 @@ public class WebItemFragment extends MvpBaseFragment {
                 webView.setVisibility(View.GONE);
                 error.setVisibility(View.GONE);
                 toolbar.setVisibility(View.VISIBLE);
-                // TODO: 2/7/2019 progressbar
                 break;
             default:
                 throw new IllegalStateException();
