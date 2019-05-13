@@ -1,6 +1,6 @@
-package com.themaker.fshmo.klassikaplus.presentation.common;
+package com.themaker.fshmo.klassikaplus.presentation.common
 
-public enum State {
+enum class State {
 
     HasData,
     NoData,
