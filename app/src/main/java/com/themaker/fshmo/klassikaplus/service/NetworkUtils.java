@@ -77,7 +77,7 @@ public class NetworkUtils {
 
         @Override
         public void onReceive(Context context, Intent intent) {
-            MainActivity.start(context);
+            MainActivity.Companion.start(context);
             Log.i(TAG, "Starting App");
         }
 
