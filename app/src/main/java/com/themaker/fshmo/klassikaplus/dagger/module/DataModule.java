@@ -17,16 +17,7 @@ import javax.inject.Singleton;
 @Module
 public class DataModule {
 
-    private static final String DATABASE_NAME = "klassikaplus.db";
-//    AppDatabase db;
-//    CatalogRepository catalogRepository;
-//    CatalogApi catalogApi;
-
-//    public DataModule(AppDatabase db, CatalogRepository catalogRepository, CatalogApi api) {
-//        this.db = db;
-//        this.catalogRepository = catalogRepository;
-//        this.catalogApi = api;
-//    }
+    private static final String DATABASE_NAME = "klassikaplus.db"; // FIXME: 5/13/2019
 
     @NonNull
     @Provides
