@@ -35,17 +35,17 @@ public class App extends Application {
                 .build();
         PeriodicWorkRequest workRequest = new PeriodicWorkRequest.Builder(
                 RevisionRequestService.class,
-                RevisionRequestService.REQUEST_INTERVAL,
+                RevisionRequestService.Companion.getREQUEST_INTERVAL(),
                 TimeUnit.HOURS)
-                .addTag(RevisionRequestService.WORK_TAG)
+                .addTag(RevisionRequestService.Companion.getWORK_TAG())
                 .setBackoffCriteria(BackoffPolicy.EXPONENTIAL, 2, TimeUnit.HOURS)
                 .setConstraints(constraints)
                 .build();
-        NetworkUtils.getInstance()
+        NetworkUtils.Companion.instance()
                 .getNotificationTapReceiver()
                 .setWorkRequestId(workRequest.getId());
         WorkManager.getInstance()
-                .enqueueUniquePeriodicWork(RevisionRequestService.WORK_TAG, ExistingPeriodicWorkPolicy.KEEP, workRequest);
+                .enqueueUniquePeriodicWork(RevisionRequestService.Companion.getWORK_TAG(), ExistingPeriodicWorkPolicy.KEEP, workRequest);
     }
 
     public static App getInstance() {
