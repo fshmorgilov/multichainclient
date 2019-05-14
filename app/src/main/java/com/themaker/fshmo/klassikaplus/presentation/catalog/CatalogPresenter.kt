@@ -39,20 +39,6 @@ internal class CatalogPresenter : MvpPresenter<CatalogView>() {
         }
     }
 
-    internal fun provideCategories() {
-        if (categoryList.isEmpty()) {
-            val disposable = repository.provideCategories()
-                .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(
-                    { categories -> viewState.setCategories(categories) },
-                    { t: Throwable? -> t?.let { logError(throwable = t) } }
-                )
-            viewState.addSub(disposable)
-        } else {
-            viewState.setCategories(categoryList)
-        }
-    }
-
     private fun displayError(throwable: Throwable?) {
         throwable?.let { logError(it) }
         viewState.showState(State.NetworkError)

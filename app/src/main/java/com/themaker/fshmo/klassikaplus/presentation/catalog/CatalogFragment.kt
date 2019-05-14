@@ -59,7 +59,6 @@ class CatalogFragment : MvpBaseFragment(), CatalogView {
         errorRetryBtn.setOnClickListener { presenter.provideDataset(currentCategoryId) }
         glide = Glide.with(this)
         presenter.provideDataset(currentCategoryId)
-        presenter.provideCategories()
         setupActionBar()
     }
 
@@ -146,10 +145,6 @@ class CatalogFragment : MvpBaseFragment(), CatalogView {
         }
     }
 
-    override fun showError() {
-//
-    }
-
     override fun showState(state: State) {
         when (state) {
             State.HasData -> {
@@ -178,11 +173,11 @@ class CatalogFragment : MvpBaseFragment(), CatalogView {
         this.categories = categories
     }
 
-    override fun addSub(subscription: Disposable) {
-        super.addSub(subscription)
-    }
-
     override fun setLayoutRes(): Int {
         return R.layout.catalog_fragment
+    }
+
+    override fun addSub(subscription: Disposable) {
+        super.addSub(subscription)
     }
 }

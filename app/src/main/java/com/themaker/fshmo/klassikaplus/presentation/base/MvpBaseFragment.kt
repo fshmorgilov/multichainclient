@@ -5,6 +5,7 @@ import android.content.Context
 import android.content.DialogInterface
 import android.content.res.Configuration
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -42,28 +43,15 @@ abstract class MvpBaseFragment : MvpAppCompatFragment(), BackButtonListener, Mvp
             compositeDisposable!!.dispose()
     }
 
+    /**
+     * Переопределить
+     * */
     protected abstract fun setLayoutRes(): Int
 
     /**
      * Вызываеться после бинда вьюшек
      */
-    protected open fun onPostCreateView() {
-        // nothing
-    }
-
-    /**
-     * Для настройки тулбара
-     */
-    @CallSuper
-    protected fun configureToolbar(toolbar: Toolbar) {
-        if (showBackButton()) {
-            toolbar.setNavigationIcon(R.drawable.ic_sharp_arrow_back_24px)
-            toolbar.setNavigationOnClickListener { view -> onBackPressed() }
-        } else {
-            toolbar.navigationIcon = null
-            toolbar.setOnMenuItemClickListener(null)
-        }
-    }
+    protected open fun onPostCreateView() = Unit// nothing
 
     /**
      * Переопределить чтобы проказать кнопку назад в тулбаре
@@ -88,7 +76,7 @@ abstract class MvpBaseFragment : MvpAppCompatFragment(), BackButtonListener, Mvp
 
     protected fun setupUI(view: View) {
         if (view !is EditText) {
-            view.setOnTouchListener { v, event ->
+            view.setOnTouchListener { _, _ ->
                 hideSoftKeyboard(activity)
                 false
             }
