@@ -33,14 +33,14 @@ class RevisionRequestService(private val context: Context, workerParams: WorkerP
 
     override fun doWork(): Result {
         try {
-            val serverRevision = api!!.revision().checkRevision().execute().body()!!.data
-            if (serverRevision != null && !preferences!!.isFirstTimeAppLaunch) {
-                if (serverRevision > preferences!!.revision) {
+            val serverRevision = api.revision().checkRevision().execute().body()!!.data
+            if (serverRevision != null && !preferences.isFirstTimeAppLaunch) {
+                if (serverRevision > preferences.revision) {
                     makeNotification()
-                    preferences!!.updateRevision(serverRevision)
+                    preferences.updateRevision(serverRevision)
                 }
-                if (serverRevision < preferences!!.revision) {
-                    preferences!!.updateRevision(serverRevision)
+                if (serverRevision < preferences.revision) {
+                    preferences.updateRevision(serverRevision)
                 }
             }
             return Result.success()
