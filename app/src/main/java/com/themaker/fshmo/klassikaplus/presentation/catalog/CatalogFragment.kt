@@ -10,6 +10,8 @@ import androidx.appcompat.app.ActionBar
 import androidx.appcompat.app.AlertDialog
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.Toolbar
+import androidx.fragment.app.Fragment
+import androidx.navigation.fragment.NavHostFragment
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.arellomobile.mvp.presenter.InjectPresenter
@@ -39,13 +41,17 @@ class CatalogFragment : MvpBaseFragment(), CatalogView {
     private lateinit var navigationCallback: MainNavigationCallback
     private lateinit var recyclerAdapter: CatalogAdapter
 
+    private lateinit var glide: RequestManager
+    private val navigator by lazy {
+        NavHostFragment.findNavController(this)
+    }
+
     private var categories: List<ItemCategory> = ArrayList()
     private var currentCategoryId: Int = 2
 
     @InjectPresenter
     internal lateinit var presenter: CatalogPresenter
 
-    private lateinit var glide: RequestManager
 
     override fun onBackPressed() {
         activity?.onBackPressed()
@@ -83,7 +89,8 @@ class CatalogFragment : MvpBaseFragment(), CatalogView {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         with(recycler) {
-            val catalogAdapter = CatalogAdapter(glide, dataset, webItemCallback::launchItemWebViewFragment)
+            val catalogAdapter = CatalogAdapter(glide, dataset, {
+            })
             layoutManager = LinearLayoutManager(activity)
             catalogAdapter.setDataset(dataset)
             adapter = catalogAdapter
