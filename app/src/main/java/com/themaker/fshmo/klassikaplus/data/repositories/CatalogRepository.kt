@@ -29,7 +29,6 @@ class CatalogRepository : BaseRepository() {
 
     fun provideByCategoryData(category: Int?): Flowable<List<Item>> {
         val itemDtoDbItemMapper = ListMapping(DtoToDbItemMapper())
-        val dbItemDomainListMapper = ListMapping(DbToDomainItemMapper())
         return getItemsFromDbByCategory(category)
     }
 
@@ -53,9 +52,9 @@ class CatalogRepository : BaseRepository() {
     }
 
     private fun getItemsFromDbByCategory(categoryId: Int?): Flowable<List<Item>> {
-        val dbItemDomainMapper = ListMapping(DbToDomainItemMapper())
-        return db.itemDao().getByCategory(categoryId)
-            .map { dbItemDomainMapper.map(it) }
+        TODO()
+        return Flowable.just(null)
+
     }
 
     companion object {
