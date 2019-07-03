@@ -40,6 +40,10 @@ constructor(private val sharedPreferences: SharedPreferences) {
         editor.apply()
     }
 
+    fun proveideChainCredentials():String {
+        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+    }
+
     companion object {
 
         private val KEY_FIRST_RUN = "FIRST_RUN"

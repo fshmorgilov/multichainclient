@@ -1,0 +1,8 @@
+{
+  "method": "getaddressbalances",
+  "params": [
+    "1AHcmfsgT7Hztn9hMwvpfZeFMgmnYsmNZVZGMo"
+  ],
+  "id": "59733451-1561971832",
+  "chain_name": "chain1"
+}

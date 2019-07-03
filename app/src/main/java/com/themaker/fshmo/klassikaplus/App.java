@@ -33,19 +33,6 @@ public class App extends Application {
         Constraints constraints = new Constraints.Builder()
                 .setRequiredNetworkType(NetworkType.CONNECTED)
                 .build();
-        PeriodicWorkRequest workRequest = new PeriodicWorkRequest.Builder(
-                RevisionRequestService.class,
-                RevisionRequestService.Companion.getREQUEST_INTERVAL(),
-                TimeUnit.HOURS)
-                .addTag(RevisionRequestService.Companion.getWORK_TAG())
-                .setBackoffCriteria(BackoffPolicy.EXPONENTIAL, 2, TimeUnit.HOURS)
-                .setConstraints(constraints)
-                .build();
-        NetworkUtils.Companion.instance()
-                .getNotificationTapReceiver()
-                .setWorkRequestId(workRequest.getId());
-        WorkManager.getInstance()
-                .enqueueUniquePeriodicWork(RevisionRequestService.Companion.getWORK_TAG(), ExistingPeriodicWorkPolicy.KEEP, workRequest);
     }
 
     public static App getInstance() {

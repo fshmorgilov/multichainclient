@@ -4,6 +4,7 @@ import com.themaker.fshmo.klassikaplus.dagger.module.ApplicationModule;
 import com.themaker.fshmo.klassikaplus.dagger.module.DataModule;
 import com.themaker.fshmo.klassikaplus.data.preferences.Preferences;
 import com.themaker.fshmo.klassikaplus.data.repositories.CatalogRepository;
+import com.themaker.fshmo.klassikaplus.data.repositories.RequestFactory;
 import com.themaker.fshmo.klassikaplus.presentation.catalog.CatalogPresenter;
 import com.themaker.fshmo.klassikaplus.presentation.root.MainActivity;
 import com.themaker.fshmo.klassikaplus.service.RevisionRequestService;
@@ -26,5 +27,7 @@ public interface AppComponent {
     void inject(CatalogRepository repository);
 
     void inject(CatalogPresenter presenter);
+
+    void inject(RequestFactory factory);
 
 }

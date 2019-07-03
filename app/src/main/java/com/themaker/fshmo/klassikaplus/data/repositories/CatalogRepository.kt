@@ -1,16 +1,10 @@
 package com.themaker.fshmo.klassikaplus.data.repositories
 
-import android.util.JsonReader
 import android.util.Log
 import com.themaker.fshmo.klassikaplus.App
-import com.themaker.fshmo.klassikaplus.data.domain.Item
-import com.themaker.fshmo.klassikaplus.data.mappers.*
 import com.themaker.fshmo.klassikaplus.data.persistence.AppDatabase
-import com.themaker.fshmo.klassikaplus.data.web.chain.CatalogApi
-import com.themaker.fshmo.klassikaplus.data.web.dto.catalog.items.ItemDto
-import io.reactivex.Flowable
-import io.reactivex.schedulers.Schedulers
-
+import com.themaker.fshmo.klassikaplus.data.web.dto.response.FundsResponse
+import io.reactivex.Single
 import javax.inject.Inject
 
 class CatalogRepository : BaseRepository() {
@@ -18,35 +12,15 @@ class CatalogRepository : BaseRepository() {
     @Inject
     lateinit var db: AppDatabase
     @Inject
-    lateinit var api: CatalogApi
-
+    lateinit var factory: RequestFactory
     init {
         App.getInstance().component.inject(this)
     }
 
-    fun provideByCategoryData(category: Int?): Flowable<List<Item>> {
-        val itemDtoDbItemMapper = ListMapping(DtoToDbItemMapper())
-        return getItemsFromDbByCategory(category)
-    }
-
-
-    private fun getItemsByCategory(category: Int?): Flowable<List<ItemDto>?> {
+    fun getItemsByCategory(category: Int?): Single<FundsResponse> {
         Log.i(TAG, "getItemsByCategory: Requested items by category: " + category!!)
-        return api.data()
-            .subscribeOn(Schedulers.io())
-    }
-
-    private fun storeItemsInDb(items: List<ItemDto>) {
-        val itemDtoDbItemMapper = ListMapping(DtoToDbItemMapper())
-        val dbItems = itemDtoDbItemMapper.map(items)
-        db!!.itemDao().insertAll(dbItems)
-        Log.i(TAG, "storeItemsInDb: items stored " + items.size)
-    }
-
-    private fun getItemsFromDbByCategory(categoryId: Int?): Flowable<List<Item>> {
-        TODO()
-        return Flowable.just(null)
-
+        return factory.makeSendAssetRequest("mock", "mock", 1)
+        TODO("")
     }
 
     companion object {

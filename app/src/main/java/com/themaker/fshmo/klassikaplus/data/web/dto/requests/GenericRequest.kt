@@ -1,5 +1,6 @@
 package com.themaker.fshmo.klassikaplus.data.web.dto.requests
 
+import android.util.Log
 import com.google.gson.annotations.Expose
 import com.google.gson.annotations.SerializedName
 import java.io.Serializable
@@ -16,7 +17,7 @@ data class GenericRequest private constructor(
     var method: String,
     @SerializedName("params")
     @Expose
-    var params: List<String>
+    var params: List<Any>
 ) : Serializable {
 
 
@@ -25,13 +26,13 @@ data class GenericRequest private constructor(
         private var method: String = "getInfo"
         private var chainName = "chain1"
         private var id = "1FtwaoKQJSn3CtgvFL7pXomC3EzzymCdeJWg3o"
-        private var params = arrayListOf<String>()
+        private var params = arrayListOf<Any>()
 
         fun build(): GenericRequest {
             return GenericRequest(this)
         }
 
-        fun addParam(param: String): Builder {
+        fun addParam(param: Any): Builder {
             params.add(param)
             return this
         }

@@ -29,13 +29,6 @@ internal class CatalogPresenter : MvpPresenter<CatalogView>() {
         if (currentCategoryId == categoryId && categoryList.isNotEmpty())
             displayData(itemList)
         else {
-            val subscribe = repository.provideByCategoryData(categoryId)
-                .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(
-                    this::displayData,
-                    this::displayError
-                )
-            viewState.addSub(subscribe)
         }
     }
 

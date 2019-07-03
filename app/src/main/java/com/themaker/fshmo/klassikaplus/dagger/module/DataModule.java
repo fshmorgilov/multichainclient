@@ -5,7 +5,7 @@ import androidx.annotation.NonNull;
 import androidx.room.Room;
 import com.themaker.fshmo.klassikaplus.data.persistence.AppDatabase;
 import com.themaker.fshmo.klassikaplus.data.repositories.CatalogRepository;
-import com.themaker.fshmo.klassikaplus.data.web.chain.CatalogApi;
+import com.themaker.fshmo.klassikaplus.data.web.chain.ChainApi;
 import dagger.Module;
 import dagger.Provides;
 
@@ -31,14 +31,14 @@ public class DataModule {
 
     @Provides
     @Singleton
-    static CatalogRepository proviceCatalogRepository(AppDatabase db, CatalogApi api) {
+    static CatalogRepository proviceCatalogRepository(AppDatabase db, ChainApi api) {
         return new CatalogRepository();
     }
 
     @Provides
     @Singleton
-    static CatalogApi provideCatalogApi() {
-        return CatalogApi.getInstance();
+    static ChainApi provideCatalogApi() {
+        return ChainApi.getInstance();
     }
 
 

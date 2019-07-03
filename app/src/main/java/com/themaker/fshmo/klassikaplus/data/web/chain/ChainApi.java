@@ -10,7 +10,7 @@ import retrofit2.Retrofit;
 import retrofit2.adapter.rxjava2.RxJava2CallAdapterFactory;
 import retrofit2.converter.gson.GsonConverterFactory;
 
-public final class CatalogApi {
+public final class ChainApi {
 
     private static final String url_dev = "http://192.168.37.128:7430/";
 
@@ -19,16 +19,16 @@ public final class CatalogApi {
     private final DataEndpoint dataEndpoint;
     private final OkHttpClient client;
 
-    private static CatalogApi api;
+    private static ChainApi api;
 
-    public static CatalogApi getInstance() {
+    public static ChainApi getInstance() {
         if (api == null) {
-            api = new CatalogApi();
+            api = new ChainApi();
         }
         return api;
     }
 
-    private CatalogApi() {
+    private ChainApi() {
         final Retrofit retrofit;
         client = buildOkHttpClient();
         retrofit = buildRetrofit();

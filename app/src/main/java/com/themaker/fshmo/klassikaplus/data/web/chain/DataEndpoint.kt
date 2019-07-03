@@ -1,6 +1,7 @@
 package com.themaker.fshmo.klassikaplus.data.web.chain
 
-import com.themaker.fshmo.klassikaplus.data.web.dto.catalog.items.ResponseDto
+import com.themaker.fshmo.klassikaplus.data.web.dto.response.AddressBalancesResponse
+import com.themaker.fshmo.klassikaplus.data.web.dto.response.FundsResponse
 import io.reactivex.Single
 import retrofit2.http.Body
 import retrofit2.http.GET
@@ -12,5 +13,11 @@ interface DataEndpoint {
     fun getData(
         @Header("Authorization") authorizator: String,
         @Body body: String
-    ): Single<ResponseDto>
+    ): Single<FundsResponse>
+
+    fun getBalancesData(
+        @Header("Authorization") authorizator: String,
+        @Body body: String
+    ): Single<AddressBalancesResponse>
+
 }

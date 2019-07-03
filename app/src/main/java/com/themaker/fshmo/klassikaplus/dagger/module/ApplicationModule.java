@@ -7,6 +7,8 @@ import android.content.SharedPreferences;
 import android.preference.PreferenceManager;
 import androidx.localbroadcastmanager.content.LocalBroadcastManager;
 import com.themaker.fshmo.klassikaplus.data.preferences.Preferences;
+import com.themaker.fshmo.klassikaplus.data.repositories.RequestFactory;
+import com.themaker.fshmo.klassikaplus.data.web.chain.ChainApi;
 import dagger.Module;
 import dagger.Provides;
 
@@ -48,5 +50,11 @@ public class ApplicationModule {
     @Singleton
     Preferences preferences(SharedPreferences sharedPreferences) {
         return new Preferences(sharedPreferences);
+    }
+
+    @Provides
+    @Singleton
+    RequestFactory requestFactory(ChainApi api, Preferences preferences) {
+        return new RequestFactory(api, preferences);
     }
 }
