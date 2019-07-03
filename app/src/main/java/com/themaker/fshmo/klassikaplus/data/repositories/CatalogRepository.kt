@@ -1,17 +1,14 @@
 package com.themaker.fshmo.klassikaplus.data.repositories
 
+import android.util.JsonReader
 import android.util.Log
 import com.themaker.fshmo.klassikaplus.App
 import com.themaker.fshmo.klassikaplus.data.domain.Item
 import com.themaker.fshmo.klassikaplus.data.mappers.*
 import com.themaker.fshmo.klassikaplus.data.persistence.AppDatabase
-import com.themaker.fshmo.klassikaplus.data.persistence.model.DbItem
-import com.themaker.fshmo.klassikaplus.data.web.catalog.CatalogApi
-import com.themaker.fshmo.klassikaplus.data.web.dto.catalog.items.DataDto
+import com.themaker.fshmo.klassikaplus.data.web.chain.CatalogApi
 import com.themaker.fshmo.klassikaplus.data.web.dto.catalog.items.ItemDto
-import com.themaker.fshmo.klassikaplus.data.web.dto.catalog.items.ResponseDto
 import io.reactivex.Flowable
-import io.reactivex.functions.Consumer
 import io.reactivex.schedulers.Schedulers
 
 import javax.inject.Inject
@@ -35,12 +32,7 @@ class CatalogRepository : BaseRepository() {
 
     private fun getItemsByCategory(category: Int?): Flowable<List<ItemDto>?> {
         Log.i(TAG, "getItemsByCategory: Requested items by category: " + category!!)
-        return api.catalog()
-            .getItemsByCategory(category)
-            .map { it.data }
-            .map { it.items }
-            .doOnSuccess { it?.let { this.storeItemsInDb(it) } }
-            .toFlowable()
+        return api.data()
             .subscribeOn(Schedulers.io())
     }
 

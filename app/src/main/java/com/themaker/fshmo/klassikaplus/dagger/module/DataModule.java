@@ -5,7 +5,7 @@ import androidx.annotation.NonNull;
 import androidx.room.Room;
 import com.themaker.fshmo.klassikaplus.data.persistence.AppDatabase;
 import com.themaker.fshmo.klassikaplus.data.repositories.CatalogRepository;
-import com.themaker.fshmo.klassikaplus.data.web.catalog.CatalogApi;
+import com.themaker.fshmo.klassikaplus.data.web.chain.CatalogApi;
 import dagger.Module;
 import dagger.Provides;
 

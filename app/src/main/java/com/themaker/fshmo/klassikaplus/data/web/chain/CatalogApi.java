@@ -1,4 +1,4 @@
-package com.themaker.fshmo.klassikaplus.data.web.catalog;
+package com.themaker.fshmo.klassikaplus.data.web.chain;
 
 import androidx.annotation.NonNull;
 
@@ -12,13 +12,11 @@ import retrofit2.converter.gson.GsonConverterFactory;
 
 public final class CatalogApi {
 
-    private static final String url_dev = "http://192.168.0.4:63000/";
-    private static final String url_test = "https://klassikaplus-test.herokuapp.com/";
+    private static final String url_dev = "http://192.168.37.128:7430/";
 
     private static final int TIMEOUT_SECONDS = 2;
 
-    private final CatalogEndpoint catalogEndpoint;
-    private final RevisionEndpoint revisionEndpoint;
+    private final DataEndpoint dataEndpoint;
     private final OkHttpClient client;
 
     private static CatalogApi api;
@@ -34,14 +32,13 @@ public final class CatalogApi {
         final Retrofit retrofit;
         client = buildOkHttpClient();
         retrofit = buildRetrofit();
-        catalogEndpoint = retrofit.create(CatalogEndpoint.class);
-        revisionEndpoint = retrofit.create(RevisionEndpoint.class);
+        dataEndpoint = retrofit.create(DataEndpoint.class);
     }
 
     @NonNull
     private Retrofit buildRetrofit() {
         return new Retrofit.Builder()
-                .baseUrl(url_test)
+                .baseUrl(url_dev)
                 .addConverterFactory(GsonConverterFactory.create())
                 .client(client)
                 .addCallAdapterFactory(RxJava2CallAdapterFactory.create())
@@ -61,12 +58,8 @@ public final class CatalogApi {
                 .build();
     }
 
-    public CatalogEndpoint catalog() {
-        return catalogEndpoint;
-    }
-
-    public RevisionEndpoint revision(){
-        return revisionEndpoint;
+    public DataEndpoint data() {
+        return dataEndpoint;
     }
 
 }

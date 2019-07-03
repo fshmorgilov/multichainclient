@@ -1,0 +1,8 @@
+{
+  "method": "listassettransactions",
+  "params": [
+    "asset1"
+  ],
+  "id": "87742096-1561986047",
+  "chain_name": "chain1"
+}

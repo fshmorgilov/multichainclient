@@ -11,7 +11,7 @@ import androidx.work.WorkerParameters
 import com.themaker.fshmo.klassikaplus.App
 import com.themaker.fshmo.klassikaplus.R
 import com.themaker.fshmo.klassikaplus.data.preferences.Preferences
-import com.themaker.fshmo.klassikaplus.data.web.catalog.CatalogApi
+import com.themaker.fshmo.klassikaplus.data.web.chain.CatalogApi
 import com.themaker.fshmo.klassikaplus.presentation.root.MainActivity
 import java.io.IOException
 import javax.inject.Inject
