@@ -14,7 +14,7 @@ import com.themaker.fshmo.klassikaplus.R
 import com.themaker.fshmo.klassikaplus.data.domain.Item
 import com.themaker.fshmo.klassikaplus.data.preferences.Preferences
 import com.themaker.fshmo.klassikaplus.presentation.base.MvpAppCompatActivity
-import com.themaker.fshmo.klassikaplus.presentation.catalog.CatalogFragment
+import com.themaker.fshmo.klassikaplus.presentation.wallet.WalletFragment
 import com.themaker.fshmo.klassikaplus.presentation.web_item.WebItemFragment
 import javax.inject.Inject
 
@@ -35,13 +35,9 @@ class MainActivity : MvpAppCompatActivity(), MainActivityView, WebItemCallback, 
         super.onCreate(savedInstanceState)
         setContentView(R.layout.main_activity)
         drawerLayout = findViewById(R.id.main_base_view_group)
-        navigationView = findViewById<NavigationView>(R.id.main_navigation)
+        navigationView = findViewById(R.id.main_navigation)
         navigationView.setNavigationItemSelectedListener { this.onNavigationItemSelected(it) }
         preferences.setFirstTimeAppLaunch()
-        supportFragmentManager.beginTransaction()
-            .replace(R.id.main_frame, CatalogFragment())
-            .addToBackStack(NOVELTY_TAG)
-            .commit()
     }
 
     override fun onBackPressed() {
@@ -65,7 +61,6 @@ class MainActivity : MvpAppCompatActivity(), MainActivityView, WebItemCallback, 
         Log.i(TAG, "launchItemWebViewFragment: displaying itemWebViewFragment with item: " + item.name)
         supportFragmentManager.beginTransaction()
             .replace(R.id.main_frame, WebItemFragment.newInstance(item))
-            .addToBackStack(WEBVIEW_TAG)
             .commit()
     }
 
@@ -89,10 +84,10 @@ class MainActivity : MvpAppCompatActivity(), MainActivityView, WebItemCallback, 
         menuItem.isChecked = true
         drawerLayout!!.closeDrawers()
         when (menuItem.itemId) {
-            R.id.nav_catalog -> supportFragmentManager.beginTransaction()
-                .replace(R.id.main_frame, CatalogFragment())
-                .addToBackStack("Catalog")
-                .commit()
+            R.id.nav_catalog -> {}
+//                .replace(R.id.main_frame, W)
+//                .addToBackStack("Catalog")
+//                .commit()
             R.id.nav_about -> {
             }
         }
@@ -102,9 +97,7 @@ class MainActivity : MvpAppCompatActivity(), MainActivityView, WebItemCallback, 
     companion object {
 
         private val TAG = MainActivity::class.java.name
-
-        private val WEBVIEW_TAG = "ItemWebView"
-        private val NOVELTY_TAG = "NoveltyFragment"
+        private const val WALLET_TAG = "WALLET"
 
         fun start(context: Context) {
             val intent = Intent(context, MainActivity::class.java)

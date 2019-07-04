@@ -7,10 +7,6 @@ import com.themaker.fshmo.klassikaplus.dagger.AppComponent;
 import com.themaker.fshmo.klassikaplus.dagger.DaggerAppComponent;
 import com.themaker.fshmo.klassikaplus.dagger.module.ApplicationModule;
 import com.themaker.fshmo.klassikaplus.dagger.module.DataModule;
-import com.themaker.fshmo.klassikaplus.service.NetworkUtils;
-import com.themaker.fshmo.klassikaplus.service.RevisionRequestService;
-
-import java.util.concurrent.TimeUnit;
 
 public class App extends Application {
 
@@ -25,13 +21,6 @@ public class App extends Application {
         appComponent = DaggerAppComponent.builder()
                 .applicationModule(new ApplicationModule(this))
                 .dataModule(new DataModule())
-                .build();
-        performScheduledWork();
-    }
-
-    private static void performScheduledWork() {
-        Constraints constraints = new Constraints.Builder()
-                .setRequiredNetworkType(NetworkType.CONNECTED)
                 .build();
     }
 

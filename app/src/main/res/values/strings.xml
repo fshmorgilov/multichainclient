@@ -12,4 +12,5 @@
     <string name="choose_category">Выберите категорию:</string>
     <string name="ok">Ок</string>
     <string name="cancel">Отмена</string>
+    <string name="wallet_lbl">Wallet</string>
 </resources>

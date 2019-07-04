@@ -2,36 +2,23 @@
 <navigation xmlns:android="http://schemas.android.com/apk/res/android"
             xmlns:app="http://schemas.android.com/apk/res-auto"
             android:id="@+id/nav_graph"
-            app:startDestination="@id/catalogFragment"
+            app:startDestination="@id/walletFragment"
         >
 
-    <navigation android:id="@+id/navigation2"
-                app:startDestination="@id/navigation"
+    <fragment
+            android:id="@+id/walletFragment"
+            android:name="com.themaker.fshmo.klassikaplus.presentation.wallet.WalletFragment"
+            android:label="WalletFragment"
             >
-        <navigation
-                android:id="@+id/navigation"
-                    app:startDestination="@id/catalogFragment"
-                >
-            <fragment
-                    android:id="@+id/catalogFragment"
-                    android:name="com.themaker.fshmo.klassikaplus.presentation.catalog.CatalogFragment"
-                    android:label="CatalogFragment"
-                    >
-                <action
-                        android:id="@+id/action_catalogFragment_to_webItemFragment"
-                        app:destination="@id/webItemFragment"
-                        />
-            </fragment>
-            <fragment
-                    android:id="@+id/webItemFragment"
-                    android:name="com.themaker.fshmo.klassikaplus.presentation.web_item.WebItemFragment"
-                    android:label="WebItemFragment"
-                    >
-                <argument
-                        android:name="Item"
-                        app:argType="com.themaker.fshmo.klassikaplus.data.domain.Item"
-                        />
-            </fragment>
-        </navigation>
-    </navigation>
+        <action
+                android:id="@+id/action_walletFragment_to_placeholder"
+                app:destination="@id/placeholder"
+                />
+    </fragment>
+    <fragment android:id="@+id/placeholder">
+        <action
+                android:id="@+id/action_placeholder_to_walletFragment"
+                app:destination="@id/walletFragment"
+                />
+    </fragment>
 </navigation>
