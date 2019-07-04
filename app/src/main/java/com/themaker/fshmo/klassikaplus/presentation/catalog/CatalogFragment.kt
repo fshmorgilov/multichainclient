@@ -35,6 +35,7 @@ class CatalogFragment : MvpBaseFragment(), CatalogView {
     private lateinit var error: LinearLayout
     private lateinit var errorRetryBtn: TextView
     private lateinit var toolbar: Toolbar
+
     private lateinit var recycler: RecyclerView
 
     private lateinit var webItemCallback: WebItemCallback
@@ -89,8 +90,7 @@ class CatalogFragment : MvpBaseFragment(), CatalogView {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
         with(recycler) {
-            val catalogAdapter = CatalogAdapter(glide, dataset, {
-            })
+            val catalogAdapter = CatalogAdapter(glide, dataset) { }
             layoutManager = LinearLayoutManager(activity)
             catalogAdapter.setDataset(dataset)
             adapter = catalogAdapter
