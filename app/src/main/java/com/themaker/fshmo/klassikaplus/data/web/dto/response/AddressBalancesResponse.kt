@@ -8,14 +8,14 @@ data class AddressBalancesResponse(
     @SerializedName("id")
     val id: String,
     @SerializedName("result")
-    val result: List<Result>
+    val result: List<AddressBalanceResult>?
 )
 
-data class Result(
+data class AddressBalanceResult(
     @SerializedName("assetref")
-    val assetReference: String,
+    val assetReference: String?,
     @SerializedName("name")
-    val name: String,
+    val name: String?,
     @SerializedName("qty")
-    val quantity: Int
+    val quantity: Float?
 )

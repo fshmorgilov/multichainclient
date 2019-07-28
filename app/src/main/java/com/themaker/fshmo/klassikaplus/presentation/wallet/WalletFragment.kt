@@ -13,6 +13,7 @@ import androidx.navigation.fragment.NavHostFragment
 import com.arellomobile.mvp.presenter.InjectPresenter
 import com.google.android.material.floatingactionbutton.FloatingActionButton
 import com.themaker.fshmo.klassikaplus.R
+import com.themaker.fshmo.klassikaplus.data.domain.Balance
 import com.themaker.fshmo.klassikaplus.presentation.base.MvpBaseFragment
 import com.themaker.fshmo.klassikaplus.presentation.common.State
 
@@ -39,6 +40,11 @@ class WalletFragment : MvpBaseFragment(), WalletView {
                 super.onPostCreateView()
         initializeView()
         setupActionBar()
+        presenter.provideCurrentBalance()
+    }
+
+    override fun displayAddressBalances(it: Balance?) {
+
     }
 
     private fun setupActionBar() {

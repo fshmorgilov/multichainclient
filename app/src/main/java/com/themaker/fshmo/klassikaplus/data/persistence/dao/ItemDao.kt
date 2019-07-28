@@ -4,7 +4,6 @@ import androidx.room.Dao
 import androidx.room.Insert
 import androidx.room.OnConflictStrategy
 import androidx.room.Query
-import com.themaker.fshmo.klassikaplus.data.domain.ItemCategory
 import com.themaker.fshmo.klassikaplus.data.persistence.model.DbItem
 import io.reactivex.Flowable
 import io.reactivex.Single

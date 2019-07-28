@@ -4,7 +4,9 @@ import android.app.Application;
 import androidx.annotation.NonNull;
 import androidx.room.Room;
 import com.themaker.fshmo.klassikaplus.data.persistence.AppDatabase;
-import com.themaker.fshmo.klassikaplus.data.repositories.CatalogRepository;
+import com.themaker.fshmo.klassikaplus.data.preferences.Preferences;
+import com.themaker.fshmo.klassikaplus.data.repositories.CashRepository;
+import com.themaker.fshmo.klassikaplus.data.repositories.UserRepository;
 import com.themaker.fshmo.klassikaplus.data.web.chain.ChainApi;
 import dagger.Module;
 import dagger.Provides;
@@ -31,8 +33,14 @@ public class DataModule {
 
     @Provides
     @Singleton
-    static CatalogRepository proviceCatalogRepository(AppDatabase db, ChainApi api) {
-        return new CatalogRepository();
+    static CashRepository proviceCatalogRepository(AppDatabase db, ChainApi api) {
+        return new CashRepository();
+    }
+
+    @Provides
+    @Singleton
+    static UserRepository provideCashRepository(Preferences preferences) {
+        return new UserRepository(preferences);
     }
 
     @Provides
