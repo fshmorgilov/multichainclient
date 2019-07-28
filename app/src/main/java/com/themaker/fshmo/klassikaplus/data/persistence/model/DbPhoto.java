@@ -12,7 +12,7 @@ import androidx.room.PrimaryKey;
                 childColumns = "item_id",
                 onDelete = ForeignKey.CASCADE,
                 onUpdate = ForeignKey.CASCADE))
-public class DbPhoto {
+eublic class DbPhoto {
 
     @PrimaryKey
     private int id;

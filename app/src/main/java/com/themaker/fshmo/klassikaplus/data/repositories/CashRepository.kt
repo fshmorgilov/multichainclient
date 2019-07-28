@@ -5,7 +5,9 @@ import com.themaker.fshmo.klassikaplus.App
 import com.themaker.fshmo.klassikaplus.data.domain.Balance
 import com.themaker.fshmo.klassikaplus.data.mappers.mapAddressBalanceResponseToDomain
 import com.themaker.fshmo.klassikaplus.data.persistence.AppDatabase
+import com.themaker.fshmo.klassikaplus.data.web.dto.response.AddressBalanceResult
 import com.themaker.fshmo.klassikaplus.data.web.dto.response.FundsResponse
+import io.reactivex.Observable
 import io.reactivex.Single
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.schedulers.Schedulers
@@ -26,6 +28,20 @@ class CashRepository : BaseRepository() {
         Log.i(TAG, "getItemsByCategory: Requested items by category: " + category!!)
         return factory.makeSendAssetRequest("mock", "mock", 1)
         TODO("")
+    }
+
+    fun provideCurrentBalance(wallets: Array<String>): Observable<AddressBalanceResult> {
+        var observable = Observable.just(AddressBalanceResult(null, null, null))
+        wallets.forEach {
+            val observable1: Observable<AddressBalanceResult> = factory.makeGetWalletBalanceRequest(it)
+                .flatMapObservable { }
+            val observable2: Observable<AddressBalanceResult> = factory.makeGetWalletBalanceRequest(it)
+                .flatMapObservable { }
+            observable = Observable.mergeDelayError(
+                observable1, observable2
+            )
+        }
+        return observable
     }
 
     fun provideCurrentBalances(wallet: String): Single<Balance> {
